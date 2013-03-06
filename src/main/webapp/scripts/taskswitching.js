@@ -197,8 +197,6 @@ ts.program = {
                 $("#hitsPercentage").html(response.hitsPercentage);
                 $("#reactionTime").html(response.reactionTime);
                 $("#result").show();
-                
-                alert(response);
             }
         });
 
