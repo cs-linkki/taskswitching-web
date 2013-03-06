@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1></h1>
+
+        <div id="entry">
+            Enter your participant ID and press the button<br/>
+            <input id="participant-id" /><br/>
+            <button id="entry-ok">Continue</button>
+        </div>
+
+        <div id="wrapper" style="display: none;">
+            <div id="pad"></div>
+            <div id="top">TOP</div>
+            <div id="divider"></div>
+            <div id="bottom">BOTTOM</div>
+        </div>
+        
+        <div id="result" style="display: none;">
+            <div>Hits: <span id="hitsPercentage"></span> %</div>
+            <div>RT <span id="reactionTime"></span></div>
+        </div>
+
+        <script src="lib/jquery-1.9.1.min.js"></script>
+        <script src="scripts/taskswitching.js"></script>
+        <script src="conf/taskswitching-config.js"></script>
+
+        <script>
+            $(document).ready(function() {
+
+                $('#entry-ok').on('click', function() {
+
+                    if ($('#participant-id').val().length === 0) {
+                        alert("Provide a participation ID");
+                        return;
+                    }
+                    
+                    ts.program.clear();
+                    
+                    ts.program.init();
+                });
+            });
+        </script>
+    </body>
+</html>
