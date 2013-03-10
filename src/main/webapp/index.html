@@ -14,6 +14,9 @@
             <input id="participant-id" /><br/>
             <button id="entry-ok">Continue</button>
         </div>
+        
+        <div id="guide" style="display: none;">
+        </div>
 
         <div id="wrapper" style="display: none;">
             <div id="pad"></div>
@@ -23,6 +26,7 @@
         </div>
         
         <div id="result" style="display: none;">
+            <p>Results from previous test:</p>
             <div>Hits: <span id="hitsPercentage"></span> %</div>
             <div>RT <span id="reactionTime"></span></div>
         </div>
@@ -38,6 +42,11 @@
 
                     if ($('#participant-id').val().length === 0) {
                         alert("Provide a participation ID");
+                        return;
+                    }
+                    
+                    if($('#participant-id').val().replace(/[^0-9]/g, '') !== $('#participant-id').val()) {
+                        alert("Please use only numbers in the participation ID");
                         return;
                     }
                     
