@@ -1,8 +1,15 @@
-// lets just take ts (taskswitching) from the global namespace
-var BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+
+var BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 var TOO_EARLY = -100;
 var TOO_LATE = -1;
 
+var TOP = "TOP";
+var BOTTOM = "BOTTOM";
+var LEFT = "LEFT";
+var RIGHT = "RIGHT";
+var MIDDLE = "";
+
+// use ts (taskswitching) from the global namespace
 var ts = {};
 // data that we gather from user inputs will be
 // appended to this object
@@ -52,10 +59,10 @@ ts.program = {
             $(document).keydown(function(e) {
                 switch (e.which) {
                     case 90: // z
-                        ts.program.pressed("LEFT");
+                        ts.program.pressed(LEFT);
                         break;
                     case 190: // .
-                        ts.program.pressed("RIGHT");
+                        ts.program.pressed(RIGHT);
                         break;
                 }
 
@@ -108,11 +115,11 @@ ts.program = {
         console.log("data: " + JSON.stringify(data));
 
         var content = data.text;
-        if (data.align === "LEFT") {
+        if (data.align === LEFT) {
             content += BLANK;
         }
 
-        if (data.align === "RIGHT") {
+        if (data.align === RIGHT) {
             content = BLANK + content;
         }
 
@@ -132,7 +139,8 @@ ts.program = {
                 pressedTime: null,
                 reactionTimeInMs: null,
                 pressed: "NONE",
-                correct: false
+                correct: false,
+                elementType: ts.program.currentTest.elements[ts.program.currentDataElement].location
             });
         }
 
@@ -156,9 +164,9 @@ ts.program = {
     },
 
     additionalPress: function(key) {
-        if (ts.program.currentTimeoutVariable) {
-            clearTimeout(ts.program.currentTimeoutVariable);
-        }
+//        if (ts.program.currentTimeoutVariable) {
+//            clearTimeout(ts.program.currentTimeoutVariable);
+//        }
 
         ts.result.additionalKeyPresses.push({
             lastIndex: ts.program.currentDataElement,
@@ -166,14 +174,13 @@ ts.program = {
             time: $.now()
         });
 
-        ts.program.currentTimeoutVariable
-                = setTimeout(ts.program.show, ts.config.pauseAfterWrongAnswerInMs);
+//        ts.program.currentTimeoutVariable
+//                = setTimeout(ts.program.show, ts.config.pauseAfterWrongAnswerInMs);
     },
             
     clear: function() {
-        $("#top").html("&nbsp;");
-        $("#divider").html("&nbsp;");
-        $("#bottom").html("&nbsp;");
+        $("#" + TOP).html("&nbsp;");
+        $("#" + BOTTOM).html("&nbsp;");
         $("#guide").html("&nbsp;");
 
         if (ts.program.currentTimeoutVariable) {
@@ -185,13 +192,13 @@ ts.program = {
         console.log("Last show time: " + ts.program.lastShowTime);
         
         if (ts.program.lastShowTime === TOO_EARLY) {
-            console.log("pressed right too early");
+            console.log("pressed " + answer + " too early");
             ts.program.additionalPress("EARLY");
             return;
         }
 
         if (ts.program.lastShowTime === TOO_LATE) {
-            console.log("pressed right too late");
+            console.log("pressed " + answer + " too late");
             ts.program.additionalPress("LATE");
             return;
         }
@@ -207,6 +214,13 @@ ts.program = {
         if(currentElement.correctAnswer === "ALL") {
             answerWasCorrect = true;
         }
+        
+        var elementType = "";
+        if(currentElement.location === TOP) {
+            elementType = "NUMBER";
+        } else if (currentElement.location === BOTTOM) {
+            elementType = "CHARACTER";
+        }
 
         ts.result.reactions.push({
             index: ts.program.currentDataElement,
@@ -214,7 +228,8 @@ ts.program = {
             pressedTime: currentTime,
             reactionTimeInMs: currentTime - elementShowTime,
             pressed: answer,
-            correct: answerWasCorrect
+            correct: answerWasCorrect,
+            elementType: elementType
         });
 
         ts.program.hideAndWaitForNext(answerWasCorrect);
@@ -242,19 +257,27 @@ ts.program = {
             success: function(response) {
                 $("#hitsPercentage").html(response.hitsPercentage);
                 $("#reactionTime").html(response.reactionTime);
+                $("#outsideHits").html(response.hitsOutsideTimespan);
+                
+                if (ts.result.testType === "TASKSWITCHING") {
+                    $("#hitsRepeated").html(response.hitsRepeated);
+                    $("#hitsChanged").html(response.hitsChanged);
+                    $("#repeatedReactionTime").html(response.repeatedReactionTime);
+                    $("#changedReactionTime").html(response.changedReactionTime);
+                    
+                    $("#taskSwitchingResult").show();
+                }
+                
                 $("#result").show();
             }
         });
-        
-
-        $.post('./data/log.php', {data: JSON.stringify(ts.result)}, $.noop);
         
         // wait for next
         setTimeout(function() {
             ts.program.init();
         }, ts.config.pauseBetweenTests);
     }
-}
+};
 
 // utility functions for creating new tests
 ts.fn = {};
@@ -264,4 +287,4 @@ ts.fn.createTest = function(testType, startText, endText, elements) {
     this.startText = startText;
     this.endText = endText;
     this.elements = elements;
-}
+};

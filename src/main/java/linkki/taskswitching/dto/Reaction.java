@@ -9,6 +9,7 @@ public class Reaction {
     private Date pressedTime;
     private Long reactionTimeInMs;
     private String pressed;
+    private String elementType;
     private Boolean correct;
 
     public Reaction() {
@@ -52,6 +53,14 @@ public class Reaction {
 
     public void setPressed(String pressed) {
         this.pressed = pressed;
+    }
+
+    public String getElementType() {
+        return elementType;
+    }
+
+    public void setElementType(String elementType) {
+        this.elementType = elementType;
     }
 
     public Boolean getCorrect() {
