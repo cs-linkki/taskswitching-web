@@ -48,13 +48,13 @@
             $(document).ready(function() {
 
                 $('#entry-ok').on('click', function() {
-
-                    if ($('#participant-id').val().length === 0) {
+                    var participantId = $('#participant-id').val();
+                    if (participantId.length === 0) {
                         alert("Provide a participation ID");
                         return;
                     }
                     
-                    if($('#participant-id').val().replace(/[^0-9]/g, '') !== $('#participant-id').val()) {
+                    if(participantId.replace(/[^0-9]/g, '') !== participantId) {
                         alert("Please use only numbers in the participation ID");
                         return;
                     }

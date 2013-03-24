@@ -153,14 +153,24 @@ ts.program = {
             ts.program.nextTestOrEnd();
             return;
         }
-
-        if (answerCorrect) {
-            ts.program.currentTimeoutVariable
-                    = setTimeout(ts.program.show, ts.config.pauseAfterCorrectAnswerInMs);
-        } else {
-            ts.program.currentTimeoutVariable
-                    = setTimeout(ts.program.show, ts.config.pauseAfterWrongAnswerInMs);
+        
+        var waitTime = ts.config.pauseAfterWrongAnswerInMs;
+        if(answerCorrect) {
+            waitTime = ts.config.pauseAfterCorrectAnswerInMs;
         }
+        
+        try {
+            var element = ts.program.currentTest.elements[ts.program.currentDataElement];
+            if(element.waitForMs) {
+                waitTime = element.waitForMs;
+            }
+        } finally {
+            
+        }
+        
+        ts.program.currentTimeoutVariable
+                = setTimeout(ts.program.show, waitTime);
+
     },
 
     additionalPress: function(key) {

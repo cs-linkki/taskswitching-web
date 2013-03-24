@@ -29,43 +29,50 @@ var REACTION_TEST_ELEMENTS = [
                         text: "A7",
                         location: TOP,
                         align: LEFT,
-                        correctAnswer: "ALL"
+                        correctAnswer: "ALL",
+                        waitForMs: 7000
                     },
                     {
                         text: "A4",
                         location: TOP,
                         align: RIGHT,
-                        correctAnswer: "ALL"
+                        correctAnswer: "ALL",
+                        waitForMs: 2000
                     },
                     {
                         text: "A1",
                         location: TOP,
                         align: RIGHT,
-                        correctAnswer: "ALL"
+                        correctAnswer: "ALL",
+                        waitForMs: 7000
                     },
                     {
                         text: "Z7",
                         location: BOTTOM,
                         align: LEFT,
-                        correctAnswer: "ALL"
+                        correctAnswer: "ALL",
+                        waitForMs: 7000
                     },
                     {
                         text: "Z1",
                         location: TOP,
                         align: RIGHT,
-                        correctAnswer: "ALL"
+                        correctAnswer: "ALL",
+                        waitForMs: 2000
                     },
                     {
                         text: "Z2",
                         location: BOTTOM,
                         align: RIGHT,
-                        correctAnswer: "ALL"
+                        correctAnswer: "ALL",
+                        waitForMs: 2000
                     },
                     {
                         text: "A4",
                         location: BOTTOM,
                         align: LEFT,
-                        correctAnswer: "ALL"
+                        correctAnswer: "ALL",
+                        waitForMs: 2000
                     }
                 ];
 
