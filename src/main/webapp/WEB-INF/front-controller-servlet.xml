@@ -19,8 +19,5 @@
         <property name="suffix" value=".jsp" /> 
     </bean>
     
-    <!-- tietokantakonfiguraatio -->
-    <!--
     <import resource="database.xml" />
-    -->
 </beans>

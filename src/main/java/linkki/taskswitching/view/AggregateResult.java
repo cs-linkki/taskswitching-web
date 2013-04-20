@@ -15,7 +15,6 @@ public class AggregateResult {
     private double hitsPercentage;
     private double reactionTime;
     private int hitsOutsideTimespan;
-    
     private double hitsRepeated;
     private double hitsChanged;
     private double repeatedReactionTime;
@@ -26,6 +25,10 @@ public class AggregateResult {
 
     public int getParticipantId() {
         return participantId;
+    }
+
+    public void setParticipantId(Long participantId) {
+        this.participantId = participantId.intValue();
     }
 
     public void setParticipantId(int participantId) {

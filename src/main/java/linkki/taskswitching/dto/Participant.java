@@ -1,8 +1,17 @@
 package linkki.taskswitching.dto;
 
-public class Participant {
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    private Integer id;
+@Entity
+public class Participant implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
     private String password;
     private String name;
     private String gender;
@@ -11,11 +20,11 @@ public class Participant {
     public Participant() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
