@@ -231,27 +231,27 @@ ts.tests = [];
 
 var reactionTest = new ts.fn.createTest(
             "REACTION", 
-            "Reaction test: press 'z' or '.' when you see a character-number -combination.<br/><br/>Press any key to start.", 
+            "Reaction test: press 'z' or '.' when you see a character-number -combination.<br/><br/>Press spacebar to start.", 
             "Well done! Get ready for the next test.", 
             REACTION_TEST_ELEMENTS);
             
             
 var numberReactionTest = new ts.fn.createTest(
             "NUMBERREACTION", 
-            "Number reaction test: observe the top row.<br/>When the number in the character-number -pair is odd, press 'z'.<br/>Press '.' when the number is even.<br/><br/>Press any key to start.", 
+            "Number reaction test: observe the top row.<br/>When the number in the character-number -pair is odd, press 'z'.<br/>Press '.' when the number is even.<br/><br/>Press spacebar to start.", 
             "Well done! Get ready for the next test.",
             NUMBER_REACTION_TEST_ELEMENTS);
             
                         
 var characterReactionTest = new ts.fn.createTest(
             "CHARACTERREACTION", 
-            "Character reaction test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'z'.<br/>Press '.' when the character is a vowel.<br/><br/>Press any key to start.", 
+            "Character reaction test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'z'.<br/>Press '.' when the character is a vowel.<br/><br/>Press spacebar to start.", 
             "Well done! Get ready for the next test.", 
             CHARACTER_REACTION_TEST_ELEMENTS);
             
 var taskSwitchingTest = new ts.fn.createTest(
         "TASKSWITCHING",
-        "Let's combine the previous ones!<br/>If the character-number pair appears in top, press 'z' for odd numbers, '.' for even numbers.<br/>When the pair appears in the bottom, press 'z' for consonant, and '.' for vowel.<br/><br/>Press any key to start.",
+        "Let's combine the previous ones!<br/>If the character-number pair appears in top, press 'z' for odd numbers, '.' for even numbers.<br/>When the pair appears in the bottom, press 'z' for consonant, and '.' for vowel.<br/><br/>Press spacebar to start.",
         "Thank you for participating!",
         TASKSWITCHING_TEST_ELEMENTS);
 

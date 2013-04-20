@@ -83,15 +83,28 @@ ts.program = {
         $("#guide").show();
         $("#guide").html(ts.program.currentTest.startText);
 
-        // program will start at keypress
-        $(document).one('keydown', function() {
-            $("#result").hide();
-            $("#guide").hide();
-
-            $("#wrapper").show();
+        // program will start once user presses space
+        ts.program.bindSpace();
+    },
             
-            ts.program.start();
+    bindSpace: function() {
+        $(document).one('keydown', function(e) {
+            ts.program.handleSpace(e);
         });
+    },
+
+    handleSpace: function(e) {
+        if(e.which !== 32) {
+            ts.program.bindSpace();
+            return;
+        }
+        
+        $("#result").hide();
+        $("#guide").hide();
+
+        $("#wrapper").show();
+
+        ts.program.start();
     },
             
     start: function() {
