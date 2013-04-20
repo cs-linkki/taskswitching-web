@@ -51,3 +51,14 @@ hr {
     color: #fff;
     text-align: center;
 }
+
+#timingbox {
+    background-color: #fff;
+    color: #fff;
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 100;
+}

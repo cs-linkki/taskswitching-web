@@ -141,6 +141,10 @@ ts.program = {
 
         ts.program.currentTimeoutVariable
                 = setTimeout(ts.program.hideAndWaitForNext, ts.config.elementVisibleInMs);
+    
+        if(window.location.search.match(".*debug.*")) {
+            $("#timingbox").show();
+        }
     },
             
     hideAndWaitForNext: function(answerCorrect) {
@@ -202,6 +206,10 @@ ts.program = {
     },
             
     clear: function() {
+        if(window.location.search.match(".*debug.*")) {
+            $("#timingbox").hide();
+        }
+        
         $("#" + TOP).html("&nbsp;");
         $("#" + BOTTOM).html("&nbsp;");
         $("#guide").html("&nbsp;");
