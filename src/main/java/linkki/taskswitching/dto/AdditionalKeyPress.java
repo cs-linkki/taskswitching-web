@@ -1,14 +1,30 @@
 package linkki.taskswitching.dto;
 
-import java.util.Date;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public class AdditionalKeyPress {
+@Entity
+public class AdditionalKeyPress implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
     private Long lastIndex;
-    private String key;
-    private Double time;
+    private String keyPressed;
+    private Double keyPressTime;
 
     public AdditionalKeyPress() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getLastIndex() {
@@ -20,18 +36,18 @@ public class AdditionalKeyPress {
     }
 
     public String getKey() {
-        return key;
+        return keyPressed;
     }
 
     public void setKey(String key) {
-        this.key = key;
+        this.keyPressed = key;
     }
 
     public Double getTime() {
-        return time;
+        return keyPressTime;
     }
 
     public void setTime(Double time) {
-        this.time = time;
+        this.keyPressTime = time;
     }
 }
