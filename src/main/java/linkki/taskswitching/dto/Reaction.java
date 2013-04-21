@@ -1,13 +1,10 @@
 package linkki.taskswitching.dto;
 
-import java.util.Date;
-
 public class Reaction {
 
     private Long index;
-    private Date showTime;
-    private Date pressedTime;
-    private Long reactionTimeInMs;
+    private Double showTime;
+    private Double pressedTime;
     private String pressed;
     private String elementType;
     private Boolean correct;
@@ -23,28 +20,24 @@ public class Reaction {
         this.index = index;
     }
 
-    public Date getShowTime() {
+    public Double getShowTime() {
         return showTime;
     }
 
-    public void setShowTime(Date showTime) {
+    public void setShowTime(Double showTime) {
         this.showTime = showTime;
     }
 
-    public Date getPressedTime() {
+    public Double getPressedTime() {
         return pressedTime;
     }
 
-    public void setPressedTime(Date pressedTime) {
+    public void setPressedTime(Double pressedTime) {
         this.pressedTime = pressedTime;
     }
 
-    public Long getReactionTimeInMs() {
-        return reactionTimeInMs;
-    }
-
-    public void setReactionTimeInMs(Long reactionTimeInMs) {
-        this.reactionTimeInMs = reactionTimeInMs;
+    public Double getReactionTimeInMs() {
+        return pressedTime - showTime;
     }
 
     public String getPressed() {

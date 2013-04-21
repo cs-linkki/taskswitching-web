@@ -75,7 +75,7 @@ ts.program = {
         ts.result.participant = {};
         ts.result.participant.id = $("#participant-id").val();
 
-        ts.result.initTime = $.now();
+        ts.result.initTime = ts.time();
 
         $("#entry").hide();
         $("#wrapper").hide();
@@ -109,7 +109,7 @@ ts.program = {
             
     start: function() {
         console.log("starting");
-        ts.result.testStartTime = $.now();
+        ts.result.testStartTime = ts.time();
 
         ts.program.clear();
         // call the function showNext after a pre-configured pause
@@ -137,7 +137,7 @@ ts.program = {
         }
 
         $("#" + data.location).html(content);
-        ts.program.lastShowTime = $.now();
+        ts.program.lastShowTime = ts.time();
 
         ts.program.currentTimeoutVariable
                 = setTimeout(ts.program.hideAndWaitForNext, ts.config.elementVisibleInMs);
@@ -154,7 +154,6 @@ ts.program = {
                 index: ts.program.currentDataElement,
                 showTime: ts.program.lastShowTime,
                 pressedTime: null,
-                reactionTimeInMs: null,
                 pressed: "NONE",
                 correct: false,
                 elementType: ts.program.currentTest.elements[ts.program.currentDataElement].location
@@ -198,7 +197,7 @@ ts.program = {
         ts.result.additionalKeyPresses.push({
             lastIndex: ts.program.currentDataElement,
             key: key,
-            time: $.now()
+            time: ts.time()
         });
 
 //        ts.program.currentTimeoutVariable
@@ -238,7 +237,7 @@ ts.program = {
 
         ts.program.clear();
 
-        var currentTime = $.now();
+        var currentTime = ts.time();
         var currentElement = ts.program.currentTest.elements[ts.program.currentDataElement];
         var answerWasCorrect = currentElement.correctAnswer === answer;
         
@@ -257,7 +256,6 @@ ts.program = {
             index: ts.program.currentDataElement,
             showTime: elementShowTime,
             pressedTime: currentTime,
-            reactionTimeInMs: currentTime - elementShowTime,
             pressed: answer,
             correct: answerWasCorrect,
             elementType: elementType
@@ -271,7 +269,7 @@ ts.program = {
         ts.program.lastShowTime = TOO_LATE;
         ts.program.clear();
 
-        ts.result.testEndTime = $.now();
+        ts.result.testEndTime = ts.time();
 
         $("#wrapper").hide();
         $("#guide").html(ts.program.currentTest.endText);
@@ -319,3 +317,20 @@ ts.fn.createTest = function(testType, startText, endText, elements) {
     this.endText = endText;
     this.elements = elements;
 };
+
+ts.time = (function() {
+    var performance = window.performance || {};
+    var performanceFunction = performance.now
+            || performance.mozNow
+            || performance.webkitNow
+            || performance.msNow
+            || performance.oNow;
+
+    if (performanceFunction) {
+        return performanceFunction.bind(performance);
+    }
+
+    return function() {
+        return new Date().getTime();
+    };
+})();

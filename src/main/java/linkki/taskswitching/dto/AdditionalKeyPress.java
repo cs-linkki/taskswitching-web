@@ -6,7 +6,7 @@ public class AdditionalKeyPress {
 
     private Long lastIndex;
     private String key;
-    private Date time;
+    private Double time;
 
     public AdditionalKeyPress() {
     }
@@ -27,11 +27,11 @@ public class AdditionalKeyPress {
         this.key = key;
     }
 
-    public Date getTime() {
+    public Double getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Double time) {
         this.time = time;
     }
 }

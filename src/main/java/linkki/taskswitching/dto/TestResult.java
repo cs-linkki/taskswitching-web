@@ -1,6 +1,5 @@
 package linkki.taskswitching.dto;
 
-import java.util.Date;
 import java.util.List;
 
 public class TestResult {
@@ -8,9 +7,9 @@ public class TestResult {
     private Long id;
     private Participant participant;
     private String testType;
-    private Date initTime;
-    private Date testStartTime;
-    private Date testEndTime;
+    private Double initTime;
+    private Double testStartTime;
+    private Double testEndTime;
     private List<AdditionalKeyPress> additionalKeyPresses;
     private List<Reaction> reactions;
 
@@ -41,27 +40,27 @@ public class TestResult {
         this.testType = testType;
     }
 
-    public Date getInitTime() {
+    public Double getInitTime() {
         return initTime;
     }
 
-    public void setInitTime(Date initTime) {
+    public void setInitTime(Double initTime) {
         this.initTime = initTime;
     }
 
-    public Date getTestStartTime() {
+    public Double getTestStartTime() {
         return testStartTime;
     }
 
-    public void setTestStartTime(Date testStartTime) {
+    public void setTestStartTime(Double testStartTime) {
         this.testStartTime = testStartTime;
     }
 
-    public Date getTestEndTime() {
+    public Double getTestEndTime() {
         return testEndTime;
     }
 
-    public void setTestEndTime(Date testEndTime) {
+    public void setTestEndTime(Double testEndTime) {
         this.testEndTime = testEndTime;
     }
 
