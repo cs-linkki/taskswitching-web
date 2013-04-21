@@ -1,13 +1,17 @@
 
-var BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+var FAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+var NEAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 var TOO_EARLY = -100;
 var TOO_LATE = -1;
 
 var TOP = "TOP";
 var BOTTOM = "BOTTOM";
-var LEFT = "LEFT";
-var RIGHT = "RIGHT";
-var MIDDLE = "";
+
+var NEAR_LEFT = "NEAR_LEFT";
+var FAR_LEFT = "FAR_LEFT";
+var NEAR_RIGHT = "NEAR_RIGHT";
+var FAR_RIGHT = "FAR_RIGHT";
+var MIDDLE = "MIDDLE";
 
 // use ts (taskswitching) from the global namespace
 var ts = {};
@@ -59,10 +63,10 @@ ts.program = {
             $(document).keydown(function(e) {
                 switch (e.which) {
                     case 90: // z
-                        ts.program.pressed(LEFT);
+                        ts.program.pressed("LEFT");
                         break;
                     case 190: // .
-                        ts.program.pressed(RIGHT);
+                        ts.program.pressed("RIGHT");
                         break;
                 }
 
@@ -128,12 +132,20 @@ ts.program = {
         console.log("data: " + JSON.stringify(data));
 
         var content = data.text;
-        if (data.align === LEFT) {
-            content += BLANK;
-        }
-
-        if (data.align === RIGHT) {
-            content = BLANK + content;
+        switch (data.align) {
+            case NEAR_LEFT:
+                content += NEAR_BLANK;
+                break;
+            case FAR_LEFT:
+                content += FAR_BLANK;
+                break;
+            case NEAR_RIGHT:
+                content = NEAR_BLANK + content;
+                break;
+            case FAR_RIGHT:
+                content = FAR_BLANK + content;
+                break;
+            // default MIDDLE
         }
 
         $("#" + data.location).html(content);

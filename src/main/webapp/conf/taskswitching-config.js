@@ -28,49 +28,49 @@ var REACTION_TEST_ELEMENTS = [
                     {
                         text: "A7",
                         location: TOP,
-                        align: LEFT,
+                        align: FAR_LEFT,
                         correctAnswer: "ALL",
                         waitForMs: 7000
                     },
                     {
                         text: "A4",
                         location: TOP,
-                        align: RIGHT,
+                        align: NEAR_LEFT,
                         correctAnswer: "ALL",
                         waitForMs: 2000
                     },
                     {
                         text: "A1",
                         location: TOP,
-                        align: RIGHT,
+                        align: MIDDLE,
                         correctAnswer: "ALL",
                         waitForMs: 7000
                     },
                     {
                         text: "Z7",
                         location: BOTTOM,
-                        align: LEFT,
+                        align: NEAR_RIGHT,
                         correctAnswer: "ALL",
                         waitForMs: 7000
                     },
                     {
                         text: "Z1",
                         location: TOP,
-                        align: RIGHT,
+                        align: FAR_RIGHT,
                         correctAnswer: "ALL",
                         waitForMs: 2000
                     },
                     {
                         text: "Z2",
                         location: BOTTOM,
-                        align: RIGHT,
+                        align: FAR_RIGHT,
                         correctAnswer: "ALL",
                         waitForMs: 2000
                     },
                     {
                         text: "A4",
                         location: BOTTOM,
-                        align: LEFT,
+                        align: FAR_LEFT,
                         correctAnswer: "ALL",
                         waitForMs: 2000
                     }
@@ -80,38 +80,38 @@ var NUMBER_REACTION_TEST_ELEMENTS = [
                     {
                         text: "G8",
                         location: TOP,
-                        align: RIGHT,
-                        correctAnswer: RIGHT
+                        align: FAR_RIGHT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "E7",
                         location: TOP,
-                        align: LEFT,
-                        correctAnswer: LEFT
+                        align: FAR_LEFT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "I5",
                         location: TOP,
-                        align: RIGHT,
-                        correctAnswer: LEFT
+                        align: FAR_RIGHT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "M4",
                         location: TOP,
-                        align: LEFT,
-                        correctAnswer: RIGHT
+                        align: FAR_LEFT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "A2",
                         location: TOP,
-                        align: LEFT,
-                        correctAnswer: RIGHT
+                        align: FAR_LEFT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "U9",
                         location: TOP,
-                        align: LEFT,
-                        correctAnswer: LEFT
+                        align: FAR_LEFT,
+                        correctAnswer: "LEFT"
                     }
                 ];
                 
@@ -120,44 +120,44 @@ var CHARACTER_REACTION_TEST_ELEMENTS = [
                     {
                         text: "U6",
                         location: BOTTOM,
-                        align: RIGHT,
-                        correctAnswer: RIGHT
+                        align: FAR_RIGHT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "I5",
                         location: BOTTOM,
-                        align: LEFT,
-                        correctAnswer: RIGHT
+                        align: FAR_LEFT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "M8",
                         location: BOTTOM,
-                        align: LEFT,
-                        correctAnswer: LEFT
+                        align: FAR_LEFT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "A4",
                         location: BOTTOM,
-                        align: LEFT,
-                        correctAnswer: RIGHT
+                        align: FAR_LEFT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "R7",
                         location: BOTTOM,
-                        align: RIGHT,
-                        correctAnswer: LEFT
+                        align: FAR_RIGHT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "G2",
                         location: BOTTOM,
-                        align: LEFT,
-                        correctAnswer: LEFT
+                        align: FAR_LEFT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "K4",
                         location: BOTTOM,
-                        align: LEFT,
-                        correctAnswer: LEFT
+                        align: FAR_LEFT,
+                        correctAnswer: "LEFT"
                     }
                 ];
                      
@@ -168,61 +168,61 @@ var TASKSWITCHING_TEST_ELEMENTS = [
                         text: "U5",
                         location: TOP,
                         align: MIDDLE,
-                        correctAnswer: LEFT
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "U4",
                         location: TOP,
                         align: MIDDLE,
-                        correctAnswer: RIGHT
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "G7",
                         location: BOTTOM,
-                        align: RIGHT,
-                        correctAnswer: LEFT
+                        align: FAR_RIGHT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "R3",
                         location: BOTTOM,
                         align: MIDDLE,
-                        correctAnswer: LEFT
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "G6",
                         location: BOTTOM,
-                        align: RIGHT,
-                        correctAnswer: LEFT
+                        align: FAR_RIGHT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "K8",
                         location: TOP,
-                        align: RIGHT,
-                        correctAnswer: RIGHT
+                        align: FAR_RIGHT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "M9",
                         location: TOP,
                         align: MIDDLE,
-                        correctAnswer: LEFT
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "M5",
                         location: BOTTOM,
-                        align: RIGHT,
-                        correctAnswer: RIGHT
+                        align: FAR_RIGHT,
+                        correctAnswer: "RIGHT"
                     },
                     {
                         text: "G7",
                         location: TOP,
-                        align: RIGHT,
-                        correctAnswer: LEFT
+                        align: FAR_RIGHT,
+                        correctAnswer: "LEFT"
                     },
                     {
                         text: "E4",
                         location: TOP,
                         align: MIDDLE,
-                        correctAnswer: RIGHT
+                        correctAnswer: "RIGHT"
                     }
                 ];
 
