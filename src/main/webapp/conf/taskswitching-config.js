@@ -7,7 +7,10 @@ ts.config = {};
 ts.config.endText = "Thank you for participating!";
 
 // backend to submit data to
-ts.config.backendAddress = "app/result";
+ts.config.backendResultAddress = "app/result";
+
+// backend to get list counts from
+ts.config.backendListCountAddress = "app/listcount";
 
 // config for the app goes here
 // how long to hide an element in milliseconds
@@ -24,7 +27,7 @@ ts.config.pauseBetweenTests = 5000;
 
      
                 
-var REACTION_TEST_ELEMENTS = [
+var REACTION_TEST_ELEMENTS = [[
                     {
                         text: "A7",
                         location: TOP,
@@ -74,49 +77,19 @@ var REACTION_TEST_ELEMENTS = [
                         correctAnswer: "ALL",
                         waitForMs: 2000
                     }
-                ];
-
-var NUMBER_REACTION_TEST_ELEMENTS = [
-                    {
-                        text: "G8",
-                        location: TOP,
-                        align: FAR_RIGHT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "E7",
-                        location: TOP,
-                        align: FAR_LEFT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "I5",
-                        location: TOP,
-                        align: FAR_RIGHT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "M4",
-                        location: TOP,
-                        align: FAR_LEFT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "A2",
-                        location: TOP,
-                        align: FAR_LEFT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "U9",
-                        location: TOP,
-                        align: FAR_LEFT,
-                        correctAnswer: "LEFT"
-                    }
-                ];
+                ]];
                 
+var NUMBER_REACTION_TEST_ELEMENTS = null;
+$.ajax({
+    url: "data/numberreaction-data.json",
+    async: false,
+    success: function(json) {
+        NUMBER_REACTION_TEST_ELEMENTS = json;
+    },
+    dataType: "json"
+});
                 
-var CHARACTER_REACTION_TEST_ELEMENTS = [
+var CHARACTER_REACTION_TEST_ELEMENTS = [[
                     {
                         text: "U6",
                         location: BOTTOM,
@@ -159,11 +132,11 @@ var CHARACTER_REACTION_TEST_ELEMENTS = [
                         align: FAR_LEFT,
                         correctAnswer: "LEFT"
                     }
-                ];
+                ]];
                      
 
 
-var TASKSWITCHING_TEST_ELEMENTS = [
+var TASKSWITCHING_TEST_ELEMENTS = [[
                     {
                         text: "U5",
                         location: TOP,
@@ -224,7 +197,7 @@ var TASKSWITCHING_TEST_ELEMENTS = [
                         align: MIDDLE,
                         correctAnswer: "RIGHT"
                     }
-                ];
+                ]];
 
 
 ts.tests = [];

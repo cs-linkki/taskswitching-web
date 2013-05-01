@@ -1,6 +1,6 @@
 
-var FAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-var NEAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+var FAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+var NEAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 var TOO_EARLY = -100;
 var TOO_LATE = -1;
 
@@ -15,6 +15,10 @@ var MIDDLE = "MIDDLE";
 
 // use ts (taskswitching) from the global namespace
 var ts = {};
+
+// init debug mode at the beginning
+ts.debug = window.location.search.match(".*debug.*");
+
 // data that we gather from user inputs will be
 // appended to this object
 ts.result = {};
@@ -28,6 +32,7 @@ ts.program = {
     lastShowTime: TOO_EARLY,
     currentTestIndex: -1,
     currentTest: null,
+    currentTestData: null,
     currentTestConfig: null,
     
     init: function() {
@@ -46,12 +51,18 @@ ts.program = {
 
         // get current test
         ts.program.currentTest = ts.tests[ts.program.currentTestIndex];
-
+        
+        
+        var listId = ts.fn.getNextListId($("#participant-id").val(), ts.program.currentTest.testType);
+        ts.program.currentTestData = ts.program.currentTest.elements[(listId % ts.program.currentTest.elements.length)];
+        
+        
         // init result variables
         ts.result = {};
         ts.result.additionalKeyPresses = [];
         ts.result.reactions = [];
         ts.result.testType = ts.program.currentTest.testType;
+        ts.result.listId = listId;
 
         // init binds keys for functions -- only during first round
         // 
@@ -126,10 +137,7 @@ ts.program = {
             
     show: function() {
         ts.program.clear();
-        console.log("Current data element: " + ts.program.currentDataElement);
-        console.log("Total elements in current test: " + ts.program.currentTest.elements.length);
-        var data = ts.program.currentTest.elements[ts.program.currentDataElement];
-        console.log("data: " + JSON.stringify(data));
+        var data = ts.program.currentTestData[ts.program.currentDataElement];
 
         var content = data.text;
         switch (data.align) {
@@ -154,7 +162,7 @@ ts.program = {
         ts.program.currentTimeoutVariable
                 = setTimeout(ts.program.hideAndWaitForNext, ts.config.elementVisibleInMs);
     
-        if(window.location.search.match(".*debug.*")) {
+        if(ts.debug) {
             $("#timingbox").show();
         }
     },
@@ -168,7 +176,7 @@ ts.program = {
                 pressedTime: null,
                 pressed: "NONE",
                 correct: false,
-                elementType: ts.program.currentTest.elements[ts.program.currentDataElement].location
+                elementType: ts.program.currentTestData[ts.program.currentDataElement].location
             });
         }
 
@@ -177,7 +185,7 @@ ts.program = {
 
         ts.program.currentDataElement++;
 
-        if (ts.program.currentDataElement >= ts.program.currentTest.elements.length) {
+        if (ts.program.currentDataElement >= ts.program.currentTestData.length) {
             ts.program.nextTestOrEnd();
             return;
         }
@@ -188,7 +196,7 @@ ts.program = {
         }
         
         try {
-            var element = ts.program.currentTest.elements[ts.program.currentDataElement];
+            var element = ts.program.currentTestData[ts.program.currentDataElement];
             if(element.waitForMs) {
                 waitTime = element.waitForMs;
             }
@@ -202,22 +210,15 @@ ts.program = {
     },
 
     additionalPress: function(key) {
-//        if (ts.program.currentTimeoutVariable) {
-//            clearTimeout(ts.program.currentTimeoutVariable);
-//        }
-
         ts.result.additionalKeyPresses.push({
             lastIndex: ts.program.currentDataElement,
             key: key,
             time: ts.time()
         });
-
-//        ts.program.currentTimeoutVariable
-//                = setTimeout(ts.program.show, ts.config.pauseAfterWrongAnswerInMs);
     },
             
     clear: function() {
-        if(window.location.search.match(".*debug.*")) {
+        if(ts.debug) {
             $("#timingbox").hide();
         }
         
@@ -250,7 +251,7 @@ ts.program = {
         ts.program.clear();
 
         var currentTime = ts.time();
-        var currentElement = ts.program.currentTest.elements[ts.program.currentDataElement];
+        var currentElement = ts.program.currentTestData[ts.program.currentDataElement];
         var answerWasCorrect = currentElement.correctAnswer === answer;
         
         if(currentElement.correctAnswer === "ALL") {
@@ -291,7 +292,7 @@ ts.program = {
 
         $.ajax({
             type: "POST",
-            url: ts.config.backendAddress,
+            url: ts.config.backendResultAddress,
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
             data: JSON.stringify(ts.result),
@@ -328,6 +329,20 @@ ts.fn.createTest = function(testType, startText, endText, elements) {
     this.startText = startText;
     this.endText = endText;
     this.elements = elements;
+};
+
+ts.fn.getNextListId = function(participantId, testType) {
+    var result;
+    $.ajax({
+        type: "GET",
+        url: ts.config.backendListCountAddress + "?participantId=" + participantId + "&testType=" + testType,
+        async: false,
+        success: function(data) {
+            result = data;
+        }
+    });
+
+    return result;
 };
 
 ts.time = (function() {

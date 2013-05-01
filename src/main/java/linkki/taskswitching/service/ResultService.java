@@ -32,4 +32,14 @@ public class ResultService {
     public List<TestResult> list() {
         return resultRepository.findAll();
     }
+    
+    @Transactional(readOnly = true)
+    public int getCount(Long participantId, String testType) {
+        Participant participant = participantRepository.findOne(participantId);
+        if(participant == null) {
+            return 0;
+        }
+        
+        return resultRepository.findByParticipantAndTestType(participant, testType).size();
+    }
 }

@@ -2,30 +2,29 @@ package linkki.taskswitching.dto;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
-public class Participant implements Serializable {
+public class Participant extends AbstractPersistable<Long> implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+    private String authenticationId;
     private String password;
     private String name;
     private String gender;
     private Integer yearOfBirth;
+    @ManyToOne
+    private Organization organization;
 
     public Participant() {
     }
 
-    public Long getId() {
-        return id;
+    public String getAuthenticationId() {
+        return authenticationId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAuthenticationId(String authenticationId) {
+        this.authenticationId = authenticationId;
     }
 
     public String getPassword() {
@@ -58,5 +57,13 @@ public class Participant implements Serializable {
 
     public void setYearOfBirth(Integer yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

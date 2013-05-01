@@ -5,23 +5,19 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
-public class TestResult implements Serializable {
+public class TestResult extends AbstractPersistable<Long> implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
     @ManyToOne
     private Participant participant;
     private String testType;
+    private Long listId;
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date testTime;
     private Double initTime;
@@ -34,14 +30,6 @@ public class TestResult implements Serializable {
 
     public TestResult() {
         testTime = new Date();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Participant getParticipant() {
@@ -58,6 +46,14 @@ public class TestResult implements Serializable {
 
     public void setTestType(String testType) {
         this.testType = testType;
+    }
+
+    public Long getListId() {
+        return listId;
+    }
+
+    public void setListId(Long listId) {
+        this.listId = listId;
     }
 
     public Date getTimestamp() {
