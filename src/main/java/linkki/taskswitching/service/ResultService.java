@@ -17,7 +17,7 @@ public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
 
-    @Transactional
+    @Transactional(readOnly = false)
     public void save(TestResult result) {
         Participant p = participantRepository.findOne(result.getParticipant().getId());
         if (p == null) {
@@ -32,14 +32,14 @@ public class ResultService {
     public List<TestResult> list() {
         return resultRepository.findAll();
     }
-    
+
     @Transactional(readOnly = true)
     public int getCount(Long participantId, String testType) {
         Participant participant = participantRepository.findOne(participantId);
-        if(participant == null) {
+        if (participant == null) {
             return 0;
         }
-        
+
         return resultRepository.findByParticipantAndTestType(participant, testType).size();
     }
 }

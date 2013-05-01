@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class Participant extends AbstractPersistable<Long> implements Serializable {
 
-    private String authenticationId;
     private String password;
     private String name;
     private String gender;
@@ -17,14 +16,6 @@ public class Participant extends AbstractPersistable<Long> implements Serializab
     private Organization organization;
 
     public Participant() {
-    }
-
-    public String getAuthenticationId() {
-        return authenticationId;
-    }
-
-    public void setAuthenticationId(String authenticationId) {
-        this.authenticationId = authenticationId;
     }
 
     public String getPassword() {
