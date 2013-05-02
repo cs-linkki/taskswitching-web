@@ -5,15 +5,22 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 import org.apache.poi.hssf.extractor.ExcelExtractor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class ExcelToJsonParser {
-
+    
     public static void main(String[] args) throws Exception {
-        InputStream inp = new FileInputStream("data/TS_nroteht_listat.xls");
+        parse("data/TS_kirjainteht_listat.xls", "src/main/webapp/data/characterreaction-data.json", false);
+        parse("data/TS_nroteht_listat.xls", "src/main/webapp/data/numberreaction-data.json", true);
+    }
+
+    public static void parse(String in, String out, boolean reverseLists) throws Exception {
+        InputStream inp = new FileInputStream(in);
         HSSFWorkbook wb = new HSSFWorkbook(new POIFSFileSystem(inp));
         ExcelExtractor extractor = new ExcelExtractor(wb);
 
@@ -43,12 +50,27 @@ public class ExcelToJsonParser {
             currentSheet.add(entry);
         }
 
-
         System.out.println("Total sheets in document: " + document.size());
         System.out.println(document);
 
+        List<Sheet> newSheets = new ArrayList<Sheet>();
+        for (Sheet sheet : document) {
+            Sheet sh = new Sheet();
+            sh.addAll(sheet);
+            Collections.reverse(sh);
+            newSheets.add(sh);            
+        }
+
+        
+        if(reverseLists) {
+            document.addAll(0, newSheets);
+        } else {
+            document.addAll(newSheets);
+        }
+
+        
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File("src/main/webapp/data/numberreaction-data.json"), document);
+        mapper.writeValue(new File(out), document);
 
     }
 }

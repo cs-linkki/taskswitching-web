@@ -88,52 +88,17 @@ $.ajax({
     },
     dataType: "json"
 });
-                
-var CHARACTER_REACTION_TEST_ELEMENTS = [[
-                    {
-                        text: "U6",
-                        location: BOTTOM,
-                        align: FAR_RIGHT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "I5",
-                        location: BOTTOM,
-                        align: FAR_LEFT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "M8",
-                        location: BOTTOM,
-                        align: FAR_LEFT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "A4",
-                        location: BOTTOM,
-                        align: FAR_LEFT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "R7",
-                        location: BOTTOM,
-                        align: FAR_RIGHT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "G2",
-                        location: BOTTOM,
-                        align: FAR_LEFT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "K4",
-                        location: BOTTOM,
-                        align: FAR_LEFT,
-                        correctAnswer: "LEFT"
-                    }
-                ]];
-                     
+
+             
+var CHARACTER_REACTION_TEST_ELEMENTS = null;
+$.ajax({
+    url: "data/characterreaction-data.json",
+    async: false,
+    success: function(json) {
+        CHARACTER_REACTION_TEST_ELEMENTS = json;
+    },
+    dataType: "json"
+});
 
 
 var TASKSWITCHING_TEST_ELEMENTS = [[
