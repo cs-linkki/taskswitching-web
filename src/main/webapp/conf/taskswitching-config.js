@@ -101,95 +101,42 @@ $.ajax({
 });
 
 
-var TASKSWITCHING_TEST_ELEMENTS = [[
-                    {
-                        text: "U5",
-                        location: TOP,
-                        align: MIDDLE,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "U4",
-                        location: TOP,
-                        align: MIDDLE,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "G7",
-                        location: BOTTOM,
-                        align: FAR_RIGHT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "R3",
-                        location: BOTTOM,
-                        align: MIDDLE,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "G6",
-                        location: BOTTOM,
-                        align: FAR_RIGHT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "K8",
-                        location: TOP,
-                        align: FAR_RIGHT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "M9",
-                        location: TOP,
-                        align: MIDDLE,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "M5",
-                        location: BOTTOM,
-                        align: FAR_RIGHT,
-                        correctAnswer: "RIGHT"
-                    },
-                    {
-                        text: "G7",
-                        location: TOP,
-                        align: FAR_RIGHT,
-                        correctAnswer: "LEFT"
-                    },
-                    {
-                        text: "E4",
-                        location: TOP,
-                        align: MIDDLE,
-                        correctAnswer: "RIGHT"
-                    }
-                ]];
+var TASKSWITCHING_TEST_ELEMENTS = null;
+$.ajax({
+    url: "data/taskswitching-data.json",
+    async: false,
+    success: function(json) {
+        TASKSWITCHING_TEST_ELEMENTS = json;
+    },
+    dataType: "json"
+});
 
 
 ts.tests = [];
 
 var reactionTest = new ts.fn.createTest(
             "REACTION", 
-            "Reaction test: press 'z' or '.' when you see a character-number -combination.<br/><br/>Press spacebar to start.", 
+            "Reaction test: press 'x' or 'n' when you see a character-number -combination.<br/><br/>Press spacebar to start.", 
             "Well done! Get ready for the next test.", 
             REACTION_TEST_ELEMENTS);
             
             
 var numberReactionTest = new ts.fn.createTest(
             "NUMBERREACTION", 
-            "Number reaction test: observe the top row.<br/>When the number in the character-number -pair is odd, press 'z'.<br/>Press '.' when the number is even.<br/><br/>Press spacebar to start.", 
+            "Number reaction test: observe the top row.<br/>When the number in the character-number -pair is odd, press 'x'.<br/>Press 'n' when the number is even.<br/><br/>Press spacebar to start.", 
             "Well done! Get ready for the next test.",
             NUMBER_REACTION_TEST_ELEMENTS);
             
                         
 var characterReactionTest = new ts.fn.createTest(
             "CHARACTERREACTION", 
-            "Character reaction test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'z'.<br/>Press '.' when the character is a vowel.<br/><br/>Press spacebar to start.", 
+            "Character reaction test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'x'.<br/>Press 'n' when the character is a vowel.<br/><br/>Press spacebar to start.", 
             "Well done! Get ready for the next test.", 
             CHARACTER_REACTION_TEST_ELEMENTS);
             
 var taskSwitchingTest = new ts.fn.createTest(
         "TASKSWITCHING",
-        "Let's combine the previous ones!<br/>If the character-number pair appears in top, press 'z' for odd numbers, '.' for even numbers.<br/>When the pair appears in the bottom, press 'z' for consonant, and '.' for vowel.<br/><br/>Press spacebar to start.",
+        "Let's combine the previous ones!<br/>If the character-number pair appears in top, press 'x' for odd numbers, 'n' for even numbers.<br/>When the pair appears in the bottom, press 'x' for consonant, and 'n' for vowel.<br/><br/>Press spacebar to start.",
         "Thank you for participating!",
         TASKSWITCHING_TEST_ELEMENTS);
 

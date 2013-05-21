@@ -44,13 +44,15 @@ ts.program = {
         // check http://css-tricks.com/snippets/javascript/javascript-keycodes/
         // for other keycodes
 
-        if (ts.program.currentTestIndex <= 0) {
+        // bind only at the very beginning
+        if (ts.program.currentTestIndex < 0) {
+            console.log("Binding keys for test, current test index: " + ts.program.currentTestIndex);
             $(document).keydown(function(e) {
                 switch (e.which) {
-                    case 90: // z
+                    case 88: // x
                         ts.program.pressed("LEFT");
                         break;
-                    case 190: // .
+                    case 78: // n
                         ts.program.pressed("RIGHT");
                         break;
                 }
@@ -281,45 +283,66 @@ ts.program = {
         ts.program.lastShowTime = TOO_LATE;
         ts.program.clear();
 
-        ts.result.testEndTime = ts.time();
 
         $("#wrapper").hide();
         $("#guide").html(ts.program.currentTest.endText);
         $("#guide").show();
 
         console.log(JSON.stringify(ts.result));
+        ts.program.submitResults(function(response) {
+            $("#hitsPercentage").html(response.hitsPercentage);
+            $("#reactionTime").html(response.reactionTime);
+            $("#outsideHits").html(response.hitsOutsideTimespan);
 
-        $.ajax({
-            type: "POST",
-            url: ts.config.backendResultAddress,
-            dataType: "json",
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(ts.result),
-            success: function(response) {
-                $("#hitsPercentage").html(response.hitsPercentage);
-                $("#reactionTime").html(response.reactionTime);
-                $("#outsideHits").html(response.hitsOutsideTimespan);
+            if (ts.result.testType === "TASKSWITCHING") {
+                $("#hitsRepeated").html(response.hitsRepeated);
+                $("#hitsChanged").html(response.hitsChanged);
+                $("#repeatedReactionTime").html(response.repeatedReactionTime);
+                $("#changedReactionTime").html(response.changedReactionTime);
 
-                if (ts.result.testType === "TASKSWITCHING") {
-                    $("#hitsRepeated").html(response.hitsRepeated);
-                    $("#hitsChanged").html(response.hitsChanged);
-                    $("#repeatedReactionTime").html(response.repeatedReactionTime);
-                    $("#changedReactionTime").html(response.changedReactionTime);
-
-                    $("#taskSwitchingResult").show();
-                }
-
-                $("#result").show();
+                $("#taskSwitchingResult").show();
             }
+
+            $("#result").show();
         });
 
         // wait for next
         setTimeout(function() {
             ts.program.init();
         }, ts.config.pauseBetweenTests);
-    }
+    },
+            
+    submitResults: function(successFunction) {
+        ts.result.testEndTime = ts.time();
+        $.ajax({
+            type: "POST",
+            url: ts.config.backendResultAddress,
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(ts.result),
+            
+            success: successFunction
+        });
+    }     
 };
 
+
+// basic func to make sure that data is submitted
+window.onbeforeunload = function() {
+    if(ts.result && ts.result.length > 0) {
+        ts.program.submitResults(function() {
+            alert("pewpew");
+        });
+    }
+};
+$(document).ready(function() {
+    $('a[rel!=ext]').click(function() {
+        window.onbeforeunload = null;
+    });
+    $('form').submit(function() {
+        window.onbeforeunload = null;
+    });
+});
 
 
 ts.fn = {};
