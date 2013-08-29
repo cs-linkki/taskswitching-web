@@ -2,6 +2,7 @@ package linkki.taskswitching.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +18,7 @@ public class AuthenticationInformation extends AbstractPersistable<Long> impleme
     private Participant participant;
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date authenticationTime;
+    @Column(length=2000)
     private String details;
 
     public AuthenticationInformation() {
