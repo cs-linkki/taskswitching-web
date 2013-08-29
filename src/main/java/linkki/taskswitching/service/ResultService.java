@@ -6,6 +6,7 @@ import linkki.taskswitching.dto.TestResult;
 import linkki.taskswitching.repository.ParticipantRepository;
 import linkki.taskswitching.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +20,8 @@ public class ResultService {
 
     @Transactional(readOnly = false)
     public void save(TestResult result) {
-        Participant p = participantRepository.findOne(result.getParticipant().getId());
-        if (p == null) {
-            p = participantRepository.save(result.getParticipant());
-            result.setParticipant(p);
-        }
-
+        Participant p = participantRepository.findByUsername(result.getParticipant().getUsername());
+        result.setParticipant(p);
         resultRepository.save(result);
     }
 
@@ -34,12 +31,18 @@ public class ResultService {
     }
 
     @Transactional(readOnly = true)
-    public int getCount(Long participantId, String testType) {
-        Participant participant = participantRepository.findOne(participantId);
+    public int getCount(String username, String testType, String info) {
+        
+        if(SecurityContextHolder.getContext().getAuthentication() != null 
+                && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {     
+            username = SecurityContextHolder.getContext().getAuthentication().getName();
+        }
+        
+        Participant participant = participantRepository.findByUsername(username);
         if (participant == null) {
             return 0;
         }
 
-        return resultRepository.findByParticipantAndTestType(participant, testType).size();
+        return resultRepository.findByParticipantAndTestTypeAndInfo(participant, testType, info).size();
     }
 }

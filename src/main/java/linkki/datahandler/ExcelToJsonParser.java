@@ -18,6 +18,7 @@ public class ExcelToJsonParser {
         parse("data/TS_kirjainteht_listat.xls", "src/main/webapp/data/characterreaction-data.json", false);
         parse("data/TS_nroteht_listat.xls", "src/main/webapp/data/numberreaction-data.json", true);
         parseTSEntries("data/TS_tehtvaihto_listat.xls", "src/main/webapp/data/taskswitching-data.json", false);
+        parseReactionTimeEntries("data/Listat_reaktioaika.xlsx", "src/main/webapp/data/reaction-data.json", false);
     }
 
     public static void parse(String in, String out, boolean reverseLists) throws Exception {
@@ -75,7 +76,6 @@ public class ExcelToJsonParser {
 
     }
 
-
     public static void parseTSEntries(String in, String out, boolean reverseLists) throws Exception {
         InputStream inp = new FileInputStream(in);
         HSSFWorkbook wb = new HSSFWorkbook(new POIFSFileSystem(inp));
@@ -128,9 +128,61 @@ public class ExcelToJsonParser {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(new File(out), document);
-
     }
 
+    private static void parseReactionTimeEntries(String in, String out, boolean reverseLists) throws Exception {
+        InputStream inp = new FileInputStream(in);
+        HSSFWorkbook wb = new HSSFWorkbook(new POIFSFileSystem(inp));
+        ExcelExtractor extractor = new ExcelExtractor(wb);
+
+        extractor.setFormulasNotResults(true);
+        extractor.setIncludeSheetNames(false);
+        String text = extractor.getText();
+
+        Document document = new Document();
+        Sheet currentSheet = new Sheet();
+
+        Scanner s = new Scanner(text);
+        while (s.hasNextLine()) {
+            String line = s.nextLine();
+            Entry entry = null;
+
+            try {
+                entry = new TaskSwitchingEntry(line);
+            } catch (IllegalArgumentException e) {
+                if (!currentSheet.isEmpty()) {
+                    document.add(currentSheet);
+                    currentSheet = new Sheet();
+                }
+
+                continue;
+            }
+
+            currentSheet.add(entry);
+        }
+
+        System.out.println("Total sheets in document: " + document.size());
+        System.out.println(document);
+
+        List<Sheet> newSheets = new ArrayList<Sheet>();
+        for (Sheet sheet : document) {
+            Sheet sh = new Sheet();
+            sh.addAll(sheet);
+            Collections.reverse(sh);
+            newSheets.add(sh);
+        }
+
+
+        if (reverseLists) {
+            document.addAll(0, newSheets);
+        } else {
+            document.addAll(newSheets);
+        }
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(out), document);
+    }
 }
 
 class TaskSwitchingEntry extends Entry {

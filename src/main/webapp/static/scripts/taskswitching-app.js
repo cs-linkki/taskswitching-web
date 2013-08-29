@@ -1,113 +1,122 @@
-
-var FAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-var NEAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-var TOO_EARLY = -100;
-var TOO_LATE = -1;
-
-var TOP = "TOP";
-var BOTTOM = "BOTTOM";
-
-var NEAR_LEFT = "NEAR_LEFT";
-var FAR_LEFT = "FAR_LEFT";
-var NEAR_RIGHT = "NEAR_RIGHT";
-var FAR_RIGHT = "FAR_RIGHT";
-var MIDDLE = "MIDDLE";
-
-// use ts (taskswitching) from the global namespace
-var ts = {};
-
-// init debug mode at the beginning
-ts.debug = window.location.search.match(".*debug.*");
+if (!ts) {
+    alert("LOAD TASKSWITCHING-INIT.JS FIRST");
+}
 
 // data that we gather from user inputs will be
 // appended to this object
-ts.result = {};
-ts.result.additionalKeyPresses = [];
-ts.result.reactions = [];
+ts.result = null;
 
 // and the main code
 ts.program = {
-    currentTimeoutVariable: null,
-    currentDataElement: null,
-    lastShowTime: TOO_EARLY,
-    currentTestIndex: -1,
-    currentTest: null,
-    currentTestData: null,
-    currentTestConfig: null,
-    
-    init: function() {
-        ts.specificTest = ts.fn.getUrlParam("test");
+    keysBound: false,
             
+    initVars: function(testType) {
+        ts.program.currentTimeoutVariable = null;
+        ts.program.currentDataElement = null;
+        ts.program.lastShowTime = TOO_EARLY;
+        ts.program.currentTestIndex = -1;
+        ts.program.currentTest = null;
+        ts.program.currentTestData = null;
+        ts.program.currentTestConfig = null;
+        ts.program.testType = testType;
+    },
+    testTypeCounts: {},
+    
+    init: function(testType) {
+        if(ts.program.testTypeCounts[testType] === null) {
+            ts.program.testTypeCounts[testType] = 0;
+        }
+        ts.program.initVars(testType);
+        ts.config.initTests(testType);
+        
+        $("#taskSwitchingResult").hide();
+
+        console.log("TOTAL TESTS: " + ts.tests.length);
+
+        ts.specificTest = ts.ui.getUrlParam("test");
+
         // init binds keys for functions -- only during first round
         // 
         // use keydown to get the action as fast as possible
         // check http://css-tricks.com/snippets/javascript/javascript-keycodes/
         // for other keycodes
 
-        // bind only at the very beginning
-        if (ts.program.currentTestIndex < 0) {
-            console.log("Binding keys for test, current test index: " + ts.program.currentTestIndex);
-            $(document).keydown(function(e) {
-                switch (e.which) {
-                    case 88: // x
+        // bind keys only at the very beginning
+        if (!ts.program.keysBound) {
+            ts.ui.bindKeys(KEY_LEFT,
+                    function() {
                         ts.program.pressed("LEFT");
-                        break;
-                    case 78: // n
+                    },
+                    KEY_RIGHT,
+                    function() {
                         ts.program.pressed("RIGHT");
-                        break;
-                }
 
-                e.preventDefault();
-            });
+                    });
+            ts.program.keysBound = true;
         }
-        
+
+
+        ts.program.startNextTest();
+    },
+    startNextTest: function() {        
         ts.program.lastShowTime = TOO_EARLY;
         ts.program.currentDataElement = 0;
         ts.program.currentTestIndex++;
-        
+
         // get current test
         ts.program.currentTest = ts.tests[ts.program.currentTestIndex];
 
         if (ts.specificTest) {
             while (ts.program.currentTest.testType !== ts.specificTest) {
                 ts.program.currentTestIndex++;
-                if(ts.program.currentTestIndex >= ts.tests.length) {
+                if (ts.program.currentTestIndex >= ts.tests.length) {
                     break;
                 }
-                
+
                 ts.program.currentTest = ts.tests[ts.program.currentTestIndex];
             }
         }
-
+        
         if (ts.program.currentTestIndex >= ts.tests.length) {
-            $("#wrapper").hide();
-            $("#guide").html(ts.config.endText);
-            $("#guide").show();
+            if(ts.program.testType === "practice") {
+                ts.program.testTypeCounts[ts.program.testType]++;
+                
+                if(ts.program.testTypeCounts[ts.program.testType] > 3) {
+                    // GIVE OPTION TO PLAY WHEN WILL
+                    $("#guide").html("Great work! You are now ready to play!<br/>Press space when you are ready.");
+                    $(document).one('keydown', function(e) {
+                        $("#result").hide();
+                        ts.program.init("game");
+                    });
+                } else {
+                    $("#guide").html("Great work! If you want, you can still practice a bit.<br/>Press space to practice, any other key will forward you to the test!");
+                    $(document).one('keydown', function(e) {
+                        $("#result").hide();
+                        if (e.keyCode === 0 || e.keyCode === 32) {
+                            ts.program.init("practice");
+                        } else {
+                            ts.program.init("game");
+                        }
+                    });
+                }               
+                
+            } else {
+                ts.ui.testsFinished(ts.config.endText);
+            }
             return;
         }
 
-        var listId = ts.fn.getNextListId($("#participant-id").val(), ts.program.currentTest.testType);
+        var listId = ts.fn.getNextListId($("#participant-id").val(), ts.program.currentTest.testType, ts.program.testType);
+        console.log(ts.program.currentTest);
         ts.program.currentTestData = ts.program.currentTest.elements[(listId % ts.program.currentTest.elements.length)];
 
         // init result variables
-        ts.result = {};
-        ts.result.additionalKeyPresses = [];
-        ts.result.reactions = [];
-        ts.result.testType = ts.program.currentTest.testType;
-        ts.result.listId = listId;
+        var participant = {};
+        participant.username = $("#participant-id").val();
 
-        // add participation info
-        ts.result.participant = {};
-        ts.result.participant.id = $("#participant-id").val();
+        ts.result = new ResultObject(listId, ts.program.currentTest.testType, ts.program.testType, participant);
 
-        ts.result.initTime = ts.time();
-
-        $("#entry").hide();
-        $("#wrapper").hide();
-
-        $("#guide").show();
-        $("#guide").html(ts.program.currentTest.startText);
-
+        ts.ui.init(ts.program.currentTest.startText);
         // program will start once user presses space
         ts.program.bindSpace();
     },
@@ -122,16 +131,13 @@ ts.program = {
             return;
         }
 
-        $("#result").hide();
-        $("#guide").hide();
-
-        $("#wrapper").show();
-
+        ts.ui.showGameArea();
         ts.program.start();
     },
     start: function() {
         console.log("starting");
-        ts.result.testStartTime = ts.time();
+
+        ts.result.setStartTime();
 
         ts.program.clear();
         // call the function showNext after a pre-configured pause
@@ -162,20 +168,16 @@ ts.program = {
                 // default MIDDLE
         }
 
-        $("#" + data.location).html(content);
         ts.program.lastShowTime = ts.time();
-
         ts.program.currentTimeoutVariable
                 = setTimeout(ts.program.hideAndWaitForNext, ts.config.elementVisibleInMs);
 
-        if (ts.debug) {
-            $("#timingbox").show();
-        }
+        ts.ui.showContent(data.location, content);
     },
     hideAndWaitForNext: function(answerCorrect) {
         if (!answerCorrect && ts.program.lastShowTime > 0) {
             // timed out!
-            ts.result.reactions.push({
+            ts.result.addReactionInformation({
                 index: ts.program.currentDataElement,
                 showTime: ts.program.lastShowTime,
                 pressedTime: null,
@@ -214,20 +216,14 @@ ts.program = {
 
     },
     additionalPress: function(key) {
-        ts.result.additionalKeyPresses.push({
+        ts.result.addAdditionalKeyPressInformation({
             lastIndex: ts.program.currentDataElement,
             key: key,
             time: ts.time()
         });
     },
     clear: function() {
-        if (ts.debug) {
-            $("#timingbox").hide();
-        }
-
-        $("#" + TOP).html("&nbsp;");
-        $("#" + BOTTOM).html("&nbsp;");
-        $("#guide").html("&nbsp;");
+        ts.ui.clear();
 
         if (ts.program.currentTimeoutVariable) {
             clearTimeout(ts.program.currentTimeoutVariable);
@@ -236,15 +232,8 @@ ts.program = {
     pressed: function(answer) {
         console.log("Last show time: " + ts.program.lastShowTime);
 
-        if (ts.program.lastShowTime === TOO_EARLY) {
-            console.log("pressed " + answer + " too early");
-            ts.program.additionalPress("EARLY");
-            return;
-        }
-
-        if (ts.program.lastShowTime === TOO_LATE) {
-            console.log("pressed " + answer + " too late");
-            ts.program.additionalPress("LATE");
+        if (ts.program.lastShowTime === TOO_EARLY || ts.program.lastShowTime === TOO_LATE) {
+            ts.program.additionalPress("PRESS_OUTSIDE_TIMEFRAME:"+answer);
             return;
         }
 
@@ -267,7 +256,7 @@ ts.program = {
             elementType = "CHARACTER";
         }
 
-        ts.result.reactions.push({
+        ts.result.addReactionInformation({
             index: ts.program.currentDataElement,
             showTime: elementShowTime,
             pressedTime: currentTime,
@@ -279,57 +268,47 @@ ts.program = {
         ts.program.hideAndWaitForNext(answerWasCorrect);
     },
     nextTestOrEnd: function() {
+        ts.result.testEndTime = ts.time();
         console.log("Thx!");
         ts.program.lastShowTime = TOO_LATE;
         ts.program.clear();
 
-
-        $("#wrapper").hide();
-        $("#guide").html(ts.program.currentTest.endText);
-        $("#guide").show();
+        ts.ui.showGuideText(ts.program.currentTest.endText);
+        
 
         console.log(JSON.stringify(ts.result));
         ts.program.submitResults(function(response) {
-            $("#hitsPercentage").html(response.hitsPercentage);
-            $("#reactionTime").html(response.reactionTime);
-            $("#outsideHits").html(response.hitsOutsideTimespan);
+            ts.ui.showBasicStats(response);
 
             if (ts.result.testType === "TASKSWITCHING") {
-                $("#hitsRepeated").html(response.hitsRepeated);
-                $("#hitsChanged").html(response.hitsChanged);
-                $("#repeatedReactionTime").html(response.repeatedReactionTime);
-                $("#changedReactionTime").html(response.changedReactionTime);
-
-                $("#taskSwitchingResult").show();
+                ts.ui.showTaskSwitchingStats(response);
             }
-
-            $("#result").show();
         });
 
-        // wait for next
+        // wait for next test if applicable
         setTimeout(function() {
-            ts.program.init();
+            ts.program.startNextTest();
         }, ts.config.pauseBetweenTests);
     },
-            
     submitResults: function(successFunction) {
-        ts.result.testEndTime = ts.time();
+        console.log("submitting results to backend!");
+        var data = JSON.stringify(ts.result);
+        console.log("data to send: " + data);
         $.ajax({
             type: "POST",
             url: ts.config.backendResultAddress,
             dataType: "json",
             contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(ts.result),
-            
+            data: data,
             success: successFunction
         });
-    }     
+    }
 };
 
 
 // basic func to make sure that data is submitted
 window.onbeforeunload = function() {
-    if(ts.result && ts.result.length > 0) {
+    if (ts.result && ts.result.length > 0) {
         ts.program.submitResults(function() {
             alert("pewpew");
         });
@@ -353,11 +332,12 @@ ts.fn.createTest = function(testType, startText, endText, elements) {
     this.elements = elements;
 };
 
-ts.fn.getNextListId = function(participantId, testType) {
+ts.fn.getNextListId = function(username, testType, info) {
+    console.log("requesting next list id with list info: " + info);
     var result;
     $.ajax({
         type: "GET",
-        url: ts.config.backendListCountAddress + "?participantId=" + participantId + "&testType=" + testType,
+        url: ts.config.backendListCountAddress + "?username=" + username + "&testType=" + testType + "&info=" + info,
         async: false,
         success: function(data) {
             result = data;
@@ -366,25 +346,3 @@ ts.fn.getNextListId = function(participantId, testType) {
 
     return result;
 };
-
-ts.fn.getUrlParam = function(key) {
-    var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
-    return result && unescape(result[1]) || "";
-};
-
-ts.time = (function() {
-    var performance = window.performance || {};
-    var performanceFunction = performance.now
-            || performance.mozNow
-            || performance.webkitNow
-            || performance.msNow
-            || performance.oNow;
-
-    if (performanceFunction) {
-        return performanceFunction.bind(performance);
-    }
-
-    return function() {
-        return new Date().getTime();
-    };
-})();

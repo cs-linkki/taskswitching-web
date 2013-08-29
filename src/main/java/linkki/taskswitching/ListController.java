@@ -15,7 +15,7 @@ public class ListController {
     
     @RequestMapping("listcount")
     @ResponseBody
-    public int getCountOfShownLists(@RequestParam Long participantId, @RequestParam String testType) {
-        return resultService.getCount(participantId, testType);
+    public int getCountOfShownLists(@RequestParam String username, @RequestParam String testType, @RequestParam String info) {
+        return resultService.getCount(username, testType, info);
     }
 }

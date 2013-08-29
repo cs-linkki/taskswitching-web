@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ResultRepository extends JpaRepository<TestResult, Long> {
 
-    List<TestResult> findByParticipantAndTestType(Participant participant, String testType);
+    List<TestResult> findByParticipantAndTestTypeAndInfo(Participant participant, String testType, String info);
 }

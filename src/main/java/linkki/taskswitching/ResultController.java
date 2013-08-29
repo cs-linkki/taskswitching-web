@@ -5,9 +5,11 @@ import linkki.taskswitching.view.DataTablesOutput;
 import linkki.taskswitching.dto.TestResult;
 import java.util.ArrayList;
 import java.util.List;
+import linkki.taskswitching.repository.ParticipantRepository;
 import linkki.taskswitching.service.AggregateResultService;
 import linkki.taskswitching.view.AggregateResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ResultController {
 
     @Autowired
+    private ParticipantRepository participantRepository;
+    @Autowired
     private ResultService resultService;
     @Autowired
     private AggregateResultService aggregateResultService;
@@ -25,6 +29,14 @@ public class ResultController {
     @RequestMapping(method = RequestMethod.POST, value = "result", consumes = "application/json")
     @ResponseBody
     public AggregateResult postResult(@RequestBody TestResult result) {
+        if(SecurityContextHolder.getContext().getAuthentication() != null 
+                && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {     
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            result.getParticipant().setUsername(username);
+        }
+        
+        result.setParticipant(participantRepository.findByUsername(result.getParticipant().getUsername()));
+        
         resultService.save(result);
         return aggregateResultService.calculateResult(result);
     }

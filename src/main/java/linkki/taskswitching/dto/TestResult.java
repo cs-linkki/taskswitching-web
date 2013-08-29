@@ -17,6 +17,7 @@ public class TestResult extends AbstractPersistable<Long> implements Serializabl
     @ManyToOne
     private Participant participant;
     private String testType;
+    private String info;
     private Long listId;
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date testTime;
@@ -30,6 +31,14 @@ public class TestResult extends AbstractPersistable<Long> implements Serializabl
 
     public TestResult() {
         testTime = new Date();
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public Participant getParticipant() {

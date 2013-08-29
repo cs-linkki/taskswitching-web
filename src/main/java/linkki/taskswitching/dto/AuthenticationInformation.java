@@ -19,6 +19,17 @@ public class AuthenticationInformation extends AbstractPersistable<Long> impleme
     private Date authenticationTime;
     private String details;
 
+    public AuthenticationInformation() {
+        super();
+    }
+
+    public AuthenticationInformation(Participant participant, String details) {
+        this();
+        this.participant = participant;
+        this.authenticationTime = new Date();
+        this.details = details;
+    }
+
     public Participant getParticipant() {
         return participant;
     }
@@ -41,5 +52,10 @@ public class AuthenticationInformation extends AbstractPersistable<Long> impleme
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthenticationInformation{" + "participant=" + participant + ", authenticationTime=" + authenticationTime + ", details=" + details + '}';
     }
 }
