@@ -53,6 +53,7 @@ public class LoginController {
     }
 
     private String auth(String username, String password, HttpServletRequest request) {
+        System.out.println("Authenticating user: " + username);
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(username, password);
         try {
@@ -122,7 +123,12 @@ public class LoginController {
     }
 
     private String getPath(HttpServletRequest req) {
+        System.out.println("Retrieving path for " + req.getRequestURL());
         String ref = req.getHeader("referer");
+        if(ref != null && ref.contains("/")) {
+            ref = ref.substring(0, ref.lastIndexOf("/"));
+        }
+        
         if (ref == null || ref.trim().isEmpty()) {
             ref = req.getScheme()
                     + "://"
@@ -133,7 +139,11 @@ public class LoginController {
                 ref = ref + "/";
             }
 
-            ref = ref + req.getContextPath();
+            String ctxPath = req.getContextPath();
+            if(ctxPath.startsWith("/")) {
+                ctxPath = ctxPath.substring(1);
+            }
+            ref = ref + ctxPath;
         }
 
         if (!ref.endsWith("/")) {

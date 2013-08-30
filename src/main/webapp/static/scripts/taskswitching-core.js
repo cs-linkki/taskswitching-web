@@ -38,6 +38,8 @@ ts.time = (function() {
 // init debug mode if needed
 ts.debug = window.location.search.match(".*debug.*");
 
+ts.lastReactionTime = null;
+
 
 var ResultObject = function(listId, testType, info, participant) {
     this.listId = listId;

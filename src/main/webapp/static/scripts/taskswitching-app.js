@@ -9,31 +9,119 @@ ts.result = null;
 // and the main code
 ts.program = {
     keysBound: false,
-            
     initVars: function(testType) {
         ts.program.currentTimeoutVariable = null;
         ts.program.currentDataElement = null;
         ts.program.lastShowTime = TOO_EARLY;
-        ts.program.currentTestIndex = -1;
         ts.program.currentTest = null;
         ts.program.currentTestData = null;
         ts.program.currentTestConfig = null;
         ts.program.testType = testType;
+        ts.program.lastReactionTime = null;
+        ts.program.testTypeCounts = 0;
     },
-    testTypeCounts: {},
-    
-    init: function(testType) {
-        if(ts.program.testTypeCounts[testType] === null) {
-            ts.program.testTypeCounts[testType] = 0;
-        }
-        ts.program.initVars(testType);
-        ts.config.initTests(testType);
-        
-        $("#taskSwitchingResult").hide();
-
-        console.log("TOTAL TESTS: " + ts.tests.length);
-
+    step: 0,
+    init: function() {
         ts.specificTest = ts.ui.getUrlParam("test");
+        ts.limitReactions = ts.ui.getUrlParam("limit");
+
+        ts.program.step++;
+
+        console.log("");
+        console.log("Current step: " + ts.program.step);
+        console.log("");
+
+        if (ts.specificTest) {
+            switch (ts.specificTest) {
+                case "REACTION":
+                    ts.program.step = 1;
+                    break;
+                case "NUMBERREACTION":
+                    ts.program.step = 2;
+                    break;
+                case "CHARACTERREACTION":
+                    ts.program.step = 4;
+                    break;
+                case "TASKSWITCHING":
+                    ts.program.step = 6;
+                    break;
+            }
+        }
+
+        switch (ts.program.step) {
+            case 1:
+                ts.config.elementVisibleInMs = 1950;
+                // 1. reaction test
+                ts.config.loadTestSet("REACTION",
+                        "Reaction test: press 'x' or 'n' when you see a character-number -combination.<br/><br/>Press spacebar to start.",
+                        "Awesome! RT is your average reaction time. Next, let us practice number reactions.",
+                        "static/data/reaction-data.json");
+                ts.program.initializeTest("game");
+                break;
+            case 2:
+                // override any configuration that was possibly induced in the previous step
+                ts.config.pauseBeforeFirstShow = 2500;
+                ts.config.pauseAfterWrongAnswerInMs = 1500;
+                ts.config.pauseAfterCorrectAnswerInMs = 150;
+                ts.config.elementVisibleInMs = 2540;
+
+                // 2. practice run, top row (min 1, max 3 times)
+                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
+                ts.config.loadPracticeTest("NUMBERREACTION",
+                        "Number reaction test (practice): observe the top row.<br/>When the number in the character-number -pair is odd, press 'x'.<br/>Press 'n' when the number is even.<br/><br/>Press spacebar to start.",
+                        "Well done! Get ready for the next test.");
+                ts.program.initializeTest("practice");
+                break;
+            case 3:
+                // 3. game top row
+                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
+                ts.config.loadTestSet("NUMBERREACTION",
+                        "Number reaction test: observe the top row.<br/>When the number in the character-number -pair is odd, press 'x'.<br/>Press 'n' when the number is even.<br/><br/>Press spacebar to start.",
+                        "Well done! Get ready for the next test.",
+                        "static/data/numberreaction-data.json");
+                ts.program.initializeTest("game");
+                break;
+            case 4:
+                // 4. practice run, bottom row (min 1, max 3 times)
+                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
+                ts.config.loadPracticeTest("CHARACTERREACTION",
+                        "Character reaction (practice) test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'x'.<br/>Press 'n' when the character is a vowel.<br/><br/>Press spacebar to start.",
+                        "Well done! Get ready for the next test.");
+                ts.program.initializeTest("practice");
+                break;
+            case 5:
+                // 5. game bottom row
+                $("#guide").html("Kapow! Getting the character reaction test ready.....");
+                ts.config.loadTestSet("CHARACTERREACTION",
+                        "Character reaction test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'x'.<br/>Press 'n' when the character is a vowel.<br/><br/>Press spacebar to start.",
+                        "Well done! Get ready for the next test.",
+                        "static/data/characterreaction-data.json");
+                ts.program.initializeTest("game");
+                break;
+            case 6:
+                // 6. practice task switching (min 1, max 3 times)
+                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
+                ts.config.loadPracticeTest("TASKSWITCHING",
+                        "Let's practice combining the previous ones!<br/>If the character-number pair appears in top, press 'x' for odd numbers, 'n' for even numbers.<br/>When the pair appears in the bottom, press 'x' for consonant, and 'n' for vowel.<br/><br/>Press spacebar to start.",
+                        "All right! Let's focus on the major event!");
+                ts.program.initializeTest("practice");
+                break;
+            case 7:
+                // 7. game task switching
+                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
+                ts.config.loadTestSet(
+                        "TASKSWITCHING",
+                        "Let's combine the previous ones!<br/>If the character-number pair appears in top, press 'x' for odd numbers, 'n' for even numbers.<br/>When the pair appears in the bottom, press 'x' for consonant, and 'n' for vowel.<br/><br/>Press spacebar to start.",
+                        "Awesome work! Thanks a bunch for helping us out!",
+                        "static/data/taskswitching-data.json");
+                ts.program.initializeTest("game");
+                break;
+        }
+    },
+    initializeTest: function(testType) {
+        ts.program.initVars(testType);
+
+        $("#taskSwitchingResult").hide();
 
         // init binds keys for functions -- only during first round
         // 
@@ -55,57 +143,17 @@ ts.program = {
             ts.program.keysBound = true;
         }
 
-
         ts.program.startNextTest();
     },
-    startNextTest: function() {        
+    startNextTest: function() {
+        console.log("starting test");
         ts.program.lastShowTime = TOO_EARLY;
         ts.program.currentDataElement = 0;
-        ts.program.currentTestIndex++;
 
         // get current test
-        ts.program.currentTest = ts.tests[ts.program.currentTestIndex];
+        ts.program.currentTest = ts.tests[0];
 
-        if (ts.specificTest) {
-            while (ts.program.currentTest.testType !== ts.specificTest) {
-                ts.program.currentTestIndex++;
-                if (ts.program.currentTestIndex >= ts.tests.length) {
-                    break;
-                }
-
-                ts.program.currentTest = ts.tests[ts.program.currentTestIndex];
-            }
-        }
-        
-        if (ts.program.currentTestIndex >= ts.tests.length) {
-            if(ts.program.testType === "practice") {
-                ts.program.testTypeCounts[ts.program.testType]++;
-                
-                if(ts.program.testTypeCounts[ts.program.testType] > 3) {
-                    // GIVE OPTION TO PLAY WHEN WILL
-                    $("#guide").html("Great work! You are now ready to play!<br/>Press space when you are ready.");
-                    $(document).one('keydown', function(e) {
-                        $("#result").hide();
-                        ts.program.init("game");
-                    });
-                } else {
-                    $("#guide").html("Great work! If you want, you can still practice a bit.<br/>Press space to practice, any other key will forward you to the test!");
-                    $(document).one('keydown', function(e) {
-                        $("#result").hide();
-                        if (e.keyCode === 0 || e.keyCode === 32) {
-                            ts.program.init("practice");
-                        } else {
-                            ts.program.init("game");
-                        }
-                    });
-                }               
-                
-            } else {
-                ts.ui.testsFinished(ts.config.endText);
-            }
-            return;
-        }
-
+        console.log("Requesting list id..")
         var listId = ts.fn.getNextListId($("#participant-id").val(), ts.program.currentTest.testType, ts.program.testType);
         console.log(ts.program.currentTest);
         ts.program.currentTestData = ts.program.currentTest.elements[(listId % ts.program.currentTest.elements.length)];
@@ -113,14 +161,19 @@ ts.program = {
         // init result variables
         var participant = {};
         participant.username = $("#participant-id").val();
+        console.log("participant username: " + participant.username);
 
         ts.result = new ResultObject(listId, ts.program.currentTest.testType, ts.program.testType, participant);
+        console.log("new result object created");
 
+        console.log("showing start text and waiting for space press.");
         ts.ui.init(ts.program.currentTest.startText);
         // program will start once user presses space
         ts.program.bindSpace();
     },
     bindSpace: function() {
+        console.log("waiting for space press (should be sync?)");
+        // fix here
         $(document).one('keydown', function(e) {
             ts.program.handleSpace(e);
         });
@@ -140,12 +193,9 @@ ts.program = {
         ts.result.setStartTime();
 
         ts.program.clear();
-        // call the function showNext after a pre-configured pause
+        // call the function showNext after a pre-configured pause        
         ts.program.currentTimeoutVariable
                 = setTimeout(ts.program.show, ts.config.pauseBeforeFirstShow);
-
-        // could also config to show a pre-defined screen, and
-        // switch away after a specific event
     },
     show: function() {
         ts.program.clear();
@@ -176,7 +226,8 @@ ts.program = {
     },
     hideAndWaitForNext: function(answerCorrect) {
         if (!answerCorrect && ts.program.lastShowTime > 0) {
-            // timed out!
+            // timed out! -- did we?
+            ts.program.lastReactionTime = null;
             ts.result.addReactionInformation({
                 index: ts.program.currentDataElement,
                 showTime: ts.program.lastShowTime,
@@ -192,7 +243,8 @@ ts.program = {
 
         ts.program.currentDataElement++;
 
-        if (ts.program.currentDataElement >= ts.program.currentTestData.length) {
+        // if test is done, go for the next test
+        if (ts.program.currentDataElement >= ts.program.currentTestData.length || (ts.limitReactions && ts.program.currentDataElement >= 3)) {
             ts.program.nextTestOrEnd();
             return;
         }
@@ -206,6 +258,12 @@ ts.program = {
             var element = ts.program.currentTestData[ts.program.currentDataElement];
             if (element.waitForMs) {
                 waitTime = element.waitForMs;
+
+                if (ts.program.lastReactionTime !== null) {
+                    waitTime -= ts.program.lastReactionTime;
+                }
+
+                console.log("Will wait " + waitTime);
             }
         } finally {
 
@@ -233,7 +291,7 @@ ts.program = {
         console.log("Last show time: " + ts.program.lastShowTime);
 
         if (ts.program.lastShowTime === TOO_EARLY || ts.program.lastShowTime === TOO_LATE) {
-            ts.program.additionalPress("PRESS_OUTSIDE_TIMEFRAME:"+answer);
+            ts.program.additionalPress("PRESS_OUTSIDE_TIMEFRAME:" + answer);
             return;
         }
 
@@ -265,16 +323,19 @@ ts.program = {
             elementType: elementType
         });
 
+        ts.program.lastReactionTime = (currentTime - elementShowTime);
+        console.log("Last reaction time: " + ts.program.lastReactionTime);
         ts.program.hideAndWaitForNext(answerWasCorrect);
     },
     nextTestOrEnd: function() {
+        ts.program.testTypeCounts++;
         ts.result.testEndTime = ts.time();
         console.log("Thx!");
         ts.program.lastShowTime = TOO_LATE;
         ts.program.clear();
 
         ts.ui.showGuideText(ts.program.currentTest.endText);
-        
+
 
         console.log(JSON.stringify(ts.result));
         ts.program.submitResults(function(response) {
@@ -285,10 +346,38 @@ ts.program = {
             }
         });
 
+        // if we've been practicing, give an option to do something else for
+        // a while
+        if (ts.program.testType === "practice") {
+            if (ts.program.testTypeCounts >= 3) {
+                // we've practiced over 3 times; time for the next test
+                ts.program.init();
+                return;
+            }
+
+            // less than or eq to 2 practice times
+            $("#guide").html("Great work! If you want, you can still practice a bit.<br/>Press space to practice, any other key will forward you to the test!");
+            $(document).one('keydown', function(e) {
+                $("#result").hide();
+                if (e.keyCode === 0 || e.keyCode === 32) {
+                    // space
+                    ts.program.startNextTest();
+                } else {
+                    // any key
+                    ts.program.init();
+                }
+            });
+            return;
+        }
+
+        // we were not practicing, lets init the next step
+        ts.program.init();
+
+
         // wait for next test if applicable
-        setTimeout(function() {
-            ts.program.startNextTest();
-        }, ts.config.pauseBetweenTests);
+//        setTimeout(function() {
+//            ts.program.startNextTest();
+//        }, ts.config.pauseBetweenTests);
     },
     submitResults: function(successFunction) {
         console.log("submitting results to backend!");

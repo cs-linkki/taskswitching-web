@@ -12,10 +12,12 @@
     
     <security:http use-expressions="true" entry-point-ref="authenticationEntryPoint">
         <security:intercept-url pattern="/index.html" access="permitAll" />
-        <security:intercept-url pattern="/app/login" access="permitAll"/>
+        <security:intercept-url pattern="/app/login" access="permitAll" />
+        <security:intercept-url pattern="/app/auth*" access="permitAll" />
+        <security:intercept-url pattern="/app/form*" access="permitAll" />
+        <security:intercept-url pattern="/app/test" access="permitAll"/>
         
         <security:intercept-url pattern="/game.html" access="hasRole('ROLE_USER')" />
-        <security:intercept-url pattern="/app/test" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/app/result" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/app/listcount" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/results.html" access="hasRole('ROLE_USER')"/>        
