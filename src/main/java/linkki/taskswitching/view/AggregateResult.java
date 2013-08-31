@@ -12,6 +12,7 @@ public class AggregateResult {
 
     private int participantId;
     private String testType;
+    private String info;
     private double hitsPercentage;
     private double reactionTime;
     private int hitsOutsideTimespan;
@@ -33,6 +34,14 @@ public class AggregateResult {
 
     public void setParticipantId(int participantId) {
         this.participantId = participantId;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public String getTestType() {

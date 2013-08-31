@@ -43,6 +43,7 @@ public class AggregateResultService {
         }
 
         aggregateResult.setParticipantId(result.getParticipant().getId());
+        aggregateResult.setInfo(result.getInfo());
         aggregateResult.setTestType(result.getTestType());
         aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
         aggregateResult.setReactionTime(Math.round(reactionTime / correct));
@@ -70,6 +71,7 @@ public class AggregateResultService {
         }
 
         aggregateResult.setParticipantId(result.getParticipant().getId());
+        aggregateResult.setInfo(result.getInfo());
         aggregateResult.setTestType(result.getTestType());
         aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
         aggregateResult.setReactionTime(Math.round(reactionTime / correct));
@@ -102,6 +104,7 @@ public class AggregateResultService {
         }
 
         aggregateResult.setParticipantId(result.getParticipant().getId());
+        aggregateResult.setInfo(result.getInfo());
         aggregateResult.setTestType(result.getTestType());
         aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
         aggregateResult.setReactionTime(Math.round(reactionTime / correct));
