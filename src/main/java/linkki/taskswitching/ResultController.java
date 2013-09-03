@@ -32,9 +32,11 @@ public class ResultController {
         if(SecurityContextHolder.getContext().getAuthentication() != null 
                 && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {     
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            result.getParticipant().setUsername(username);
+            if (username != null) {
+                result.getParticipant().setUsername(username);
+            }
         }
-        
+
         result.setParticipant(participantRepository.findByUsername(result.getParticipant().getUsername()));
         
         resultService.save(result);

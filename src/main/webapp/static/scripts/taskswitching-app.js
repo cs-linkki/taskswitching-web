@@ -193,9 +193,22 @@ ts.program = {
         ts.result.setStartTime();
 
         ts.program.clear();
-        // call the function showNext after a pre-configured pause        
+        // call the function showNext after a pre-configured pause
+        var waitTime = ts.config.pauseBeforeFirstShow;
+        
+        var element = ts.program.currentTestData[ts.program.currentDataElement];
+        if (element.waitForMs) {
+            waitTime = element.waitForMs;
+
+            if (ts.program.lastReactionTime !== null) {
+                waitTime -= ts.program.lastReactionTime;
+            }
+
+            console.log("Will wait " + waitTime);
+        }
+        
         ts.program.currentTimeoutVariable
-                = setTimeout(ts.program.show, ts.config.pauseBeforeFirstShow);
+                = setTimeout(ts.program.show, waitTime);
     },
     show: function() {
         ts.program.clear();
@@ -224,9 +237,8 @@ ts.program = {
 
         ts.ui.showContent(data.location, content);
     },
-    hideAndWaitForNext: function(answerCorrect) {
-        if (!answerCorrect && ts.program.lastShowTime > 0) {
-            // timed out! -- did we?
+    hideAndWaitForNext: function(didReact, wasCorrect) {
+        if (!didReact && ts.program.lastShowTime > 0) {
             ts.program.lastReactionTime = null;
             ts.result.addReactionInformation({
                 index: ts.program.currentDataElement,
@@ -250,7 +262,7 @@ ts.program = {
         }
 
         var waitTime = ts.config.pauseAfterWrongAnswerInMs;
-        if (answerCorrect) {
+        if (wasCorrect) {
             waitTime = ts.config.pauseAfterCorrectAnswerInMs;
         }
 
@@ -325,7 +337,7 @@ ts.program = {
 
         ts.program.lastReactionTime = (currentTime - elementShowTime);
         console.log("Last reaction time: " + ts.program.lastReactionTime);
-        ts.program.hideAndWaitForNext(answerWasCorrect);
+        ts.program.hideAndWaitForNext(true, answerWasCorrect); // if we are here, we have always reacted
     },
     nextTestOrEnd: function() {
         ts.program.testTypeCounts++;

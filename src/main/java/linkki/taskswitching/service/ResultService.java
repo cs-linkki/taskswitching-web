@@ -20,6 +20,10 @@ public class ResultService {
 
     @Transactional(readOnly = false)
     public void save(TestResult result) {
+        if(result.getParticipant() == null || result.getParticipant().getUsername() == null) {
+            return;
+        }
+        
         Participant p = participantRepository.findByUsername(result.getParticipant().getUsername());
         result.setParticipant(p);
         resultRepository.save(result);

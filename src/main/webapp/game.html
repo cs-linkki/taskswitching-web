@@ -58,6 +58,19 @@
         <script src="static/conf/taskswitching-config.js"></script>
 
         <script>
+            var waitForSpace = function() {
+                console.log("waiting for space");
+                
+                $(document).one('keydown', function(e) {
+                    if (e.which === 32) {
+                        $("#guide").hide();
+                        ts.program.init();
+                    } else {
+                        waitForSpace();
+                    }
+                });
+            }
+
             $(document).ready(function() {
 
                 $.ajax({
@@ -72,10 +85,7 @@
 
                 $("#info").show();
 
-                $(document).one('keydown', function(e) {
-                    $("#guide").hide();
-                    ts.program.init();
-                });
+                waitForSpace();
             });
         </script>
     </body>

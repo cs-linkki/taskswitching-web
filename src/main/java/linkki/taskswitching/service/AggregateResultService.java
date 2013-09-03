@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AggregateResultService {
+    
 
     public AggregateResult calculateResult(TestResult result) {
         switch (result.getTestType()) {

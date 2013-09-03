@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package linkki.taskswitching.view;
 
-/**
- *
- * @author arto
- */
+import java.text.DecimalFormat;
+
 public class AggregateResult {
+    private static final DecimalFormat DF = new DecimalFormat("#.##");
 
     private int participantId;
     private String testType;
@@ -52,16 +47,16 @@ public class AggregateResult {
         this.testType = testType;
     }
 
-    public double getHitsPercentage() {
-        return hitsPercentage;
+    public String getHitsPercentage() {
+        return DF.format(hitsPercentage);
     }
 
     public void setHitsPercentage(double hitsPercentage) {
         this.hitsPercentage = hitsPercentage;
     }
 
-    public double getReactionTime() {
-        return reactionTime;
+    public String getReactionTime() {
+        return DF.format(reactionTime);
     }
 
     public void setReactionTime(double reactionTime) {
@@ -76,32 +71,32 @@ public class AggregateResult {
         this.hitsOutsideTimespan = hitsOutsideTimespan;
     }
 
-    public double getHitsRepeated() {
-        return hitsRepeated;
+    public String getHitsRepeated() {
+        return DF.format(hitsRepeated);
     }
 
     public void setHitsRepeated(double hitsRepeated) {
         this.hitsRepeated = hitsRepeated;
     }
 
-    public double getHitsChanged() {
-        return hitsChanged;
+    public String getHitsChanged() {
+        return DF.format(hitsChanged);
     }
 
     public void setHitsChanged(double hitsChanged) {
         this.hitsChanged = hitsChanged;
     }
 
-    public double getRepeatedReactionTime() {
-        return repeatedReactionTime;
+    public String getRepeatedReactionTime() {
+        return DF.format(repeatedReactionTime);
     }
 
     public void setRepeatedReactionTime(double repeatedReactionTime) {
         this.repeatedReactionTime = repeatedReactionTime;
     }
 
-    public double getChangedReactionTime() {
-        return changedReactionTime;
+    public String getChangedReactionTime() {
+        return DF.format(changedReactionTime);
     }
 
     public void setChangedReactionTime(double changedReactionTime) {
