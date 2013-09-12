@@ -38,6 +38,10 @@ public class AggregateResultService {
             if (reaction.getPressedTime() == null) {
                 continue;
             }
+            
+            if(reaction.getReactionTimeInMs() < 40) {
+                continue;
+            }
 
             reactionTime += reaction.getReactionTimeInMs();
             correct++;
@@ -64,6 +68,10 @@ public class AggregateResultService {
         double reactionTime = 0;
         for (Reaction reaction : result.getReactions()) {
             if (reaction.getCorrect() == null || !reaction.getCorrect()) {
+                continue;
+            }
+            
+            if(reaction.getReactionTimeInMs() < 40) {
                 continue;
             }
 
@@ -97,6 +105,10 @@ public class AggregateResultService {
         double reactionTime = 0;
         for (Reaction reaction : result.getReactions()) {
             if (reaction.getCorrect() == null || !reaction.getCorrect()) {
+                continue;
+            }
+            
+            if(reaction.getReactionTimeInMs() < 40) {
                 continue;
             }
 

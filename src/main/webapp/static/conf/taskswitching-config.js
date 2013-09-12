@@ -24,7 +24,7 @@ ts.config.pauseAfterWrongAnswerInMs = 1500;
 ts.config.pauseAfterCorrectAnswerInMs = 150;
 
 // how long to show an element in milliseconds
-ts.config.elementVisibleInMs = 2540;
+ts.config.elementVisibleInMs = 2500;
 
 // pause between tests
 ts.config.pauseBetweenTests = 5000;
