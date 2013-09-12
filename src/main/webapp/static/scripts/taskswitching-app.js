@@ -27,10 +27,6 @@ ts.program = {
 
         ts.program.step++;
 
-        console.log("");
-        console.log("Current step: " + ts.program.step);
-        console.log("");
-
         if (ts.specificTest) {
             switch (ts.specificTest) {
                 case "REACTION":
@@ -53,8 +49,8 @@ ts.program = {
                 ts.config.elementVisibleInMs = 1950;
                 // 1. reaction test
                 ts.config.loadTestSet("REACTION",
-                        "Reaction test: press 'x' or 'n' when you see a character-number -combination.<br/><br/>Press spacebar to start.",
-                        "Awesome! RT is your average reaction time. Next, let us practice number reactions.",
+                        ts.texts.REACTION_TEST_START_TEXT,
+                        ts.texts.REACTION_TEST_END_TEXT,
                         "static/data/reaction-data.json");
                 ts.program.initializeTest("game");
                 break;
@@ -68,16 +64,16 @@ ts.program = {
                 // 2. practice run, top row (min 1, max 3 times)
                 $("#guide").html("Great work! You are now ready to play! Wait a moment...");
                 ts.config.loadPracticeTest("NUMBERREACTION",
-                        "Number reaction test (practice): observe the top row.<br/>When the number in the character-number -pair is odd, press 'x'.<br/>Press 'n' when the number is even.<br/><br/>Press spacebar to start.",
-                        "Well done! Get ready for the next test.");
+                        ts.texts.NUMBERTASK_PRACTICE_START_TEXT,
+                        ts.texts.NUMBERTASK_PRACTICE_END_TEXT);
                 ts.program.initializeTest("practice");
                 break;
             case 3:
                 // 3. game top row
                 $("#guide").html("Great work! You are now ready to play! Wait a moment...");
                 ts.config.loadTestSet("NUMBERREACTION",
-                        "Number reaction test: observe the top row.<br/>When the number in the character-number -pair is odd, press 'x'.<br/>Press 'n' when the number is even.<br/><br/>Press spacebar to start.",
-                        "Well done! Get ready for the next test.",
+                        ts.texts.NUMBERTASK_START_TEXT,
+                        ts.texts.NUMBERTASK_END_TEXT,
                         "static/data/numberreaction-data.json");
                 ts.program.initializeTest("game");
                 break;
@@ -85,16 +81,16 @@ ts.program = {
                 // 4. practice run, bottom row (min 1, max 3 times)
                 $("#guide").html("Great work! You are now ready to play! Wait a moment...");
                 ts.config.loadPracticeTest("CHARACTERREACTION",
-                        "Character reaction (practice) test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'x'.<br/>Press 'n' when the character is a vowel.<br/><br/>Press spacebar to start.",
-                        "Well done! Get ready for the next test.");
+                        ts.texts.CHARACTERTASK_PRACTICE_START_TEXT,
+                        ts.texts.CHARACTERTASK_PRACTICE_END_TEXT);
                 ts.program.initializeTest("practice");
                 break;
             case 5:
                 // 5. game bottom row
                 $("#guide").html("Kapow! Getting the character reaction test ready.....");
                 ts.config.loadTestSet("CHARACTERREACTION",
-                        "Character reaction test: observe the bottom row.<br/>When the character in the character-number -pair is a consonant, press 'x'.<br/>Press 'n' when the character is a vowel.<br/><br/>Press spacebar to start.",
-                        "Well done! Get ready for the next test.",
+                        ts.texts.CHARACTERTASK_START_TEXT,
+                        ts.texts.CHARACTERTASK_END_TEXT,
                         "static/data/characterreaction-data.json");
                 ts.program.initializeTest("game");
                 break;
@@ -102,8 +98,8 @@ ts.program = {
                 // 6. practice task switching (min 1, max 3 times)
                 $("#guide").html("Great work! You are now ready to play! Wait a moment...");
                 ts.config.loadPracticeTest("TASKSWITCHING",
-                        "Let's practice combining the previous ones!<br/>If the character-number pair appears in top, press 'x' for odd numbers, 'n' for even numbers.<br/>When the pair appears in the bottom, press 'x' for consonant, and 'n' for vowel.<br/><br/>Press spacebar to start.",
-                        "All right! Let's focus on the major event!");
+                        ts.texts.TASKSWITCHING_PRACTICE_START_TEXT,
+                        ts.texts.TASKSWITCHING_PRACTICE_END_TEXT);
                 ts.program.initializeTest("practice");
                 break;
             case 7:
@@ -111,8 +107,8 @@ ts.program = {
                 $("#guide").html("Great work! You are now ready to play! Wait a moment...");
                 ts.config.loadTestSet(
                         "TASKSWITCHING",
-                        "Let's combine the previous ones!<br/>If the character-number pair appears in top, press 'x' for odd numbers, 'n' for even numbers.<br/>When the pair appears in the bottom, press 'x' for consonant, and 'n' for vowel.<br/><br/>Press spacebar to start.",
-                        "Awesome work! Thanks a bunch for helping us out!",
+                        ts.texts.TASKSWITCHING_START_TEXT,
+                        ts.texts.TASKSWITCHING_END_TEXT,
                         "static/data/taskswitching-data.json");
                 ts.program.initializeTest("game");
                 break;
@@ -146,33 +142,26 @@ ts.program = {
         ts.program.startNextTest();
     },
     startNextTest: function() {
-        console.log("starting test");
         ts.program.lastShowTime = TOO_EARLY;
         ts.program.currentDataElement = 0;
 
         // get current test
         ts.program.currentTest = ts.tests[0];
 
-        console.log("Requesting list id..")
         var listId = ts.fn.getNextListId($("#participant-id").val(), ts.program.currentTest.testType, ts.program.testType);
-        console.log(ts.program.currentTest);
         ts.program.currentTestData = ts.program.currentTest.elements[(listId % ts.program.currentTest.elements.length)];
 
         // init result variables
         var participant = {};
         participant.username = $("#participant-id").val();
-        console.log("participant username: " + participant.username);
 
         ts.result = new ResultObject(listId, ts.program.currentTest.testType, ts.program.testType, participant);
-        console.log("new result object created");
 
-        console.log("showing start text and waiting for space press.");
         ts.ui.init(ts.program.currentTest.startText);
         // program will start once user presses space
         ts.program.bindSpace();
     },
     bindSpace: function() {
-        console.log("waiting for space press (should be sync?)");
         // fix here
         $(document).one('keydown', function(e) {
             ts.program.handleSpace(e);
@@ -188,8 +177,6 @@ ts.program = {
         ts.program.start();
     },
     start: function() {
-        console.log("starting");
-
         ts.result.setStartTime();
 
         ts.program.clear();
@@ -203,8 +190,6 @@ ts.program = {
             if (ts.program.lastReactionTime !== null) {
                 waitTime -= ts.program.lastReactionTime;
             }
-
-            console.log("Will wait " + waitTime);
         }
         
         ts.program.currentTimeoutVariable
@@ -274,8 +259,6 @@ ts.program = {
                 if (ts.program.lastReactionTime !== null) {
                     waitTime -= ts.program.lastReactionTime;
                 }
-
-                console.log("Will wait " + waitTime);
             }
         } finally {
 
@@ -300,8 +283,6 @@ ts.program = {
         }
     },
     pressed: function(answer) {
-        console.log("Last show time: " + ts.program.lastShowTime);
-
         if (ts.program.lastShowTime === TOO_EARLY || ts.program.lastShowTime === TOO_LATE) {
             ts.program.additionalPress("PRESS_OUTSIDE_TIMEFRAME:" + answer);
             return;
@@ -336,20 +317,16 @@ ts.program = {
         });
 
         ts.program.lastReactionTime = (currentTime - elementShowTime);
-        console.log("Last reaction time: " + ts.program.lastReactionTime);
         ts.program.hideAndWaitForNext(true, answerWasCorrect); // if we are here, we have always reacted
     },
     nextTestOrEnd: function() {
         ts.program.testTypeCounts++;
         ts.result.testEndTime = ts.time();
-        console.log("Thx!");
         ts.program.lastShowTime = TOO_LATE;
         ts.program.clear();
 
         ts.ui.showGuideText(ts.program.currentTest.endText);
 
-
-        console.log(JSON.stringify(ts.result));
         ts.program.submitResults(function(response) {
             ts.ui.showBasicStats(response);
 
@@ -366,9 +343,20 @@ ts.program = {
                 ts.program.init();
                 return;
             }
+            
+            var practiceAttemptsLeftText = "";
+            if (ts.result.testType === "TASKSWITCHING") {
+               practiceAttemptsLeftText = ts.texts.TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT;
+            } else if (ts.result.testType === "NUMBERREACTION") {
+                practiceAttemptsLeftText = ts.texts.NUMBERTASK_PRACTICE_ATTEMPTS_LEFT;
+            } else if (ts.result.testType === "CHARACTERREACTION") {
+                practiceAttemptsLeftText = ts.texts.CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT;
+            } else {
+                console.log("WHAAAAAAAAAAAAAAAAAAAAAAAAAT?");
+            }
 
             // less than or eq to 2 practice times
-            $("#guide").html("Great work! If you want, you can still practice a bit.<br/>Press space to practice, any other key will forward you to the test!");
+            $("#guide").html(practiceAttemptsLeftText);
             $(document).one('keydown', function(e) {
                 $("#result").hide();
                 if (e.keyCode === 0 || e.keyCode === 32) {
@@ -392,9 +380,7 @@ ts.program = {
 //        }, ts.config.pauseBetweenTests);
     },
     submitResults: function(successFunction) {
-        console.log("submitting results to backend!");
         var data = JSON.stringify(ts.result);
-        console.log("data to send: " + data);
         $.ajax({
             type: "POST",
             url: ts.config.backendResultAddress,
@@ -434,7 +420,6 @@ ts.fn.createTest = function(testType, startText, endText, elements) {
 };
 
 ts.fn.getNextListId = function(username, testType, info) {
-    console.log("requesting next list id with list info: " + info);
     var result;
     $.ajax({
         type: "GET",
