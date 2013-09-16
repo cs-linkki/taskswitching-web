@@ -49,7 +49,7 @@ ENGLISH_TEXTS = {
     TASKSWITCHING_PRACTICE_END_TEXT: "TODO: TEXT",
     TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practice by pressing spacebar.<br/><br/>If you want to continue straight to the test, press 'x' or 'n'.<br/><br/>Remember:<br/>On the top row, even = 'n', odd = 'x'.<br/>On the bottom row, vowel = 'n', consonant = 'x'.",
     TASKSWITCHING_START_TEXT: "Remember:<br/>On the top row, even = 'n', odd = 'x'.<br/>On the bottom row, vowel = 'n', consonant = 'x'.<br/><br/>Press space to start.",
-    TASKSWITCHING_END_TEXT: "TODO: TEXT",
+    TASKSWITCHING_END_TEXT: "Thank you for participating!",
 };
 
 ts.texts = ENGLISH_TEXTS;
