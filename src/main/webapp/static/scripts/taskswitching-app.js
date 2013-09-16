@@ -325,6 +325,7 @@ ts.program = {
         ts.program.lastShowTime = TOO_LATE;
         ts.program.clear();
 
+        // not really shown for long
         ts.ui.showGuideText(ts.program.currentTest.endText);
 
         ts.program.submitResults(function(response) {
