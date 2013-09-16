@@ -36,7 +36,7 @@ ENGLISH_TEXTS = {
     NUMBERTASK_PRACTICE_START_TEXT: "Number task practice: Please observe the top row<br/><br/>When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
     NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practice.<br/><br/>Press spacebar to practice.<br/><br/>If you want to continue straight to the task, press 'x' or 'n'.",
-    NUMBERTASK_START_TEXT: "<br/><br/>Remember: When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Press spacebar to start.",,
+    NUMBERTASK_START_TEXT: "Remember: When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Press spacebar to start.",
     NUMBERTASK_END_TEXT: "TODO: TEXT",
 
     CHARACTERTASK_PRACTICE_START_TEXT: "Letter task: Please observe the bottom row.<br/><br/>When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start.",
