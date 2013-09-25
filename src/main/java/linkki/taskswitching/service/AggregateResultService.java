@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AggregateResultService {
-    
 
     public AggregateResult calculateResult(TestResult result) {
         switch (result.getTestType()) {
@@ -35,23 +34,32 @@ public class AggregateResultService {
         double correct = 0;
         double reactionTime = 0;
         for (Reaction reaction : result.getReactions()) {
-            if (reaction.getPressedTime() == null) {
-                continue;
-            }
-            
-            if(reaction.getReactionTimeInMs() < 40) {
+            if (reaction.getKeyPressTime() == null) {
                 continue;
             }
 
-            reactionTime += reaction.getReactionTimeInMs();
+            double stimulusVisible = reaction.getKeyPressTime() - reaction.getShowTime();
+            if (stimulusVisible < 40) {
+                continue;
+            }
+
+            reactionTime += stimulusVisible;
             correct++;
         }
 
         aggregateResult.setParticipantId(result.getParticipant().getId());
         aggregateResult.setInfo(result.getInfo());
         aggregateResult.setTestType(result.getTestType());
-        aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
-        aggregateResult.setReactionTime(Math.round(reactionTime / correct));
+        if (result.getReactions().isEmpty()) {
+            aggregateResult.setHitsPercentage(0);
+        } else {
+            aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
+        }
+        if (correct == 0) {
+            aggregateResult.setReactionTime(0);
+        } else {
+            aggregateResult.setReactionTime(Math.round(reactionTime / correct));
+        }
         aggregateResult.setHitsOutsideTimespan(result.getAdditionalKeyPresses().size());
 
         return aggregateResult;
@@ -70,20 +78,29 @@ public class AggregateResultService {
             if (reaction.getCorrect() == null || !reaction.getCorrect()) {
                 continue;
             }
-            
-            if(reaction.getReactionTimeInMs() < 40) {
+
+            double stimulusVisible = reaction.getKeyPressTime() - reaction.getShowTime();
+            if (stimulusVisible < 40) {
                 continue;
             }
 
-            reactionTime += reaction.getReactionTimeInMs();
+            reactionTime += stimulusVisible;
             correct++;
         }
 
         aggregateResult.setParticipantId(result.getParticipant().getId());
         aggregateResult.setInfo(result.getInfo());
         aggregateResult.setTestType(result.getTestType());
-        aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
-        aggregateResult.setReactionTime(Math.round(reactionTime / correct));
+        if (result.getReactions().isEmpty()) {
+            aggregateResult.setHitsPercentage(0);
+        } else {
+            aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
+        }
+        if (correct == 0) {
+            aggregateResult.setReactionTime(0);
+        } else {
+            aggregateResult.setReactionTime(Math.round(reactionTime / correct));
+        }
         aggregateResult.setHitsOutsideTimespan(result.getAdditionalKeyPresses().size());
 
         return aggregateResult;
@@ -107,20 +124,29 @@ public class AggregateResultService {
             if (reaction.getCorrect() == null || !reaction.getCorrect()) {
                 continue;
             }
-            
-            if(reaction.getReactionTimeInMs() < 40) {
+
+            double stimulusVisible = reaction.getKeyPressTime() - reaction.getShowTime();
+            if (stimulusVisible < 40) {
                 continue;
             }
 
-            reactionTime += reaction.getReactionTimeInMs();
+            reactionTime += stimulusVisible;
             correct++;
         }
 
         aggregateResult.setParticipantId(result.getParticipant().getId());
         aggregateResult.setInfo(result.getInfo());
         aggregateResult.setTestType(result.getTestType());
-        aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
-        aggregateResult.setReactionTime(Math.round(reactionTime / correct));
+        if (result.getReactions().isEmpty()) {
+            aggregateResult.setHitsPercentage(0);
+        } else {
+            aggregateResult.setHitsPercentage(100.0 * correct / result.getReactions().size());
+        }
+        if (correct == 0) {
+            aggregateResult.setReactionTime(0);
+        } else {
+            aggregateResult.setReactionTime(Math.round(reactionTime / correct));
+        }
         aggregateResult.setHitsOutsideTimespan(result.getAdditionalKeyPresses().size());
 
         addRepeatedAggregateResults(result, aggregateResult);
@@ -147,12 +173,22 @@ public class AggregateResultService {
                 continue;
             }
 
-            reactionTime += reaction.getReactionTimeInMs();
+            double stimulusVisible = reaction.getKeyPressTime() - reaction.getShowTime();
+            reactionTime += stimulusVisible;
             correct++;
         }
 
-        aggregateResult.setHitsRepeated(100.0 * correct / count);
-        aggregateResult.setRepeatedReactionTime(reactionTime / correct);
+        if (count == 0) {
+            aggregateResult.setHitsRepeated(0);
+        } else {
+            aggregateResult.setHitsRepeated(100.0 * correct / count);
+        }
+
+        if (correct == 0) {
+            aggregateResult.setRepeatedReactionTime(0);
+        } else {
+            aggregateResult.setRepeatedReactionTime(reactionTime / correct);
+        }
     }
 
     private void addChangedAggregateResults(TestResult result, AggregateResult aggregateResult) {
@@ -173,11 +209,22 @@ public class AggregateResultService {
                 continue;
             }
 
-            reactionTime += reaction.getReactionTimeInMs();
+            double stimulusVisible = reaction.getKeyPressTime() - reaction.getShowTime();
+            reactionTime += stimulusVisible;
             correct++;
         }
 
-        aggregateResult.setHitsChanged(100.0 * correct / count);
-        aggregateResult.setChangedReactionTime(reactionTime / correct);
+
+        if (count == 0) {
+            aggregateResult.setHitsRepeated(0);
+        } else {
+            aggregateResult.setHitsRepeated(100.0 * correct / count);
+        }
+
+        if (correct == 0) {
+            aggregateResult.setRepeatedReactionTime(0);
+        } else {
+            aggregateResult.setRepeatedReactionTime(reactionTime / correct);
+        }
     }
 }

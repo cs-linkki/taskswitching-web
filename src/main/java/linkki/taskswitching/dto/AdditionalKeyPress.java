@@ -7,34 +7,34 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class AdditionalKeyPress extends AbstractPersistable<Long> implements Serializable {
 
-    private Long lastIndex;
-    private String keyPressed;
+    private Long stimulantIndex;
+    private String keyPress;
     private Double keyPressTime;
 
     public AdditionalKeyPress() {
     }
 
-    public Long getLastIndex() {
-        return lastIndex;
+    public Long getStimulantIndex() {
+        return stimulantIndex;
     }
 
-    public void setLastIndex(Long lastIndex) {
-        this.lastIndex = lastIndex;
+    public void setStimulantIndex(Long stimulantIndex) {
+        this.stimulantIndex = stimulantIndex;
     }
 
-    public String getKey() {
-        return keyPressed;
+    public String getKeyPress() {
+        return keyPress;
     }
 
-    public void setKey(String key) {
-        this.keyPressed = key;
+    public void setKeyPress(String keyPress) {
+        this.keyPress = keyPress;
     }
 
-    public Double getTime() {
+    public Double getKeyPressTime() {
         return keyPressTime;
     }
 
-    public void setTime(Double time) {
-        this.keyPressTime = time;
+    public void setKeyPressTime(Double keyPressTime) {
+        this.keyPressTime = keyPressTime;
     }
 }

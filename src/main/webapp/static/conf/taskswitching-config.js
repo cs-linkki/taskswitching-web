@@ -30,24 +30,24 @@ ts.config.elementVisibleInMs = 2500;
 ts.config.pauseBetweenTests = 5000;
 
 ENGLISH_TEXTS = {
-    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x' or 'n' when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
-    REACTION_TEST_END_TEXT: "Awesome! RT is your average reaction time. Next, let us practice number reactions. (TODO TEXT)",
+    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x' or 'n', when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
+    REACTION_TEST_END_TEXT: "Awesome! RT is your average reaction time. Next, let us practise number reactions.",
     
-    NUMBERTASK_PRACTICE_START_TEXT: "Number task practice: Please observe the top row<br/><br/>When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start.",
+    NUMBERTASK_PRACTICE_START_TEXT: "Number task practise: Please observe the top row<br/><br/>When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practice.<br/><br/>Press spacebar to practice.<br/><br/>If you want to continue straight to the task, press 'x' or 'n'.",
+    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip practise and to continue straight to the task, press 'x' or 'n'.",
     NUMBERTASK_START_TEXT: "Remember: When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Press spacebar to start.",
     NUMBERTASK_END_TEXT: "TODO: TEXT",
 
-    CHARACTERTASK_PRACTICE_START_TEXT: "Letter task: Please observe the bottom row.<br/><br/>When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start.",
+    CHARACTERTASK_PRACTICE_START_TEXT: "Letter task practise: Please observe the bottom row.<br/><br/>When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     CHARACTERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practice.<br/><br/>Press spacebar to practice.<br/><br/>If you want to continue straight to the task, press 'x' or 'n'.<br/><br/>",
+    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip practise and to continue straight to the task, press 'x' or 'n'.",
     CHARACTERTASK_START_TEXT: "Remember: When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Press space to start.",
     CHARACTERTASK_END_TEXT: "TODO: TEXT",
     
-    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks:<br/>Please observe both rows.<br/><br/>Top row: When the number is even, press 'n'. When the number is odd, press 'x'.<br/>Bottom row: When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start.",
+    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks:<br/>Please observe both rows. First, you get to practise the task.<br/><br/>Top row: When the number is even, press 'n'. When the number is odd, press 'x'.<br/>Bottom row: When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     TASKSWITCHING_PRACTICE_END_TEXT: "TODO: TEXT",
-    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practice by pressing spacebar.<br/><br/>If you want to continue straight to the test, press 'x' or 'n'.<br/><br/>Remember:<br/>On the top row, even = 'n', odd = 'x'.<br/>On the bottom row, vowel = 'n', consonant = 'x'.",
+    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise by pressing spacebar.<br/><br/>To skip the practise and to continue straight to the task, press 'x' or 'n'.<br/><br/>Remember:<br/>On the top row, even = 'n', odd = 'x'.<br/>On the bottom row, vowel = 'n', consonant = 'x'.",
     TASKSWITCHING_START_TEXT: "Remember:<br/>On the top row, even = 'n', odd = 'x'.<br/>On the bottom row, vowel = 'n', consonant = 'x'.<br/><br/>Press space to start.",
     TASKSWITCHING_END_TEXT: "Thank you for participating!",
 };

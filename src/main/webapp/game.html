@@ -73,8 +73,10 @@
                 $.ajax({
                     url: 'app/whoami',
                     success: function(data, textStatus) {
-                        $('#my-name').text(data);
-                        $('#participant-id').val(data);
+                        var participantDetails = JSON.parse(data);
+                        console.log(data);
+                        $('#my-name').text(participantDetails.username);
+                        $('#participant-id').val(participantDetails.id);
                     },
                     dataType: "text",
                     type: "GET",

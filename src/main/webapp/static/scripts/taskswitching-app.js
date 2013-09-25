@@ -226,10 +226,10 @@ ts.program = {
         if (!didReact && ts.program.lastShowTime > 0) {
             ts.program.lastReactionTime = null;
             ts.result.addReactionInformation({
-                index: ts.program.currentDataElement,
+                stimulantIndex: ts.program.currentDataElement,
                 showTime: ts.program.lastShowTime,
-                pressedTime: null,
-                pressed: "NONE",
+                keyPressTime: null,
+                keyPress: "NONE",
                 correct: false,
                 elementType: ts.program.currentTestData[ts.program.currentDataElement].location
             });
@@ -241,7 +241,7 @@ ts.program = {
         ts.program.currentDataElement++;
 
         // if test is done, go for the next test
-        if (ts.program.currentDataElement >= ts.program.currentTestData.length || (ts.limitReactions && ts.program.currentDataElement >= 3)) {
+        if (ts.program.currentDataElement >= ts.program.currentTestData.length || (ts.limitReactions && ts.program.currentDataElement >= 5)) {
             ts.program.nextTestOrEnd();
             return;
         }
@@ -270,9 +270,9 @@ ts.program = {
     },
     additionalPress: function(key) {
         ts.result.addAdditionalKeyPressInformation({
-            lastIndex: ts.program.currentDataElement,
-            key: key,
-            time: ts.time()
+            stimulantIndex: ts.program.currentDataElement,
+            keyPress: key,
+            keyPressTime: ts.time()
         });
     },
     clear: function() {
@@ -308,10 +308,10 @@ ts.program = {
         }
 
         ts.result.addReactionInformation({
-            index: ts.program.currentDataElement,
+            stimulantIndex: ts.program.currentDataElement,
             showTime: elementShowTime,
-            pressedTime: currentTime,
-            pressed: answer,
+            keyPressTime: currentTime,
+            keyPress: answer,
             correct: answerWasCorrect,
             elementType: elementType
         });
@@ -327,11 +327,11 @@ ts.program = {
 
         // not really shown for long
         ts.ui.showGuideText(ts.program.currentTest.endText);
-
+        var testTypeBeforeSubmission = ts.result.testType;
         ts.program.submitResults(function(response) {
             ts.ui.showBasicStats(response);
 
-            if (ts.result.testType === "TASKSWITCHING") {
+            if (testTypeBeforeSubmission === "TASKSWITCHING") {
                 ts.ui.showTaskSwitchingStats(response);
             }
         });
@@ -353,7 +353,7 @@ ts.program = {
             } else if (ts.result.testType === "CHARACTERREACTION") {
                 practiceAttemptsLeftText = ts.texts.CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT;
             } else {
-                console.log("WHAAAAAAAAAAAAAAAAAAAAAAAAAT?");
+                console.log("not a valid test type");
             }
 
             // less than or eq to 2 practice times
@@ -373,14 +373,10 @@ ts.program = {
 
         // we were not practicing, lets init the next step
         ts.program.init();
-
-
-        // wait for next test if applicable
-//        setTimeout(function() {
-//            ts.program.startNextTest();
-//        }, ts.config.pauseBetweenTests);
     },
     submitResults: function(successFunction) {
+        console.log("submitting: ");
+        console.log(ts.result);
         var data = JSON.stringify(ts.result);
         $.ajax({
             type: "POST",
@@ -420,11 +416,11 @@ ts.fn.createTest = function(testType, startText, endText, elements) {
     this.elements = elements;
 };
 
-ts.fn.getNextListId = function(username, testType, info) {
+ts.fn.getNextListId = function(userId, testType, info) {
     var result;
     $.ajax({
         type: "GET",
-        url: ts.config.backendListCountAddress + "?username=" + username + "&testType=" + testType + "&info=" + info,
+        url: ts.config.backendListCountAddress + "?userId=" + userId + "&testType=" + testType + "&info=" + info,
         async: false,
         success: function(data) {
             result = data;

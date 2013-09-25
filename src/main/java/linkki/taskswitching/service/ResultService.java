@@ -1,9 +1,14 @@
 package linkki.taskswitching.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import linkki.taskswitching.dto.AdditionalKeyPress;
 import linkki.taskswitching.dto.Participant;
+import linkki.taskswitching.dto.Reaction;
 import linkki.taskswitching.dto.TestResult;
+import linkki.taskswitching.repository.AdditionalKeyPressRepository;
 import linkki.taskswitching.repository.ParticipantRepository;
+import linkki.taskswitching.repository.ReactionRepository;
 import linkki.taskswitching.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +22,10 @@ public class ResultService {
     private ParticipantRepository participantRepository;
     @Autowired
     private ResultRepository resultRepository;
+    @Autowired
+    private AdditionalKeyPressRepository additionalKeyPressRepository;
+    @Autowired
+    private ReactionRepository reactionRepository;
 
     @Transactional(readOnly = false)
     public void save(TestResult result) {
@@ -26,6 +35,20 @@ public class ResultService {
         
         Participant p = participantRepository.findByUsername(result.getParticipant().getUsername());
         result.setParticipant(p);
+        
+        List<AdditionalKeyPress> presses = new ArrayList<AdditionalKeyPress>();
+        for (AdditionalKeyPress additionalKeyPress : result.getAdditionalKeyPresses()) {
+            presses.add(additionalKeyPressRepository.save(additionalKeyPress));
+        }
+        result.setAdditionalKeyPresses(presses);
+        
+        
+        List<Reaction> reactions = new ArrayList<Reaction>();
+        for (Reaction reaction : result.getReactions()) {
+            reactions.add(reactionRepository.save(reaction));
+        }
+        result.setReactions(reactions);
+        
         resultRepository.save(result);
     }
 
@@ -35,14 +58,8 @@ public class ResultService {
     }
 
     @Transactional(readOnly = true)
-    public int getCount(String username, String testType, String info) {
-        
-        if(SecurityContextHolder.getContext().getAuthentication() != null 
-                && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {     
-            username = SecurityContextHolder.getContext().getAuthentication().getName();
-        }
-        
-        Participant participant = participantRepository.findByUsername(username);
+    public int getCount(Long participantId, String testType, String info) {
+        Participant participant = participantRepository.findOne(participantId);
         if (participant == null) {
             return 0;
         }

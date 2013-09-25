@@ -1,5 +1,6 @@
 package linkki.taskswitching.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,10 +11,16 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Participant extends AbstractPersistable<Long> implements Serializable {
 
     private String username;
+    @JsonIgnore
     private String password;
 
     public Participant() {
         super();
+    }
+
+    @Override
+    public Long getId() {
+        return super.getId(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getUsername() {
@@ -24,6 +31,7 @@ public class Participant extends AbstractPersistable<Long> implements Serializab
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

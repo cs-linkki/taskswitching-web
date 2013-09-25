@@ -29,10 +29,11 @@ public class LoginController {
     @Autowired
     private AuthenticationInformationRepository authenticationInformationRepository;
 
-    @RequestMapping(value = "whoami", method = RequestMethod.GET)
+    @RequestMapping(value = "whoami", method = RequestMethod.GET, produces="application/json")
     @ResponseBody
-    public String username() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    public Participant getDetails() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return participantRepository.findByUsername(username);
     }
 
     @RequestMapping(value = "auth/{username}", method = RequestMethod.GET)
@@ -65,11 +66,11 @@ public class LoginController {
             storeLoginInformation(username, request);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            return "redirect:" + getPath(request) + "game.html";
+            return "redirect:/ts/game.html";
         } catch (BadCredentialsException ex) {
         }
 
-        return "redirect:" + getPath(request) + "index.html?error";
+        return "redirect:/ts/index.html?error";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)

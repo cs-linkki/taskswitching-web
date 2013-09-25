@@ -7,22 +7,35 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class Reaction extends AbstractPersistable<Long> implements Serializable {
 
-    private Long reactionIndex;
+    private Long stimulantIndex;
+    private String keyPress;
+    private Double keyPressTime;
     private Double showTime;
-    private Double pressedTime;
-    private String pressed;
     private String elementType;
     private Boolean correct;
 
-    public Reaction() {
+    public Long getStimulantIndex() {
+        return stimulantIndex;
     }
 
-    public Long getReactionIndex() {
-        return reactionIndex;
+    public void setStimulantIndex(Long stimulantIndex) {
+        this.stimulantIndex = stimulantIndex;
     }
 
-    public void setReactionIndex(Long index) {
-        this.reactionIndex = index;
+    public String getKeyPress() {
+        return keyPress;
+    }
+
+    public void setKeyPress(String keyPress) {
+        this.keyPress = keyPress;
+    }
+
+    public Double getKeyPressTime() {
+        return keyPressTime;
+    }
+
+    public void setKeyPressTime(Double keyPressTime) {
+        this.keyPressTime = keyPressTime;
     }
 
     public Double getShowTime() {
@@ -31,26 +44,6 @@ public class Reaction extends AbstractPersistable<Long> implements Serializable 
 
     public void setShowTime(Double showTime) {
         this.showTime = showTime;
-    }
-
-    public Double getPressedTime() {
-        return pressedTime;
-    }
-
-    public void setPressedTime(Double pressedTime) {
-        this.pressedTime = pressedTime;
-    }
-
-    public Double getReactionTimeInMs() {
-        return pressedTime - showTime;
-    }
-
-    public String getPressed() {
-        return pressed;
-    }
-
-    public void setPressed(String pressed) {
-        this.pressed = pressed;
     }
 
     public String getElementType() {

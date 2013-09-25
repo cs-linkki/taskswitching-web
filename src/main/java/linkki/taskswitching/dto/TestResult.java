@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -24,9 +25,11 @@ public class TestResult extends AbstractPersistable<Long> implements Serializabl
     private Double initTime;
     private Double testStartTime;
     private Double testEndTime;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(nullable = true, name = "TESTRESULT_ID")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AdditionalKeyPress> additionalKeyPresses;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(nullable = true, name = "TESTRESULT_ID")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Reaction> reactions;
 
     public TestResult() {
