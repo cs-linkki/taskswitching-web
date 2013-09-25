@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class Reaction extends AbstractPersistable<Long> implements Serializable {
 
-    private Long index;
+    private Long reactionIndex;
     private Double showTime;
     private Double pressedTime;
     private String pressed;
@@ -17,12 +17,12 @@ public class Reaction extends AbstractPersistable<Long> implements Serializable 
     public Reaction() {
     }
 
-    public Long getIndex() {
-        return index;
+    public Long getReactionIndex() {
+        return reactionIndex;
     }
 
-    public void setIndex(Long index) {
-        this.index = index;
+    public void setReactionIndex(Long index) {
+        this.reactionIndex = index;
     }
 
     public Double getShowTime() {

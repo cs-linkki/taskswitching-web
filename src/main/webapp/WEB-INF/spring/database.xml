@@ -42,6 +42,20 @@
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     
+    
+    <beans profile="lukiot">
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="properties" value="persistenceUnitName=persistenceUnitLukiot"/>
+        </bean>
+        
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://localhost:3306/a"/>
+            <property name="username" value="b"/>
+            <property name="password" value="c"/>
+        </bean>
+    </beans>
+    
     <beans profile="production">
         <bean class="java.net.URI" id="dbUrl">
             <constructor-arg value="${DATABASE_URL}"/>
