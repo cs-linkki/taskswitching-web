@@ -66,11 +66,11 @@ public class LoginController {
             storeLoginInformation(username, request);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            return "redirect:/ts/game.html";
+            return "redirect:/game.html";
         } catch (BadCredentialsException ex) {
         }
 
-        return "redirect:/ts/index.html?error";
+        return "redirect:/index.html?error";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)

@@ -5,16 +5,14 @@
             http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     
     <display-name>taskswitching-web</display-name>
-    <!--
+   
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            WEB-INF/spring/security.xml,
-            WEB-INF/spring/database.xml
-            
+            WEB-INF/spring/*.xml
         </param-value>
     </context-param>
     
@@ -26,8 +24,6 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    -->
-    
     
     <filter>
         <filter-name>encoding-filter</filter-name>
