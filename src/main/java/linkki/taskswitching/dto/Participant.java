@@ -3,28 +3,24 @@ package linkki.taskswitching.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 @XmlRootElement
-public class Participant implements Serializable {
+public class Participant extends AbstractPersistable<Long> implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String username;
     @JsonIgnore
     private String password;
 
-    public Long getId() {
-        return id;
+    public Participant() {
+        super();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public Long getId() {
+        return super.getId();
     }
 
     public String getUsername() {

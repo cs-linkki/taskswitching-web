@@ -5,7 +5,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/security
                            http://www.springframework.org/schema/security/spring-security.xsd">
- 
+    
     <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 
     <security:http pattern="/static/**" security="none" />
@@ -23,7 +23,7 @@
         <security:intercept-url pattern="/results.html" access="hasRole('ROLE_USER')"/>        
         <security:remember-me token-validity-seconds="43200"/>
     </security:http>
- 
+
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="jpaUserDetailsService"/>
         <!--        <security:authentication-provider>

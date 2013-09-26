@@ -14,7 +14,7 @@
                 http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
  
 
-    <jpa:repositories base-package="linkki.taskswitching.repository" />
+    <jpa:repositories base-package="linkki.taskswitching" />
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="packagesToScan" value="linkki.taskswitching"/>
