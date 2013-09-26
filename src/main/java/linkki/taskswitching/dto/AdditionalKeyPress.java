@@ -2,16 +2,29 @@ package linkki.taskswitching.dto;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-public class AdditionalKeyPress extends AbstractPersistable<Long> implements Serializable {
+public class AdditionalKeyPress implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private Long stimulantIndex;
     private String keyPress;
     private Double keyPressTime;
 
     public AdditionalKeyPress() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getStimulantIndex() {

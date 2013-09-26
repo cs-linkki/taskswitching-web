@@ -55,12 +55,12 @@ ts.ui.showBasicStats = function(statContainer) {
 
 ts.ui.showTaskSwitchingStats = function(statContainer) {
     console.log(statContainer);
-    $("#hitsRepeated").html(statContainer);
-    $("#hitsChanged").html(statContainer);
-    $("#repeatedReactionTime").html(statContainer);
-    $("#changedReactionTime").html(statContainer);
+    $("#hitsRepeated").html(statContainer.hitsRepeated);
+    $("#hitsChanged").html(statContainer.hitsChanged);
+    $("#repeatedReactionTime").html(statContainer.repeatedReactionTime);
+    $("#changedReactionTime").html(statContainer.changedReactionTime);
 
-    /* $("#taskSwitchingResult").show(); */
+    $("#taskSwitchingResult").show();
 };
 
 

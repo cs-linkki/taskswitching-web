@@ -2,7 +2,6 @@ package linkki.taskswitching.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.management.relation.Role;
 import linkki.taskswitching.dto.Participant;
 import linkki.taskswitching.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
