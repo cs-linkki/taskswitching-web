@@ -30,26 +30,26 @@ ts.config.elementVisibleInMs = 2500;
 ts.config.pauseBetweenTests = 5000;
 
 ENGLISH_TEXTS = {
-    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x' or 'n', when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
+    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x' or 'm', when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
     REACTION_TEST_END_TEXT: "Awesome! RT is your average reaction time. Next, let us practise number reactions.",
     
-    NUMBERTASK_PRACTICE_START_TEXT: "Number task practise: Please observe the top row<br/><br/>When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
+    NUMBERTASK_PRACTICE_START_TEXT: "Number task practise: Please observe the top row<br/><br/>When the number is even, press 'm'. When the number is odd, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip practise and to continue straight to the task, press 'x' or 'n'.",
-    NUMBERTASK_START_TEXT: "Remember: When the number is even, press 'n'. When the number is odd, press 'x'.<br/><br/>Press spacebar to start.",
+    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip practise and to continue straight to the task, press 'x' or 'm'.",
+    NUMBERTASK_START_TEXT: "Remember: When the number is even, press 'm'. When the number is odd, press 'x'.<br/><br/>Press spacebar to start.",
     NUMBERTASK_END_TEXT: "TODO: TEXT",
 
-    CHARACTERTASK_PRACTICE_START_TEXT: "Letter task practise: Please observe the bottom row.<br/><br/>When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
+    CHARACTERTASK_PRACTICE_START_TEXT: "Letter task practise: Please observe the bottom row.<br/><br/>When the letter is a vowel, press 'm'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     CHARACTERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip practise and to continue straight to the task, press 'x' or 'n'.",
-    CHARACTERTASK_START_TEXT: "Remember: When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Press space to start.",
+    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip practise and to continue straight to the task, press 'x' or 'm'.",
+    CHARACTERTASK_START_TEXT: "Remember: When the letter is a vowel, press 'm'. When the letter is a consonant, press 'x'.<br/><br/>Press space to start.",
     CHARACTERTASK_END_TEXT: "TODO: TEXT",
     
-    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks:<br/>Please observe both rows. First, you get to practise the task.<br/><br/>Top row: When the number is even, press 'n'. When the number is odd, press 'x'.<br/>Bottom row: When the letter is a vowel, press 'n'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
+    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks:<br/>Please observe both rows. First, you get to practise the task.<br/><br/>Top row: When the number is even, press 'm'. When the number is odd, press 'x'.<br/>Bottom row: When the letter is a vowel, press 'm'. When the letter is a consonant, press 'x'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     TASKSWITCHING_PRACTICE_END_TEXT: "TODO: TEXT",
-    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise by pressing spacebar.<br/><br/>To skip the practise and to continue straight to the task, press 'x' or 'n'.<br/><br/>Remember:<br/>On the top row, even = 'n', odd = 'x'.<br/>On the bottom row, vowel = 'n', consonant = 'x'.",
-    TASKSWITCHING_START_TEXT: "Remember:<br/>On the top row, even = 'n', odd = 'x'.<br/>On the bottom row, vowel = 'n', consonant = 'x'.<br/><br/>Press space to start.",
-    TASKSWITCHING_END_TEXT: "Thank you for participating!",
+    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise by pressing spacebar.<br/><br/>To skip the practise and to continue straight to the task, press 'x' or 'm'.<br/><br/>Remember:<br/>On the top row, even = 'm', odd = 'x'.<br/>On the bottom row, vowel = 'm', consonant = 'x'.",
+    TASKSWITCHING_START_TEXT: "Remember:<br/>On the top row, even = 'm', odd = 'x'.<br/>On the bottom row, vowel = 'm', consonant = 'x'.<br/><br/>Press space to start.",
+    TASKSWITCHING_END_TEXT: "Thank you for participating!"
 };
 
 ts.texts = ENGLISH_TEXTS;
@@ -57,37 +57,37 @@ ts.texts = ENGLISH_TEXTS;
 ts.pracelements = {
     NUMBER_TEST_ELEMENTS: [[
             {
-                text: "G8",
+                text: "g8",
                 location: TOP,
                 align: FAR_RIGHT,
                 correctAnswer: "RIGHT"
             },
             {
-                text: "E7",
+                text: "e7",
                 location: TOP,
                 align: NEAR_RIGHT,
                 correctAnswer: "LEFT"
             },
             {
-                text: "Y5",
+                text: "i5",
                 location: TOP,
                 align: MIDDLE,
                 correctAnswer: "LEFT"
             },
             {
-                text: "M4",
+                text: "m4",
                 location: TOP,
                 align: FAR_LEFT,
                 correctAnswer: "RIGHT"
             },
             {
-                text: "A2",
+                text: "a2",
                 location: TOP,
                 align: NEAR_LEFT,
                 correctAnswer: "RIGHT"
             },
             {
-                text: "U9",
+                text: "u9",
                 location: TOP,
                 align: MIDDLE,
                 correctAnswer: "LEFT"
@@ -96,37 +96,37 @@ ts.pracelements = {
         ]],
     CHARACTER_TEST_ELEMENTS: [[
             {
-                text: "U6",
+                text: "u6",
                 location: BOTTOM,
                 align: FAR_RIGHT,
                 correctAnswer: "RIGHT"
             },
             {
-                text: "Y5",
+                text: "i5",
                 location: BOTTOM,
                 align: NEAR_RIGHT,
                 correctAnswer: "RIGHT"
             },
             {
-                text: "M8",
+                text: "m8",
                 location: BOTTOM,
                 align: MIDDLE,
                 correctAnswer: "LEFT"
             },
             {
-                text: "A4",
+                text: "a4",
                 location: BOTTOM,
                 align: FAR_LEFT,
                 correctAnswer: "RIGHT"
             },
             {
-                text: "R7",
+                text: "r7",
                 location: BOTTOM,
                 align: NEAR_LEFT,
                 correctAnswer: "LEFT"
             },
             {
-                text: "G2",
+                text: "g2",
                 location: BOTTOM,
                 align: MIDDLE,
                 correctAnswer: "LEFT"
@@ -134,37 +134,37 @@ ts.pracelements = {
         ]],
     TASK_SWITCHING_ELEMENTS: [[
             {
-                text: "K8",
+                text: "k8",
                 location: BOTTOM,
                 align: FAR_RIGHT,
                 correctAnswer: "LEFT"
             },
             {
-                text: "R3",
+                text: "r3",
                 location: TOP,
                 align: NEAR_RIGHT,
                 correctAnswer: "LEFT"
             },
             {
-                text: "M8",
+                text: "m8",
                 location: TOP,
                 align: MIDDLE,
                 correctAnswer: "RIGHT"
             },
             {
-                text: "R9",
+                text: "r9",
                 location: BOTTOM,
                 align: FAR_LEFT,
                 correctAnswer: "LEFT"
             },
             {
-                text: "M2",
+                text: "m2",
                 location: BOTTOM,
                 align: NEAR_LEFT,
                 correctAnswer: "LEFT"
             },
             {
-                text: "A7",
+                text: "a7",
                 location: TOP,
                 align: MIDDLE,
                 correctAnswer: "LEFT"

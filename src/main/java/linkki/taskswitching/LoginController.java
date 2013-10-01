@@ -38,7 +38,7 @@ public class LoginController {
 
     @RequestMapping(value = "auth/{username}", method = RequestMethod.GET)
     public String login(@PathVariable String username, HttpServletRequest request) {
-        return auth(username, "salainen", request);
+        return auth(username, "salainen", "", request);
     }
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -47,13 +47,14 @@ public class LoginController {
 
     @RequestMapping(value = "formauth", method = RequestMethod.POST)
     public String performFormAuth(
-            @RequestParam("username") String username,
-            @RequestParam(value = "password", defaultValue = "salainen") String password,
+            @RequestParam(value = "username", required = true) String username,
+            @RequestParam(value = "password", defaultValue = "salainen", required = false) String password,
+            @RequestParam(value = "metadata", defaultValue = "", required = false) String metadata,
             HttpServletRequest request) {
-        return auth(username, password, request);
+        return auth(username, password, metadata, request);
     }
 
-    private String auth(String username, String password, HttpServletRequest request) {
+    private String auth(String username, String password, String metadata, HttpServletRequest request) {
         System.out.println("Authenticating user: " + username);
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(username, password);
@@ -63,7 +64,7 @@ public class LoginController {
                 throw new BadCredentialsException("No such user..");
             }
 
-            storeLoginInformation(username, request);
+            storeLoginInformation(username, metadata, request);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
             return "redirect:/game.html";
@@ -76,8 +77,9 @@ public class LoginController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
     public String performLogin(
-            @RequestParam("username") String username,
-            @RequestParam(value = "password", defaultValue = "salainen") String password,
+            @RequestParam(value = "username", required = true) String username,
+            @RequestParam(value = "password", defaultValue = "salainen", required = false) String password,
+            @RequestParam(value = "metadata", defaultValue = "", required = false) String metadata,
             HttpServletRequest request) {
 
         UsernamePasswordAuthenticationToken token =
@@ -88,7 +90,7 @@ public class LoginController {
                 throw new BadCredentialsException("No such user..");
             }
 
-            storeLoginInformation(username, request);
+            storeLoginInformation(username, metadata, request);
             SecurityContextHolder.getContext().setAuthentication(auth);
             return "{\"status\": true}";
         } catch (BadCredentialsException ex) {
@@ -96,13 +98,13 @@ public class LoginController {
         }
     }
 
-    private void storeLoginInformation(String username, HttpServletRequest request) {
+    private void storeLoginInformation(String username, String metadata, HttpServletRequest request) {
         Participant p = participantRepository.findByUsername(username);
         if (p == null) {
             throw new IllegalArgumentException("Unable to find " + username + " although (s)he should be present.");
         }
 
-        AuthenticationInformation info = new AuthenticationInformation(p, getDetails(request));
+        AuthenticationInformation info = new AuthenticationInformation(p, getDetails(request), metadata);
         authenticationInformationRepository.save(info);
     }
 

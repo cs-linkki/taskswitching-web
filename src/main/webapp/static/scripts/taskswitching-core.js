@@ -1,5 +1,5 @@
 var KEY_LEFT = 88; // x
-var KEY_RIGHT = 78; // n
+var KEY_RIGHT = 77; // m
 
 var FAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 var NEAR_BLANK = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

@@ -15,10 +15,10 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 public class ExcelToJsonParser {
 
     public static void main(String[] args) throws Exception {
-        parse("data/TS_kirjainteht_listat.xls", "src/main/webapp/data/characterreaction-data.json", false);
-        parse("data/TS_nroteht_listat.xls", "src/main/webapp/data/numberreaction-data.json", true);
-        parseTSEntries("data/TS_tehtvaihto_listat.xls", "src/main/webapp/data/taskswitching-data.json", false);
-        parseReactionTimeEntries("data/Listat_reaktioaika.xlsx", "src/main/webapp/data/reaction-data.json", false);
+        parse("data/TS_kirjainteht_listat.xls", "src/main/webapp/static/data/characterreaction-data.json", false);
+        parse("data/TS_nroteht_listat.xls", "src/main/webapp/static/data/numberreaction-data.json", true);
+        parseTSEntries("data/TS_tehtvaihto_listat.xls", "src/main/webapp/static/data/taskswitching-data.json", false);
+        parseReactionTimeEntries("data/Listat_reaktioaikatesti.xlsx", "src/main/webapp/static/data/reaction-data.json", false);
     }
 
     public static void parse(String in, String out, boolean reverseLists) throws Exception {
@@ -229,6 +229,7 @@ class Entry {
         }
 
         text = data[0];
+        text = text.toLowerCase().replaceAll("y", "i");
         align = data[1];
         location = data[2];
         correctAnswer = data[3];

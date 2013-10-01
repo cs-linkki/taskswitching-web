@@ -18,6 +18,7 @@ public class AuthenticationInformation extends AbstractPersistable<Long> impleme
     private Participant participant;
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date authenticationTime;
+    private String metadata;
     @Lob
     private String details;
 
@@ -25,11 +26,12 @@ public class AuthenticationInformation extends AbstractPersistable<Long> impleme
         super();
     }
 
-    public AuthenticationInformation(Participant participant, String details) {
+    public AuthenticationInformation(Participant participant, String details, String metadata) {
         this();
         this.participant = participant;
         this.authenticationTime = new Date();
         this.details = details;
+        this.metadata = metadata;
     }
 
     public Participant getParticipant() {
@@ -54,6 +56,14 @@ public class AuthenticationInformation extends AbstractPersistable<Long> impleme
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 
     @Override
