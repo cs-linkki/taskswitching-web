@@ -16,7 +16,7 @@ ts.ui.getUrlParam = function(key) {
     return result && unescape(result[1]) || "";
 };
 
-ts.ui.bindKeys = function(leftKeyCode, leftFunctionCall, rightKeyCode, rightFunctionCall) {
+ts.ui.bindKeys = function(leftKeyCode, leftFunctionCall, rightKeyCode, rightFunctionCall, anyOtherFunctionCall) {
     console.log("Binding keys for test, current test index: " + ts.program.currentTestIndex);
     $(document).keydown(function(e) {
         switch (e.which) {
@@ -25,6 +25,9 @@ ts.ui.bindKeys = function(leftKeyCode, leftFunctionCall, rightKeyCode, rightFunc
                 break;
             case rightKeyCode: // n
                 rightFunctionCall();
+                break;
+            default:
+                anyOtherFunctionCall(e.which); // any other key
                 break;
         }
 

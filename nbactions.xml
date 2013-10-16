@@ -8,6 +8,8 @@
             <properties>
                 <netbeans.deploy>true</netbeans.deploy>
                 <skipTests>true</skipTests>
+                <configLocation>test.properties</configLocation>
+                
             </properties>
         </action>
     </actions>

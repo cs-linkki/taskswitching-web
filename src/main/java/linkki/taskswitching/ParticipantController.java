@@ -1,4 +1,3 @@
-
 package linkki.taskswitching;
 
 import linkki.taskswitching.dto.Participant;
@@ -12,10 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ParticipantController {
-    
+
     @Autowired
     private ParticipantService participantService;
-    
+
     @RequestMapping(method = RequestMethod.GET, value = "p")
     @ResponseBody
     public Participant createOrLogin(@RequestParam String participantId) {

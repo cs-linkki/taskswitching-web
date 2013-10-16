@@ -135,6 +135,10 @@ ts.program = {
                     function() {
                         ts.program.pressed("RIGHT");
 
+                    },
+                    function(pressedKey) {
+                        ts.program.pressed(pressedKey);
+
                     });
             ts.program.keysBound = true;
         }
@@ -182,7 +186,7 @@ ts.program = {
         ts.program.clear();
         // call the function showNext after a pre-configured pause
         var waitTime = ts.config.pauseBeforeFirstShow;
-        
+
         var element = ts.program.currentTestData[ts.program.currentDataElement];
         if (element.waitForMs) {
             waitTime = element.waitForMs;
@@ -191,7 +195,7 @@ ts.program = {
                 waitTime -= ts.program.lastReactionTime;
             }
         }
-        
+
         ts.program.currentTimeoutVariable
                 = setTimeout(ts.program.show, waitTime);
     },
@@ -282,12 +286,17 @@ ts.program = {
             clearTimeout(ts.program.currentTimeoutVariable);
         }
     },
-    pressed: function(answer) {
+    pressed: function(answer) {        
+        if(answer !== KEY_LEFT && answer !== "LEFT" && answer !== KEY_RIGHT && answer !== "RIGHT") {
+            ts.program.additionalPress("INVALID_KEY:" + answer);
+            return;
+        }
+
         if (ts.program.lastShowTime === TOO_EARLY || ts.program.lastShowTime === TOO_LATE) {
             ts.program.additionalPress("PRESS_OUTSIDE_TIMEFRAME:" + answer);
             return;
         }
-
+        
         var elementShowTime = ts.program.lastShowTime;
 
         ts.program.clear();
@@ -344,10 +353,10 @@ ts.program = {
                 ts.program.init();
                 return;
             }
-            
+
             var practiceAttemptsLeftText = "";
             if (ts.result.testType === "TASKSWITCHING") {
-               practiceAttemptsLeftText = ts.texts.TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT;
+                practiceAttemptsLeftText = ts.texts.TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT;
             } else if (ts.result.testType === "NUMBERREACTION") {
                 practiceAttemptsLeftText = ts.texts.NUMBERTASK_PRACTICE_ATTEMPTS_LEFT;
             } else if (ts.result.testType === "CHARACTERREACTION") {

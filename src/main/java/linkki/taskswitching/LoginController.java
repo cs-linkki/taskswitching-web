@@ -1,6 +1,7 @@
 package linkki.taskswitching;
 
 import java.util.Enumeration;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import linkki.taskswitching.dto.AuthenticationInformation;
 import linkki.taskswitching.dto.Participant;
@@ -23,13 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
 
     @Autowired
+    private ServletContext servletContext;
+    @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private ParticipantRepository participantRepository;
     @Autowired
     private AuthenticationInformationRepository authenticationInformationRepository;
 
-    @RequestMapping(value = "whoami", method = RequestMethod.GET, produces="application/json")
+    @RequestMapping(value = "whoami", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Participant getDetails() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -54,10 +57,14 @@ public class LoginController {
         return auth(username, password, metadata, request);
     }
 
-    private String auth(String username, String password, String metadata, HttpServletRequest request) {
-        System.out.println("Authenticating user: " + username);
+    private boolean authenticationSuccessful(String username, String password, String metadata, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(username, password);
+
+        if (metadata == null || !metadata.contains(servletContext.getContextPath())) {
+            metadata += ";" + servletContext.getContextPath();
+        }
+        
         try {
             Authentication auth = authenticationManager.authenticate(token);
             if (!auth.isAuthenticated()) {
@@ -67,10 +74,21 @@ public class LoginController {
             storeLoginInformation(username, metadata, request);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            return "redirect:/game.html";
+            return true;
         } catch (BadCredentialsException ex) {
         }
 
+        return false;
+    }
+
+    private String auth(String username, String password, String metadata, HttpServletRequest request) {
+
+        if (authenticationSuccessful(username, password, metadata, request)) {
+            // " + getUrlPrefix() + "
+            return "redirect:/game.html";
+        }
+
+        // " + getUrlPrefix() + "
         return "redirect:/index.html?error";
     }
 
@@ -82,24 +100,15 @@ public class LoginController {
             @RequestParam(value = "metadata", defaultValue = "", required = false) String metadata,
             HttpServletRequest request) {
 
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(username, password);
-        try {
-            Authentication auth = authenticationManager.authenticate(token);
-            if (!auth.isAuthenticated()) {
-                throw new BadCredentialsException("No such user..");
-            }
-
-            storeLoginInformation(username, metadata, request);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        if (authenticationSuccessful(username, password, metadata, request)) {
             return "{\"status\": true}";
-        } catch (BadCredentialsException ex) {
-            return "{\"status\": false, \"error\": \"Bad Credentials\"}";
         }
+
+        return "{\"status\": false, \"error\": \"Bad Credentials\"}";
     }
 
     private void storeLoginInformation(String username, String metadata, HttpServletRequest request) {
-        Participant p = participantRepository.findByUsername(username);
+        Participant p = participantRepository.findByUsernameAndContextPath(username, servletContext.getContextPath());
         if (p == null) {
             throw new IllegalArgumentException("Unable to find " + username + " although (s)he should be present.");
         }
@@ -125,34 +134,18 @@ public class LoginController {
         return sb.toString().trim();
     }
 
-    private String getPath(HttpServletRequest req) {
-        System.out.println("Retrieving path for " + req.getRequestURL());
-        String ref = req.getHeader("referer");
-        if(ref != null && ref.contains("/")) {
-            ref = ref.substring(0, ref.lastIndexOf("/"));
+    private String getUrlPrefix() {
+        String prefix = servletContext.getContextPath();
+        prefix = prefix.replaceAll("app", "");
+        
+        while(prefix.startsWith("/")) {
+            prefix = prefix.substring(1);
         }
         
-        if (ref == null || ref.trim().isEmpty()) {
-            ref = req.getScheme()
-                    + "://"
-                    + req.getServerName()
-                    + ":"
-                    + req.getServerPort();
-            if (!ref.endsWith("/")) {
-                ref = ref + "/";
-            }
-
-            String ctxPath = req.getContextPath();
-            if(ctxPath.startsWith("/")) {
-                ctxPath = ctxPath.substring(1);
-            }
-            ref = ref + ctxPath;
+        while(prefix.endsWith("/") && prefix.length() > 1) {
+            prefix = prefix.substring(0, prefix.length() - 1);
         }
-
-        if (!ref.endsWith("/")) {
-            ref = ref + "/";
-        }
-
-        return ref;
+        
+        return "/" + prefix;
     }
 }

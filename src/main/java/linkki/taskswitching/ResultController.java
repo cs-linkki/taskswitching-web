@@ -29,8 +29,8 @@ public class ResultController {
     @RequestMapping(method = RequestMethod.POST, value = "result", consumes = "application/json")
     @ResponseBody
     public AggregateResult postResult(@RequestBody TestResult result) {
-        if(SecurityContextHolder.getContext().getAuthentication() != null 
-                && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {     
+        if (SecurityContextHolder.getContext().getAuthentication() != null
+                && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             if (username != null) {
                 result.getParticipant().setUsername(username);
@@ -38,7 +38,7 @@ public class ResultController {
         }
 
         result.setParticipant(participantRepository.findByUsername(result.getParticipant().getUsername()));
-        
+
         resultService.save(result);
         return aggregateResultService.calculateResult(result);
     }

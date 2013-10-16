@@ -3,16 +3,20 @@ package linkki.taskswitching.dto;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
-public class AuthenticationInformation extends AbstractPersistable<Long> implements Serializable {
+public class AuthenticationInformation implements Serializable {
 
+    @Id
+    @GeneratedValue
+    private Long id;
     @JoinColumn
     @ManyToOne
     private Participant participant;
@@ -32,6 +36,14 @@ public class AuthenticationInformation extends AbstractPersistable<Long> impleme
         this.authenticationTime = new Date();
         this.details = details;
         this.metadata = metadata;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Participant getParticipant() {

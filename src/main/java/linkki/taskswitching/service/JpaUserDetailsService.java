@@ -2,6 +2,7 @@ package linkki.taskswitching.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletContext;
 import linkki.taskswitching.dto.Participant;
 import linkki.taskswitching.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +18,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class JpaUserDetailsService implements UserDetailsService {
 
     @Autowired
+    private ServletContext servletContext;
+    @Autowired
     private ParticipantRepository participantRepository;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("RETRIEVING USERDETAILS FOR " + username);
-        if(username.equals("test")) {
+        if (username.equals("test")) {
             throw new UsernameNotFoundException("No such username: " + username);
         }
-        
-        Participant participant = participantRepository.findByUsername(username);
-        if(participant == null) {
+
+        String contextPath = servletContext.getContextPath();
+
+        Participant participant = participantRepository.findByUsernameAndContextPath(username, contextPath);
+        if (participant == null) {
             participant = new Participant();
             participant.setUsername(username);
+            participant.setContextPath(contextPath);
             participant.setPassword("salainen");
             participant = participantRepository.save(participant);
             participantRepository.flush();

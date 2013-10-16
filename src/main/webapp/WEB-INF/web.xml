@@ -51,7 +51,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>WEB-INF/spring/spring-base.xml</param-value>
+            <param-value></param-value> <!-- load from context -->
         </init-param>
         <load-on-startup>0</load-on-startup>
     </servlet>
