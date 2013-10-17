@@ -4,8 +4,22 @@ html, body {
     text-decoration-color: white;
     color: white;
     text-align: center;
-    font-size: 4em;
     font-family: Arial, "Times New Roman", Georgia, Serif;
+}
+
+#entry {
+    text-align: center;
+    font-size: 2em;    
+}
+
+#guide {
+    text-align: center;
+    font-size: 2em;
+}
+
+#result {
+    text-align: center;
+    font-size: 2em;
 }
 
 #wrapper {
@@ -14,6 +28,8 @@ html, body {
     width: 100%;
     height: 100%;
     position: relative;
+    text-align: center;
+    font-size: 4em;
 }
 
 #pad {
@@ -43,6 +59,7 @@ hr {
     vertical-align: middle;
     /* background-color: blue; */
     color: #fff;
+    text-align: center;
 }
 
 #timingbox {

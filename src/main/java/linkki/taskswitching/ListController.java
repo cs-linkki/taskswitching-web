@@ -17,6 +17,5 @@ public class ListController {
     @ResponseBody
     public int getCountOfShownLists(@RequestParam Long userId, @RequestParam String testType, @RequestParam String info) {
         return resultService.getCount(userId, testType, info);
-        
     }
 }
