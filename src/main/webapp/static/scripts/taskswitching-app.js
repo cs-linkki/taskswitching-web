@@ -336,13 +336,8 @@ ts.program = {
 
         // not really shown for long
         ts.ui.showGuideText(ts.program.currentTest.endText);
-        var testTypeBeforeSubmission = ts.result.testType;
         ts.program.submitResults(function(response) {
             ts.ui.showBasicStats(response);
-
-            if (testTypeBeforeSubmission === "TASKSWITCHING") {
-                ts.ui.showTaskSwitchingStats(response);
-            }
         });
 
         // if we've been practicing, give an option to do something else for

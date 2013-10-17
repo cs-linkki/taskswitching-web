@@ -52,20 +52,9 @@ ts.ui.init = function(text) {
 ts.ui.showBasicStats = function(statContainer) {
     $("#hitsPercentage").html(statContainer.hitsPercentage);
     $("#reactionTime").html(statContainer.reactionTime);
-    $("#outsideHits").html(statContainer.hitsOutsideTimespan);
+//    $("#outsideHits").html(statContainer.hitsOutsideTimespan);
     $("#result").show();
 };
-
-ts.ui.showTaskSwitchingStats = function(statContainer) {
-    console.log(statContainer);
-    $("#hitsRepeated").html(statContainer.hitsRepeated);
-    $("#hitsChanged").html(statContainer.hitsChanged);
-    $("#repeatedReactionTime").html(statContainer.repeatedReactionTime);
-    $("#changedReactionTime").html(statContainer.changedReactionTime);
-
-    $("#taskSwitchingResult").show();
-};
-
 
 ts.ui.showContent = function(location, content) {
     $("#" + location).html(content);
