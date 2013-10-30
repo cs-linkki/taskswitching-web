@@ -105,19 +105,25 @@ ts.program = {
             case 7:
                 // 7. game task switching
                 $("#guide").html("Great work! You are now ready to play! Wait a moment...");
-                ts.config.loadTestSet(
-                        "TASKSWITCHING",
-                        ts.texts.TASKSWITCHING_START_TEXT,
-                        ts.texts.TASKSWITCHING_END_TEXT,
-                        "static/data/taskswitching-data.json");
+                if (location.pathname.indexOf("finnish") !== -1) {
+                    ts.config.loadTestSet(
+                            "TASKSWITCHING",
+                            ts.texts.TASKSWITCHING_START_TEXT,
+                            ts.texts.TASKSWITCHING_END_TEXT,
+                            "static/data/taskswitching-data-finnish.json");
+                } else {
+                    ts.config.loadTestSet(
+                            "TASKSWITCHING",
+                            ts.texts.TASKSWITCHING_START_TEXT,
+                            ts.texts.TASKSWITCHING_END_TEXT,
+                            "static/data/taskswitching-data.json");
+                }
                 ts.program.initializeTest("game");
                 break;
         }
     },
     initializeTest: function(testType) {
         ts.program.initVars(testType);
-
-        $("#taskSwitchingResult").hide();
 
         // init binds keys for functions -- only during first round
         // 
@@ -229,14 +235,32 @@ ts.program = {
     hideAndWaitForNext: function(didReact, wasCorrect) {
         if (!didReact && ts.program.lastShowTime > 0) {
             ts.program.lastReactionTime = null;
-            ts.result.addReactionInformation({
-                stimulantIndex: ts.program.currentDataElement,
-                showTime: ts.program.lastShowTime,
-                keyPressTime: null,
-                keyPress: "NONE",
-                correct: false,
-                elementType: ts.program.currentTestData[ts.program.currentDataElement].location
-            });
+
+            if (ts.result.testType === "TASKSWITCHING") {
+                var testIdx = ts.program.currentDataElement;
+                ts.result.addReactionInformation({
+                    stimulantIndex: ts.program.currentDataElement,
+                    showTime: ts.program.lastShowTime,
+                    keyPressTime: null,
+                    keyPress: "NONE",
+                    correct: false,
+                    elementType: ts.program.currentTestData[testIdx].location,
+                    place: ts.program.currentTestData[testIdx].place,
+                    chainLength: ts.program.currentTestData[testIdx].chainLength,
+                    lastSeries: ts.program.currentTestData[testIdx].lastSeries
+                });
+            } else {
+                ts.result.addReactionInformation({
+                    stimulantIndex: ts.program.currentDataElement,
+                    showTime: ts.program.lastShowTime,
+                    keyPressTime: null,
+                    keyPress: "NONE",
+                    correct: false,
+                    elementType: ts.program.currentTestData[ts.program.currentDataElement].location
+                });
+            }
+
+
         }
 
         ts.program.lastShowTime = TOO_LATE;
@@ -273,11 +297,23 @@ ts.program = {
 
     },
     additionalPress: function(key) {
-        ts.result.addAdditionalKeyPressInformation({
-            stimulantIndex: ts.program.currentDataElement,
-            keyPress: key,
-            keyPressTime: ts.time()
-        });
+        if (ts.result.testType === "TASKSWITCHING") {
+            var testIdx = ts.program.currentDataElement;
+            ts.result.addAdditionalKeyPressInformation({
+                stimulantIndex: ts.program.currentDataElement,
+                keyPress: key,
+                keyPressTime: ts.time(),
+                place: ts.program.currentTestData[testIdx].place,
+                chainLength: ts.program.currentTestData[testIdx].chainLength,
+                lastSeries: ts.program.currentTestData[testIdx].lastSeries
+            });
+        } else {
+            ts.result.addAdditionalKeyPressInformation({
+                stimulantIndex: ts.program.currentDataElement,
+                keyPress: key,
+                keyPressTime: ts.time()
+            });
+        }
     },
     clear: function() {
         ts.ui.clear();
@@ -286,8 +322,8 @@ ts.program = {
             clearTimeout(ts.program.currentTimeoutVariable);
         }
     },
-    pressed: function(answer) {        
-        if(answer !== KEY_LEFT && answer !== "LEFT" && answer !== KEY_RIGHT && answer !== "RIGHT") {
+    pressed: function(answer) {
+        if (answer !== KEY_LEFT && answer !== "LEFT" && answer !== KEY_RIGHT && answer !== "RIGHT") {
             ts.program.additionalPress("INVALID_KEY:" + answer);
             return;
         }
@@ -296,7 +332,7 @@ ts.program = {
             ts.program.additionalPress("PRESS_OUTSIDE_TIMEFRAME:" + answer);
             return;
         }
-        
+
         var elementShowTime = ts.program.lastShowTime;
 
         ts.program.clear();
@@ -316,14 +352,32 @@ ts.program = {
             elementType = "CHARACTER";
         }
 
-        ts.result.addReactionInformation({
-            stimulantIndex: ts.program.currentDataElement,
-            showTime: elementShowTime,
-            keyPressTime: currentTime,
-            keyPress: answer,
-            correct: answerWasCorrect,
-            elementType: elementType
-        });
+
+
+
+        if (ts.result.testType === "TASKSWITCHING") {
+            ts.result.addReactionInformation({
+                stimulantIndex: ts.program.currentDataElement,
+                showTime: elementShowTime,
+                keyPressTime: currentTime,
+                keyPress: answer,
+                correct: answerWasCorrect,
+                elementType: elementType,
+                place: currentElement.place,
+                chainLength: currentElement.chainLength,
+                lastSeries: currentElement.lastSeries
+            });
+        } else {
+            ts.result.addReactionInformation({
+                stimulantIndex: ts.program.currentDataElement,
+                showTime: elementShowTime,
+                keyPressTime: currentTime,
+                keyPress: answer,
+                correct: answerWasCorrect,
+                elementType: elementType
+            });
+        }
+
 
         ts.program.lastReactionTime = (currentTime - elementShowTime);
         ts.program.hideAndWaitForNext(true, answerWasCorrect); // if we are here, we have always reacted

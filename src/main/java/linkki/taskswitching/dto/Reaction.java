@@ -17,6 +17,9 @@ public class Reaction implements Serializable {
     private Double showTime;
     private String elementType;
     private Boolean correct;
+    private Integer place;
+    private Integer chainLength;
+    private Integer lastSeries;
 
     public Long getId() {
         return id;
@@ -72,5 +75,29 @@ public class Reaction implements Serializable {
 
     public void setCorrect(Boolean correct) {
         this.correct = correct;
+    }
+
+    public Integer getPlace() {
+        return place;
+    }
+
+    public void setPlace(Integer place) {
+        this.place = place;
+    }
+
+    public Integer getChainLength() {
+        return chainLength;
+    }
+
+    public void setChainLength(Integer chainLength) {
+        this.chainLength = chainLength;
+    }
+
+    public Integer getLastSeries() {
+        return lastSeries;
+    }
+
+    public void setLastSeries(Integer lastSeries) {
+        this.lastSeries = lastSeries;
     }
 }

@@ -10,14 +10,6 @@
         <h1></h1>
 
         <div id="entry">
-            <input type="hidden" id="participant-id"/>
-            Hello <span id="my-name"></span>!<br/>
-
-            <div id="info" style="display:none;">
-                You are about to do four tasks, where the speed of performance is measured.<br/><br/>
-                Please read the instructions of each test carefully before you start.<br/><br/>
-                Press spacebar to start.
-            </div>
         </div>
 
         <div id="guide" style="display: none;">
@@ -31,20 +23,7 @@
         </div>
 
         <div id="result" style="display: none;">
-            <p>Results from previous test:</p>
-            <div>Hits: <span id="hitsPercentage"></span> %</div>
-            <div>Reaction time: <span id="reactionTime"></span> ms (avg)</div>
-            <!--
-            <div>Hits outside timespan <span id="outsideHits"></span></div>
-            -->
-            
-            <div id="taskSwitchingResult" style="display: none;">
-                <p>&nbsp;</p>
-                <div>Hits repeated: <span id="hitsRepeated"></span> %</div>
-                <div>Hits changed: <span id="hitsChanged"></span> %</div>
-                <div>RT repeated: <span id="repeatedReactionTime"></span></div>
-                <div>RT changed: <span id="changedReactionTime"></span></div>
-            </div>
+
         </div>
 
         <div id="timingbox" style="display:none"></div>
@@ -71,7 +50,14 @@
             }
 
             $(document).ready(function() {
-
+                if (location.pathname.indexOf("finnish") !== -1) {
+                    $("#entry").html($("#finnish-entry").text());
+                    $("#result").html($("#result-finnish").text());
+                } else {
+                    $("#entry").html($("#english-entry").text());
+                    $("#result").html($("#result-english").text());
+                }
+                
                 $.ajax({
                     url: 'app/whoami',
                     success: function(data, textStatus) {
@@ -88,6 +74,40 @@
 
                 waitForSpace();
             });
+        </script>
+        <script id="finnish-entry" type="text/template">
+            <input type="hidden" id="participant-id"/>
+
+            <div id="info" style="display:none;">
+                Nyt tehdään neljä tehtävää, joissa mitataan suoritusnopeutta.<br/><br/>
+                Lue jokaisen tehtävän ohjeet tarkasti ennen kuin aloitat. <br/><br/>
+                Pääset tehtäviin välilyönnillä.
+            </div>
+        </script>        
+        <script id="english-entry" type="text/template">
+            <input type="hidden" id="participant-id"/>
+
+            <div id="info" style="display:none;">
+                You are about to do four tasks, where the speed of performance is measured.<br/><br/>
+                Please read the instructions of each test carefully before you start.<br/><br/>
+                Press spacebar to start.
+            </div>
+        </script>
+        <script id="result-finnish" type="text/template">
+            <p>Tulokset edellisestä testistä:</p>
+            <div>Oikeat vastaukset (%): <span id="hitsPercentage"></span></div>
+            <div>Reaktioaikasi: <span id="reactionTime"></span> ms</div>
+        </script>        
+        <script id="result-english" type="text/template">
+            <p>Results from previous test:</p>
+            <div>Hits: <span id="hitsPercentage"></span> %</div>
+            <div>Reaction time: <span id="reactionTime"></span> ms (avg)</div>
+        </script>
+        <script id="moment-finnish" type="text/template">
+            Hetkinen...
+        </script>
+        <script id="moment-english" type="text/template">
+            Hetkinen...
         </script>
     </body>
 </html>

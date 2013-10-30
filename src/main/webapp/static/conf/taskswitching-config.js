@@ -30,80 +30,71 @@ ts.config.elementVisibleInMs = 2500;
 ts.config.pauseBetweenTests = 5000;
 
 ENGLISH_TEXTS = {
-    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x' or 'm', when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
+    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x', when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
     REACTION_TEST_END_TEXT: "Awesome! RT is your average reaction time.",
-    
-    NUMBERTASK_PRACTICE_START_TEXT: "Number task practise: Please observe the top row.<br/><br/>When the number is odd, press 'x'. When the number is even, press 'm'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
+    NUMBERTASK_PRACTICE_START_TEXT: "NUMBER task practise: Please observe the top row.<br/><br/>When the number is odd, press 'x'. When the number is even, press 'm'.<br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip the practise and to continue straight to the task, press 'x' or 'm'.",
+    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work!<br/>Press 'x' to continue straight to the task.<br/>Remember: When the number is odd, press 'x'. When the number is even, press 'm'.<br/><br/>If you want, you can still continue to practise by pressing spacebar.",
     NUMBERTASK_START_TEXT: "Remember: When the number is odd, press 'x'. When the number is even, press 'm'.<br/><br/>Press spacebar to start.",
     NUMBERTASK_END_TEXT: "TODO: TEXT",
-
-    CHARACTERTASK_PRACTICE_START_TEXT: "Letter task practise: Please observe the bottom row.<br/><br/>When the letter is a consonant, press 'x'. When the letter is a vowel, press 'm'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
+    CHARACTERTASK_PRACTICE_START_TEXT: "LETTER task practise: Please observe the bottom row.<br/><br/>When the letter is a consonant, press 'x'. When the letter is a vowel, press 'm'.<br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     CHARACTERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press spacebar to practise.<br/><br/>To skip the practise and to continue straight to the task, press 'x' or 'm'.",
+    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work!<br/>Press 'x' to continue straight to the task.<br/>Remember: When the letter is a consonant, press 'x'. When the letter is a vowel, press 'm'.<br/><br/>If you want, you can still continue to practise by pressing spacebar.",
     CHARACTERTASK_START_TEXT: "Remember: When the letter is a consonant, press 'x'. When the letter is a vowel, press 'm'.<br/><br/>Press spacebar to start.",
     CHARACTERTASK_END_TEXT: "TODO: TEXT",
-    
-    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks:<br/>Please observe both rows. First, you get to practise the task.<br/><br/>Top row: When the number is odd, press 'x'. When the number is even, press 'm'.<br/>Bottom row: When the letter is a consonant, press 'x'. When the letter is a vowel, press 'm'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
+    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks: Please observe both rows.<br><br/>First, you get to practise the task.<br/><br/>Top row: When the number is odd, press 'x'. When the number is even, press 'm'.<br/>Bottom row: When the letter is a consonant, press 'x'. When the letter is a vowel, press 'm'.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     TASKSWITCHING_PRACTICE_END_TEXT: "TODO: TEXT",
-    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise by pressing spacebar.<br/><br/>To skip the practise and to continue straight to the task, press 'x' or 'm'.",
+    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work!<br/>Press 'x' to continue straight to the task.<br/><br/>Remember:<br/>On the top row, odd = 'x', even = 'm'.<br/>On the bottom row, consonant = 'x', vowel = 'm'.<br><br/>If you want, you can still continue to practise by pressing spacebar.",
     TASKSWITCHING_START_TEXT: "Remember:<br/>On the top row, odd = 'x', even = 'm'.<br/>On the bottom row, consonant = 'x', vowel = 'm'.<br/><br/>Press spacebar to start.",
     TASKSWITCHING_END_TEXT: "Thank you for participating!"
 };
 
 ENGLISH_TEXTS_MOBILE = {
-    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press red or green, when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press black to start.",
+    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press red, when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press black to start.",
     REACTION_TEST_END_TEXT: "Awesome! RT is your average reaction time.",
-    
-    NUMBERTASK_PRACTICE_START_TEXT: "Number task practise: Please observe the top row.<br/><br/>When the number is odd, press red. When the number is even, press green.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press black to start to practise.",
+    NUMBERTASK_PRACTICE_START_TEXT: "NUMBER task practise: Please observe the top row.<br/><br/>When the number is odd, press red. When the number is even, press green.<br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press black to start to practise.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press black to practise.<br/><br/>To skip the practise and to continue straight to the task, press red or green.",
+    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work!<br/>Press red to continue straight to the task.<br/>Remember: When the number is odd, press red. When the number is even, press green.<br/><br/>If you want, you can still continue to practise by pressing black.",
     NUMBERTASK_START_TEXT: "Remember: When the number is odd, press red. When the number is even, press green.<br/><br/>Press black to start.",
     NUMBERTASK_END_TEXT: "TODO: TEXT",
-
-    CHARACTERTASK_PRACTICE_START_TEXT: "Letter task practise: Please observe the bottom row.<br/><br/>When the letter is a consonant, press red. When the letter is a vowel, press green.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press black to start to practise.",
+    CHARACTERTASK_PRACTICE_START_TEXT: "LETTER task practise: Please observe the bottom row.<br/><br/>When the letter is a consonant, press red. When the letter is a vowel, press green.<br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press black to start to practise.",
     CHARACTERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise.<br/><br/>Press black to practise.<br/><br/>To skip the practise and to continue straight to the task, press red or green.",
+    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Great work!<br/>Press red to continue straight to the task.<br/>Remember: When the letter is a consonant, press red. When the letter is a vowel, press green.<br/><br/>If you want, you can still continue to practise by pressing black.",
     CHARACTERTASK_START_TEXT: "Remember: When the letter is a consonant, press red. When the letter is a vowel, press green.<br/><br/>Press black to start.",
     CHARACTERTASK_END_TEXT: "TODO: TEXT",
-    
-    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks:<br/>Please observe both rows. First, you get to practise the task.<br/><br/>Top row: When the number is odd, press red. When the number is even, press green.<br/>Bottom row: When the letter is a consonant, press red. When the letter is a vowel, press green.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press black to start to practise.",
+    TASKSWITCHING_PRACTICE_START_TEXT: "Let's combine the previous number- and letter tasks: Please observe both rows.<br><br/>First, you get to practise the task.<br/><br/>Top row: When the number is odd, press red. When the number is even, press green.<br/>Bottom row: When the letter is a consonant, press red. When the letter is a vowel, press green.<br/><br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press black to start to practise.",
     TASKSWITCHING_PRACTICE_END_TEXT: "TODO: TEXT",
-    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work! If you want, you can still continue to practise by pressing black.<br/><br/>To skip the practise and to continue straight to the task, press red or green.",
+    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Great work!<br/>Press red to continue straight to the task.<br/><br/>Remember:<br/>On the top row, odd = red, even = green.<br/>On the bottom row, consonant = red, vowel = green.<br><br/>If you want, you can still continue to practise by pressing black.",
     TASKSWITCHING_START_TEXT: "Remember:<br/>On the top row, odd = red, even = green.<br/>On the bottom row, consonant = red, vowel = green.<br/><br/>Press black to start.",
     TASKSWITCHING_END_TEXT: "Thank you for participating!"
 };
 
 FINNISH_TEXTS = {
-    REACTION_TEST_START_TEXT: "Reaktioaikatehtävä<br/><br/>Paina 'x' tai 'm', kun näet ruudulla minkä tahansa kirjain-numero -parin.<br/><br/>Tee tehtävä niin NOPEASTI kuin pystyt.<br/><br/>Pääset tehtävään välilyönnillä.",
+    REACTION_TEST_START_TEXT: "Reaktioaikatehtävä<br/><br/>Paina 'x', kun näet ruudulla minkä tahansa kirjain-numero -parin.<br/><br/>Tee tehtävä niin NOPEASTI kuin pystyt.<br/><br/>Pääset tehtävään välilyönnillä.",
     REACTION_TEST_END_TEXT: "Hienoa! RT on keskimääräinen reaktioaikasi.",
-    
-    NUMBERTASK_PRACTICE_START_TEXT: "Numerotehtävän harjoitus: Tarkkaile yläriviä.<br/><br/>Kun numero on pariton, paina 'x'. Kun numero on parillinen, paina 'm'.<br/><br/>Tee tehtävä niin NOPEASTI ja VIRHEETTÖMÄSTI kuin pystyt.<br/><br/>Pääset harjoitukseen välilyönnillä.",
+    NUMBERTASK_PRACTICE_START_TEXT: "Harjoitellaan NUMEROtehtävää: Tarkkaile yläriviä.<br/><br/>Kun numero on pariton, paina 'x'. Kun numero on parillinen, paina 'm'.<br/>Tee niin NOPEASTI ja VIRHEETTÖMÄSTI kuin pystyt.<br/><br/>Pääset harjoitukseen välilyönnillä.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Hienoa! Jos haluat, saat vielä jatkaa harjoittelua.<br/><br/>Pääset harjoitukseen välilyönnillä.<br/><br/>Jos haluat jatkaa suoraan tehtävään, paina 'x' tai 'm'.",
-    NUMBERTASK_START_TEXT: "Muista: Kun numero on pariton, paina 'x'. Kun numero on parillinen, paina 'm'.<br/><br/>Pääset tehtävään välilyönnillä.",
+    NUMBERTASK_PRACTICE_ATTEMPTS_LEFT: "Hienoa!<br/>Tehtävä alkaa, kun painat 'x'.<br/>Muista: Paina parittomalle 'x' ja parilliselle 'm'.<br/><br/>Jos kuitenkin haluat vielä harjoitella, paina välilyöntiä.",
+    NUMBERTASK_START_TEXT: "Muista: Paina parittomalle 'x' ja parilliselle 'm'.<br/><br/>Pääset tehtävään välilyönnillä.",
     NUMBERTASK_END_TEXT: "TODO: TEXT",
-
-    CHARACTERTASK_PRACTICE_START_TEXT: "Kirjaintehtävän harjoitus: Tarkkaile yläriviä.<br/><br/>Kun kirjain on konsonantti, paina 'x'. Kun kirjain on vokaali, paina 'm'.<br/><br/>Tee tehtävä niin NOPEASTI ja VIRHEETTÖMÄSTI kuin pystyt.<br/><br/>Pääset harjoitukseen välilyönnillä.",
+    CHARACTERTASK_PRACTICE_START_TEXT: "Harjoitellaan KIRJAINtehtävää: Tarkkaile alariviä.<br/><br/>Kun kirjain on konsonantti, paina 'x'. Kun kirjain on vokaali, paina 'm'.<br/>Tee niin NOPEASTI ja VIRHEETTÖMÄSTI kuin pystyt.<br/><br/>Pääset harjoitukseen välilyönnillä.",
     CHARACTERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
-    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Hienoa! Jos haluat, saat vielä jatkaa harjoittelua.<br/><br/>Pääset harjoitukseen välilyönnillä.<br/><br/>Jos haluat jatkaa suoraan tehtävään, paina 'x' tai 'm'.",
-    CHARACTERTASK_START_TEXT: "Muista: Kun kirjain on konsonantti, paina 'x'. Kun kirjain on vokaali, paina 'm'.<br/><br/>Pääset tehtävään välilyönnillä.",
+    CHARACTERTASK_PRACTICE_ATTEMPTS_LEFT: "Hienoa!<br/>Tehtävä alkaa, kun painat 'x'.<br/>Muista: Paina konsonantille 'x' ja vokaalille 'm'.<br/><br/>Jos kuitenkin haluat vielä harjoitella, paina välilyöntiä.",
+    CHARACTERTASK_START_TEXT: "Muista: Paina konsonantille 'x' ja vokaalille 'm'.<br/><br/>Pääset tehtävään välilyönnillä.",
     CHARACTERTASK_END_TEXT: "TODO: TEXT",
-    
-    TASKSWITCHING_PRACTICE_START_TEXT: "Nyt tehdään edellisiä numero- ja kirjaintehtäviä yhtä aikaa:<br/>Tarkkaile molempia rivejä. Saat ensin harjoitella tehtävää.<br/><br/>Ylärivi: Kun numero on pariton, paina 'x'. Kun numero on parillinen, paina 'm'.<br/>Alarivi: Kun kirjain on konsonantti, paina 'x'. Kun kirjain on vokaali, paina 'm'.<br/><br/>Tee tehtävä niin NOPEASTI ja VIRHEETTÖMÄSTI kuin pystyt.",
+    TASKSWITCHING_PRACTICE_START_TEXT: "Nyt yhdistetään edelliset numero- ja kirjaintehtävät: Tarkkaile molempia rivejä.<br/><br/>Ylärivi: pariton = 'x', parillinen = 'm'.<br/>Alarivi: konsonantti = 'x', vokaali = 'm'.<br/><br/>Tee niin NOPEASTI ja VIRHEETTÖMÄSTI kuin pystyt.<br/><br/>Harjoitellaan ensin. Paina välilyöntiä.",
     TASKSWITCHING_PRACTICE_END_TEXT: "TODO: TEXT",
-    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Hienoa! Jos haluat, saat vielä jatkaa harjoittelua painamalla välilyöntiä.<br/><br/>Jos haluat suoraan tehtävään, paina 'x' tai 'm'.",
+    TASKSWITCHING_PRACTICE_ATTEMPTS_LEFT: "Hienoa! Tehtävä alkaa, kun painat 'x'.<br/><br/>Muista:<br/>Ylärivillä pariton = 'x', parillinen = 'm'.<br/>Alarivillä konsonantti = 'x', vokaali = 'm'.<br/><br/>Jos kuitenkin haluat vielä harjoitella, paina välilyöntiä.",
     TASKSWITCHING_START_TEXT: "Muista:<br/>Ylärivillä pariton = 'x', parillinen = 'm'.<br/>Alarivillä konsonantti = 'x', vokaali = 'm'.<br/><br/>Pääset tehtävään välilyönnillä.",
     TASKSWITCHING_END_TEXT: "Kiitos osallistumisesta!"
 };
 
- // set used text
+// set used text
 ts.texts = ENGLISH_TEXTS;
-if(location.pathname.indexOf("mobile") !== -1) {
+if (location.pathname.indexOf("mobile") !== -1) {
     ts.texts = ENGLISH_TEXTS_MOBILE;
 } else if (location.pathname.indexOf("finnish") !== -1) {
-    ts.texts = FINNISH_TEXTS;    
+    ts.texts = FINNISH_TEXTS;
 }
 
 ts.pracelements = {
@@ -262,12 +253,22 @@ ts.config.loadTestSet = function(type, initialDescription, postText, dataUrl) {
     $.ajax({
         url: dataUrl,
         async: false,
+        beforeSend: function() {
+            if (location.pathname.indexOf("finnish") !== -1) {
+                $("#guide").html($("#moment-finnish").text());
+            } else {
+                $("#guide").html($("#moment-english").text());
+            }
+            $("#guide").show();
+        },
         success: function(json) {
             elements = json;
+            $("#guide").hide();
         },
         dataType: "json"
     });
 
+    $("#guide").hide();
     var test = new ts.fn.createTest(
             type,
             initialDescription,

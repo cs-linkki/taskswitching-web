@@ -14,6 +14,9 @@ public class AdditionalKeyPress implements Serializable {
     private Long stimulantIndex;
     private String keyPress;
     private Double keyPressTime;
+    private Integer place;
+    private Integer chainLength;
+    private Integer lastSeries;
 
     public AdditionalKeyPress() {
     }
@@ -48,5 +51,29 @@ public class AdditionalKeyPress implements Serializable {
 
     public void setKeyPressTime(Double keyPressTime) {
         this.keyPressTime = keyPressTime;
+    }
+
+    public Integer getPlace() {
+        return place;
+    }
+
+    public void setPlace(Integer place) {
+        this.place = place;
+    }
+
+    public Integer getChainLength() {
+        return chainLength;
+    }
+
+    public void setChainLength(Integer chainLength) {
+        this.chainLength = chainLength;
+    }
+
+    public Integer getLastSeries() {
+        return lastSeries;
+    }
+
+    public void setLastSeries(Integer lastSeries) {
+        this.lastSeries = lastSeries;
     }
 }

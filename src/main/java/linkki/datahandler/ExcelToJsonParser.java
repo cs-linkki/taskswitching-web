@@ -17,8 +17,9 @@ public class ExcelToJsonParser {
     public static void main(String[] args) throws Exception {
         parse("data/TS_kirjainteht_listat.xls", "src/main/webapp/static/data/characterreaction-data.json", false);
         parse("data/TS_nroteht_listat.xls", "src/main/webapp/static/data/numberreaction-data.json", true);
-        parseTSEntries("data/TS_tehtvaihto_listat.xls", "src/main/webapp/static/data/taskswitching-data.json", false);
-        parseReactionTimeEntries("data/Listat_reaktioaikatesti.xlsx", "src/main/webapp/static/data/reaction-data.json", false);
+        parseTSEntries("data/TSlukiot_listat_korjattu.xls", "src/main/webapp/static/data/taskswitching-data-finnish.json", false);
+        parseTSEntries("data/TS_tehtvaihto_listat_eng.xls", "src/main/webapp/static/data/taskswitching-data.json", false);
+//        parseReactionTimeEntries("data/Listat_reaktioaikatesti.xlsx", "src/main/webapp/static/data/reaction-data.json", false);
     }
 
     public static void parse(String in, String out, boolean reverseLists) throws Exception {
@@ -187,7 +188,9 @@ public class ExcelToJsonParser {
 
 class TaskSwitchingEntry extends Entry {
 
-    String place;
+    Integer place;
+    Integer lastSeries;
+    Integer chainLength;
 
     public TaskSwitchingEntry(String line) throws IllegalArgumentException {
         super(line);
@@ -198,14 +201,26 @@ class TaskSwitchingEntry extends Entry {
         }
 
         text = data[0];
+        text = text.toLowerCase().replaceAll("y", "i");
         align = data[1];
         location = data[2];
-        place = data[3];
         correctAnswer = data[4];
+
+        place = Integer.parseInt(data[3]);
+        lastSeries = Integer.parseInt(data[5]);
+        chainLength = Integer.parseInt(data[6]);
     }
 
-    public String getPlace() {
+    public Integer getPlace() {
         return place;
+    }
+
+    public Integer getLastSeries() {
+        return lastSeries;
+    }
+
+    public Integer getChainLength() {
+        return chainLength;
     }
 
     @Override

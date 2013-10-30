@@ -10,17 +10,10 @@
         <h1></h1>
 
         <div id="entry">
-            <form id="auth-form" method="POST" action="app/formauth">
-                Enter your participant ID and press the button<br/>
-                <input id="participant-id" name="username" /><br/>
-                <input name="password" value="salainen" type="hidden"/><br/>
-                <input type="submit" value="Continue"/>
-            </form>
+            <div id="auth-form"></div>
             <div id="entry-info"></div><br/>
 
             <div id="info">
-                You are about to do four tasks, where the speed of performance is measured.<br/><br/>
-                Please read the instructions of each test carefully before you start.<br/><br/>
             </div>
         </div>
 
@@ -28,13 +21,35 @@
 
         <script>
             $(document).ready(function() {
+                if (location.pathname.indexOf("finnish") !== -1) {
+                    $("#auth-form").html($("#finnish-login").text());
+                } else {
+                    $("#auth-form").html($("#english-login").text());
+                }
+
                 var url = $(location).attr('href');
                 console.log("url is: " + url);
-                
-                if(url.indexOf("error") !== -1) {
+
+                if (url.indexOf("error") !== -1) {
                     $("#entry-info").html("Verify your username and try again.");
                 }
             });
+        </script>
+        <script id="finnish-login" type="text/template">
+            <form method="POST" action="app/formauth">
+                Kirjoita käyttäjätunnuksesi ja valitse sen jälkeen Jatka.<br/>
+                <input id="participant-id" name="username" />
+                <input name="password" value="salainen" type="hidden"/><br/>
+                <input type="submit" value="Jatka"/>
+            </form>
+        </script>        
+        <script id="english-login" type="text/template">
+            <form method="POST" action="app/formauth">
+                Please enter your participant ID and press Continue.<br/>
+                <input id="participant-id" name="username" />
+                <input name="password" value="salainen" type="hidden"/><br/>
+                <input type="submit" value="Continue"/>
+            </form>
         </script>
     </body>
 </html>
