@@ -44,10 +44,6 @@ public class LoginController {
         return auth(username, "salainen", "", request);
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public void login() {
-    }
-
     @RequestMapping(value = "formauth", method = RequestMethod.POST)
     public String performFormAuth(
             @RequestParam(value = "username", required = true) String username,

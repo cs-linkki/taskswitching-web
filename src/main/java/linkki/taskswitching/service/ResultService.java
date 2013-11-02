@@ -2,6 +2,8 @@ package linkki.taskswitching.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import linkki.taskswitching.dto.AdditionalKeyPress;
 import linkki.taskswitching.dto.Participant;
 import linkki.taskswitching.dto.Reaction;
@@ -11,6 +13,7 @@ import linkki.taskswitching.repository.ParticipantRepository;
 import linkki.taskswitching.repository.ReactionRepository;
 import linkki.taskswitching.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,7 @@ public class ResultService {
     @Autowired
     private ReactionRepository reactionRepository;
 
+    @Async
     @Transactional(readOnly = false)
     public void save(TestResult result) {
         if(result.getParticipant() == null || result.getParticipant().getUsername() == null) {

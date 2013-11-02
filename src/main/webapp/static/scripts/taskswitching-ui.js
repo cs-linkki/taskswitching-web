@@ -17,7 +17,7 @@ ts.ui.getUrlParam = function(key) {
 };
 
 ts.ui.bindKeys = function(leftKeyCode, leftFunctionCall, rightKeyCode, rightFunctionCall, anyOtherFunctionCall) {
-    console.log("Binding keys for test, current test index: " + ts.program.currentTestIndex);
+    console.log("Binding keys for test");
     $(document).keydown(function(e) {
         switch (e.which) {
             case leftKeyCode: // x

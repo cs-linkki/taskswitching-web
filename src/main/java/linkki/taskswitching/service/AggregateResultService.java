@@ -47,7 +47,10 @@ public class AggregateResultService {
             correct++;
         }
 
-        aggregateResult.setParticipantId(result.getParticipant().getId());
+        if (result.getParticipant() != null) {
+            aggregateResult.setParticipantId(result.getParticipant().getId());
+        }
+
         aggregateResult.setInfo(result.getInfo());
         aggregateResult.setTestType(result.getTestType());
         if (result.getReactions().isEmpty()) {

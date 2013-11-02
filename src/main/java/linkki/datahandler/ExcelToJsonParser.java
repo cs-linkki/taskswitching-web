@@ -15,10 +15,10 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 public class ExcelToJsonParser {
 
     public static void main(String[] args) throws Exception {
-        parse("data/TS_kirjainteht_listat.xls", "src/main/webapp/static/data/characterreaction-data.json", false);
-        parse("data/TS_nroteht_listat.xls", "src/main/webapp/static/data/numberreaction-data.json", true);
-        parseTSEntries("data/TSlukiot_listat_korjattu.xls", "src/main/webapp/static/data/taskswitching-data-finnish.json", false);
-        parseTSEntries("data/TS_tehtvaihto_listat_eng.xls", "src/main/webapp/static/data/taskswitching-data.json", false);
+        parse("data/TS_kirjainteht_listat.xls", "src/main/webapp/static/data/single/characterreaction-data-{0}.json", false);
+        parse("data/TS_nroteht_listat.xls", "src/main/webapp/static/data/single/numberreaction-data-{0}.json", true);
+        parseTSEntries("data/TSlukiot_listat_korjattu.xls", "src/main/webapp/static/data/single/taskswitching-data-finnish-{0}.json", false);
+        parseTSEntries("data/TS_tehtvaihto_listat_eng.xls", "src/main/webapp/static/data/single/taskswitching-data-{0}.json", false);
 //        parseReactionTimeEntries("data/Listat_reaktioaikatesti.xlsx", "src/main/webapp/static/data/reaction-data.json", false);
     }
 
@@ -31,7 +31,7 @@ public class ExcelToJsonParser {
         extractor.setIncludeSheetNames(false);
         String text = extractor.getText();
 
-        Document document = new Document();
+        List<Sheet> sheets = new ArrayList<Sheet>();
         Sheet currentSheet = new Sheet();
 
         Scanner s = new Scanner(text);
@@ -43,7 +43,7 @@ public class ExcelToJsonParser {
                 entry = new Entry(line);
             } catch (IllegalArgumentException e) {
                 if (!currentSheet.isEmpty()) {
-                    document.add(currentSheet);
+                    sheets.add(currentSheet);
                     currentSheet = new Sheet();
                 }
 
@@ -53,28 +53,38 @@ public class ExcelToJsonParser {
             currentSheet.add(entry);
         }
 
-        System.out.println("Total sheets in document: " + document.size());
-        System.out.println(document);
+        System.out.println("Total sheets in document: " + sheets.size());
+        System.out.println(sheets);
 
-        List<Sheet> newSheets = new ArrayList<Sheet>();
-        for (Sheet sheet : document) {
+        List<Sheet> outputSheets = new ArrayList<Sheet>();
+        
+        for (Sheet sheet : sheets) {
             Sheet sh = new Sheet();
             sh.addAll(sheet);
             Collections.reverse(sh);
-            newSheets.add(sh);
+            outputSheets.add(sh);
         }
 
-
+        List<Sheet> finalSheets = new ArrayList<Sheet>();
         if (reverseLists) {
-            document.addAll(0, newSheets);
+            finalSheets.addAll(outputSheets);
+            finalSheets.addAll(sheets);
         } else {
-            document.addAll(newSheets);
+            finalSheets.addAll(sheets);
+            finalSheets.addAll(outputSheets);
         }
+        
 
+        for (int i = 0; i < finalSheets.size(); i++) {
+            Sheet sheet = finalSheets.get(i);
+            String filename = out.replace("{0}", "" + i);
+            
+            Document document = new Document();
+            document.add(sheet);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File(out), document);
-
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(new File(filename), document);
+        }
     }
 
     public static void parseTSEntries(String in, String out, boolean reverseLists) throws Exception {
@@ -86,7 +96,7 @@ public class ExcelToJsonParser {
         extractor.setIncludeSheetNames(false);
         String text = extractor.getText();
 
-        Document document = new Document();
+        List<Sheet> sheets = new ArrayList<Sheet>();
         Sheet currentSheet = new Sheet();
 
         Scanner s = new Scanner(text);
@@ -98,7 +108,7 @@ public class ExcelToJsonParser {
                 entry = new TaskSwitchingEntry(line);
             } catch (IllegalArgumentException e) {
                 if (!currentSheet.isEmpty()) {
-                    document.add(currentSheet);
+                    sheets.add(currentSheet);
                     currentSheet = new Sheet();
                 }
 
@@ -108,27 +118,39 @@ public class ExcelToJsonParser {
             currentSheet.add(entry);
         }
 
-        System.out.println("Total sheets in document: " + document.size());
-        System.out.println(document);
+        System.out.println("Total sheets in document: " + sheets.size());
+        System.out.println(sheets);
 
-        List<Sheet> newSheets = new ArrayList<Sheet>();
-        for (Sheet sheet : document) {
+        List<Sheet> outputSheets = new ArrayList<Sheet>();
+        
+        for (Sheet sheet : sheets) {
             Sheet sh = new Sheet();
             sh.addAll(sheet);
             Collections.reverse(sh);
-            newSheets.add(sh);
+            outputSheets.add(sh);
         }
 
-
+        List<Sheet> finalSheets = new ArrayList<Sheet>();
         if (reverseLists) {
-            document.addAll(0, newSheets);
+            finalSheets.addAll(outputSheets);
+            finalSheets.addAll(sheets);
         } else {
-            document.addAll(newSheets);
+            finalSheets.addAll(sheets);
+            finalSheets.addAll(outputSheets);
         }
 
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File(out), document);
+
+        for (int i = 0; i < finalSheets.size(); i++) {
+            Sheet sheet = finalSheets.get(i);
+            String filename = out.replace("{0}", "" + i);
+            
+            Document document = new Document();
+            document.add(sheet);
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(new File(filename), document);
+        }
     }
 
     private static void parseReactionTimeEntries(String in, String out, boolean reverseLists) throws Exception {

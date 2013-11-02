@@ -39,7 +39,9 @@ public class ResultController {
 
         result.setParticipant(participantRepository.findByUsername(result.getParticipant().getUsername()));
 
+        System.out.println("storing results");
         resultService.save(result);
+        System.out.println("done..");
         return aggregateResultService.calculateResult(result);
     }
 

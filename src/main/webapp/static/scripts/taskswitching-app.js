@@ -8,7 +8,11 @@ ts.result = null;
 
 // and the main code
 ts.program = {
+    primaryInitDone: false,
+    waitingForPress: false,
+    singleLists: true,
     keysBound: false,
+    listId: 0,
     initVars: function(testType) {
         ts.program.currentTimeoutVariable = null;
         ts.program.currentDataElement = null;
@@ -22,12 +26,13 @@ ts.program = {
     },
     step: 0,
     init: function() {
+        console.log("pre-init, step: " + ts.program.step);
         ts.specificTest = ts.ui.getUrlParam("test");
         ts.limitReactions = ts.ui.getUrlParam("limit");
 
         ts.program.step++;
 
-        if (ts.specificTest) {
+        if (ts.specificTest && !ts.primaryInitDone) {
             switch (ts.specificTest) {
                 case "REACTION":
                     ts.program.step = 1;
@@ -42,85 +47,83 @@ ts.program = {
                     ts.program.step = 6;
                     break;
             }
+            
+            ts.primaryInitDone = true;
         }
-
-        switch (ts.program.step) {
+        
+        if(ts.program.step > 7) {
+            console.log("attempting to initiate a test with step " + ts.program.step);
+            console.log("-- we're finished :)");
+            return;
+        }
+        
+        var testName = "";
+        var testType = "";
+        var startTexts = null;
+        var endTexts = null;
+        
+        switch(ts.program.step) {
             case 1:
                 ts.config.elementVisibleInMs = 1950;
-                // 1. reaction test
-                ts.config.loadTestSet("REACTION",
-                        ts.texts.REACTION_TEST_START_TEXT,
-                        ts.texts.REACTION_TEST_END_TEXT,
-                        "static/data/reaction-data.json");
-                ts.program.initializeTest("game");
+                testName = "REACTION";
+                startTexts = ts.texts.REACTION_TEST_START_TEXT;
+                endTexts = ts.texts.REACTION_TEST_END_TEXT;
                 break;
             case 2:
-                // override any configuration that was possibly induced in the previous step
                 ts.config.pauseBeforeFirstShow = 2500;
                 ts.config.pauseAfterWrongAnswerInMs = 1500;
                 ts.config.pauseAfterCorrectAnswerInMs = 150;
                 ts.config.elementVisibleInMs = 2540;
-
-                // 2. practice run, top row (min 1, max 3 times)
-                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
-                ts.config.loadPracticeTest("NUMBERREACTION",
-                        ts.texts.NUMBERTASK_PRACTICE_START_TEXT,
-                        ts.texts.NUMBERTASK_PRACTICE_END_TEXT);
-                ts.program.initializeTest("practice");
+                
+                testName = "NUMBERREACTION";
+                startTexts = ts.texts.NUMBERTASK_PRACTICE_START_TEXT;
+                endTexts = ts.texts.NUMBERTASK_PRACTICE_END_TEXT;
                 break;
             case 3:
-                // 3. game top row
-                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
-                ts.config.loadTestSet("NUMBERREACTION",
-                        ts.texts.NUMBERTASK_START_TEXT,
-                        ts.texts.NUMBERTASK_END_TEXT,
-                        "static/data/numberreaction-data.json");
-                ts.program.initializeTest("game");
+                testName = "NUMBERREACTION";
+                startTexts = ts.texts.NUMBERTASK_START_TEXT;
+                endTexts = ts.texts.NUMBERTASK_END_TEXT;
                 break;
             case 4:
-                // 4. practice run, bottom row (min 1, max 3 times)
-                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
-                ts.config.loadPracticeTest("CHARACTERREACTION",
-                        ts.texts.CHARACTERTASK_PRACTICE_START_TEXT,
-                        ts.texts.CHARACTERTASK_PRACTICE_END_TEXT);
-                ts.program.initializeTest("practice");
+                testName = "CHARACTERREACTION";
+                startTexts = ts.texts.CHARACTERTASK_PRACTICE_START_TEXT;
+                endTexts = ts.texts.CHARACTERTASK_PRACTICE_END_TEXT;
                 break;
             case 5:
-                // 5. game bottom row
-                $("#guide").html("Kapow! Getting the character reaction test ready.....");
-                ts.config.loadTestSet("CHARACTERREACTION",
-                        ts.texts.CHARACTERTASK_START_TEXT,
-                        ts.texts.CHARACTERTASK_END_TEXT,
-                        "static/data/characterreaction-data.json");
-                ts.program.initializeTest("game");
+                testName = "CHARACTERREACTION";
+                startTexts = ts.texts.CHARACTERTASK_START_TEXT;
+                endTexts = ts.texts.CHARACTERTASK_END_TEXT;
                 break;
             case 6:
-                // 6. practice task switching (min 1, max 3 times)
-                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
-                ts.config.loadPracticeTest("TASKSWITCHING",
-                        ts.texts.TASKSWITCHING_PRACTICE_START_TEXT,
-                        ts.texts.TASKSWITCHING_PRACTICE_END_TEXT);
-                ts.program.initializeTest("practice");
+                testName = "TASKSWITCHING";
+                startTexts = ts.texts.TASKSWITCHING_PRACTICE_START_TEXT;
+                endTexts = ts.texts.TASKSWITCHING_PRACTICE_END_TEXT;
                 break;
             case 7:
-                // 7. game task switching
-                $("#guide").html("Great work! You are now ready to play! Wait a moment...");
-                if (location.pathname.indexOf("finnish") !== -1) {
-                    ts.config.loadTestSet(
-                            "TASKSWITCHING",
-                            ts.texts.TASKSWITCHING_START_TEXT,
-                            ts.texts.TASKSWITCHING_END_TEXT,
-                            "static/data/taskswitching-data-finnish.json");
-                } else {
-                    ts.config.loadTestSet(
-                            "TASKSWITCHING",
-                            ts.texts.TASKSWITCHING_START_TEXT,
-                            ts.texts.TASKSWITCHING_END_TEXT,
-                            "static/data/taskswitching-data.json");
-                }
-                ts.program.initializeTest("game");
+                testName = "TASKSWITCHING";
+                startTexts = ts.texts.TASKSWITCHING_START_TEXT;
+                endTexts = ts.texts.TASKSWITCHING_END_TEXT;
                 break;
+            default: 
+                console.log("unable to initialize test");
         }
+
+        if (ts.program.step % 2 === 0) {
+            testType = "practice";
+            ts.config.loadPracticeTest(testName,
+                        startTexts,
+                        endTexts);
+        } else {
+            testType = "game";
+
+            var url = ts.fn.getListUrl(testName, testType);
+            ts.config.loadTestSet(testName,
+                    startTexts,
+                    endTexts,
+                    url);
+        }
+        
+        ts.program.initializeTest(testType);
     },
     initializeTest: function(testType) {
         ts.program.initVars(testType);
@@ -154,18 +157,21 @@ ts.program = {
     startNextTest: function() {
         ts.program.lastShowTime = TOO_EARLY;
         ts.program.currentDataElement = 0;
-
+       
         // get current test
         ts.program.currentTest = ts.tests[0];
-
-        var listId = ts.fn.getNextListId($("#participant-id").val(), ts.program.currentTest.testType, ts.program.testType);
-        ts.program.currentTestData = ts.program.currentTest.elements[(listId % ts.program.currentTest.elements.length)];
+        
+        if (ts.program.singleLists) {
+            ts.program.currentTestData = ts.program.currentTest.elements[0];
+        } else {
+            ts.program.currentTestData = ts.program.currentTest.elements[(ts.program.listId % ts.program.currentTest.elements.length)];
+        }
 
         // init result variables
         var participant = {};
         participant.username = $("#participant-id").val();
 
-        ts.result = new ResultObject(listId, ts.program.currentTest.testType, ts.program.testType, participant);
+        ts.result = new ResultObject(ts.program.listId, ts.program.currentTest.testType, ts.program.testType, participant);
 
         ts.ui.init(ts.program.currentTest.startText);
         // program will start once user presses space
@@ -173,6 +179,7 @@ ts.program = {
     },
     bindSpace: function() {
         // fix here
+        ts.program.waitingForPress = true;
         $(document).one('keydown', function(e) {
             ts.program.handleSpace(e);
         });
@@ -183,6 +190,7 @@ ts.program = {
             return;
         }
 
+        ts.program.waitingForPress = false;
         ts.ui.showGameArea();
         ts.program.start();
     },
@@ -298,15 +306,21 @@ ts.program = {
     },
     additionalPress: function(key) {
         if (ts.result.testType === "TASKSWITCHING") {
-            var testIdx = ts.program.currentDataElement;
-            ts.result.addAdditionalKeyPressInformation({
-                stimulantIndex: ts.program.currentDataElement,
-                keyPress: key,
-                keyPressTime: ts.time(),
-                place: ts.program.currentTestData[testIdx].place,
-                chainLength: ts.program.currentTestData[testIdx].chainLength,
-                lastSeries: ts.program.currentTestData[testIdx].lastSeries
-            });
+            if (ts.program.currentDataElement < ts.program.currentTestData.length) {
+                console.log("additional press during test");
+                var testIdx = ts.program.currentDataElement;
+                ts.result.addAdditionalKeyPressInformation({
+                    stimulantIndex: ts.program.currentDataElement,
+                    keyPress: key,
+                    keyPressTime: ts.time(),
+                    place: ts.program.currentTestData[testIdx].place,
+                    chainLength: ts.program.currentTestData[testIdx].chainLength,
+                    lastSeries: ts.program.currentTestData[testIdx].lastSeries
+                });
+            } else {
+                console.log("additional press after test");
+            }
+            
         } else {
             ts.result.addAdditionalKeyPressInformation({
                 stimulantIndex: ts.program.currentDataElement,
@@ -323,6 +337,11 @@ ts.program = {
         }
     },
     pressed: function(answer) {
+        if(ts.program.waitingForPress) {
+            console.log("pressed a key while waiting for a keypress (e.g. startup, init): ignoring from logs.");
+            return;
+        }
+
         if (answer !== KEY_LEFT && answer !== "LEFT" && answer !== KEY_RIGHT && answer !== "RIGHT") {
             ts.program.additionalPress("INVALID_KEY:" + answer);
             return;
@@ -351,9 +370,6 @@ ts.program = {
         } else if (currentElement.location === BOTTOM) {
             elementType = "CHARACTER";
         }
-
-
-
 
         if (ts.result.testType === "TASKSWITCHING") {
             ts.result.addReactionInformation({
@@ -388,20 +404,27 @@ ts.program = {
         ts.program.lastShowTime = TOO_LATE;
         ts.program.clear();
 
+        console.log("submitting results, count of current type of tests: " + ts.program.testTypeCounts);
+        
         // not really shown for long
         ts.ui.showGuideText(ts.program.currentTest.endText);
         ts.program.submitResults(function(response) {
             ts.ui.showBasicStats(response);
         });
+        
 
         // if we've been practicing, give an option to do something else for
         // a while
         if (ts.program.testType === "practice") {
+            
             if (ts.program.testTypeCounts >= 3) {
+                console.log("enough practice, go for real task");
                 // we've practiced over 3 times; time for the next test
                 ts.program.init();
                 return;
             }
+            
+            console.log("not enough practice, give still the option");
 
             var practiceAttemptsLeftText = "";
             if (ts.result.testType === "TASKSWITCHING") {
@@ -416,19 +439,28 @@ ts.program = {
 
             // less than or eq to 2 practice times
             $("#guide").html(practiceAttemptsLeftText);
+            console.log("binding a keypress for listning to the practice attempt");
+            ts.program.waitingForPress = true;
             $(document).one('keydown', function(e) {
                 $("#result").hide();
+                
+                ts.program.waitingForPress = false;
                 if (e.keyCode === 0 || e.keyCode === 32) {
                     // space
+                    console.log("pressed space, init practice");
                     ts.program.startNextTest();
                 } else {
                     // any key
+                    console.log("pressed other than space, init test");
                     ts.program.init();
                 }
+                
             });
+            
             return;
         }
 
+        console.log("the previous round was not a practice round, init next test type");
         // we were not practicing, lets init the next step
         ts.program.init();
     },
@@ -475,6 +507,7 @@ ts.fn.createTest = function(testType, startText, endText, elements) {
 };
 
 ts.fn.getNextListId = function(userId, testType, info) {
+    console.log("retrieving next list id, user: " + userId + ", test type: " + testType + ", info: " + info);
     var result;
     $.ajax({
         type: "GET",
@@ -486,4 +519,38 @@ ts.fn.getNextListId = function(userId, testType, info) {
     });
 
     return result;
+};
+ts.fn.getListUrl = function(testName, testType) {
+    ts.program.listId = ts.fn.getNextListId($("#participant-id").val(), testName, testType);
+    
+    if (ts.program.singleLists) {
+        
+        if (testName === "TASKSWITCHING") {
+            if (location.pathname.indexOf("finnish") !== -1) {
+                return "static/data/single/taskswitching-data-finnish-" + (ts.program.listId % 20) + ".json";
+            } else {
+                return "static/data/single/taskswitching-data-" + (ts.program.listId % 40) + ".json";
+            }
+        } else if (testName === "CHARACTERREACTION") {
+            return "static/data/single/characterreaction-data-" + (ts.program.listId % 40) + ".json";
+        } else if (testName === "NUMBERREACTION") {
+            return "static/data/single/numberreaction-data-" + (ts.program.listId % 40) + ".json";
+        } else if (testName === "REACTION") {
+            return "static/data/single/reaction-data-" + (ts.program.listId % 10) + ".json";
+        }
+    }
+
+    if (testName === "TASKSWITCHING") {
+        if (location.pathname.indexOf("finnish") !== -1) {
+            return "static/data/single/taskswitching-data-finnish.json";
+        } else {
+            return "static/data/single/taskswitching-data.json";
+        }
+    } else if (testName === "CHARACTERREACTION") {
+        return "static/data/single/characterreaction-data.json";
+    } else if (testName === "NUMBERREACTION") {
+        return "static/data/single/numberreaction-data.json";
+    } else if (testName === "REACTION") {
+        return "static/data/single/reaction-data.json";
+    }
 };

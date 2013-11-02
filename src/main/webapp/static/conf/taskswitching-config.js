@@ -230,7 +230,7 @@ ts.config.loadPracticeTest = function(type, initialDescription, postText) {
             elements = ts.pracelements.TASK_SWITCHING_ELEMENTS;
             break;
         default:
-            console.log("Unable to determine test to load!: " + testType);
+            console.log("Unable to determine test to load!: " + type);
     }
 
 
@@ -248,22 +248,19 @@ ts.config.loadPracticeTest = function(type, initialDescription, postText) {
 // TODO: perhaps load tests already here?
 
 ts.config.loadTestSet = function(type, initialDescription, postText, dataUrl) {
-
+    if (location.pathname.indexOf("finnish") !== -1) {
+        $("#guide").html($("#moment-finnish").text());
+    } else {
+        $("#guide").html($("#moment-english").text());
+    }
+    $("#guide").show();
+    
     var elements = null;
     $.ajax({
         url: dataUrl,
         async: false,
-        beforeSend: function() {
-            if (location.pathname.indexOf("finnish") !== -1) {
-                $("#guide").html($("#moment-finnish").text());
-            } else {
-                $("#guide").html($("#moment-english").text());
-            }
-            $("#guide").show();
-        },
         success: function(json) {
             elements = json;
-            $("#guide").hide();
         },
         dataType: "json"
     });
