@@ -54,7 +54,12 @@
                     $("#entry").html($("#finnish-entry").text());
                     $("#result").html($("#result-finnish").text());
                 } else {
-                    $("#entry").html($("#english-entry").text());
+                    if(location.pathname.indexOf("mobile") !== -1) {
+                        $("#entry").html($("#english-mobile-entry").text());
+                    } else {
+                        $("#entry").html($("#english-entry").text());
+                    }
+                    
                     $("#result").html($("#result-english").text());
                 }
                 
@@ -93,6 +98,15 @@
                 Press spacebar to start.
             </div>
         </script>
+        <script id="english-mobile-entry" type="text/template">
+            <input type="hidden" id="participant-id"/>
+
+            <div id="info" style="display:none;">
+                You are about to do four tasks, where the speed of performance is measured.<br/><br/>
+                Please read the instructions of each test carefully before you start.<br/><br/>
+                Press black to start.
+            </div>
+        </script>
         <script id="result-finnish" type="text/template">
             <p>Tulokset edellisestä testistä:</p>
             <div>Oikeat vastaukset (%): <span id="hitsPercentage"></span></div>
@@ -107,7 +121,7 @@
             Hetkinen...
         </script>
         <script id="moment-english" type="text/template">
-            Hetkinen...
+            One moment...
         </script>
     </body>
 </html>
