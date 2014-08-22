@@ -2,8 +2,7 @@ package linkki.taskswitching.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import linkki.taskswitching.dto.AdditionalKeyPress;
 import linkki.taskswitching.dto.Participant;
 import linkki.taskswitching.dto.Reaction;
@@ -21,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ResultService {
 
     @Autowired
+    private ServletContext servletContext;
+    @Autowired
     private ParticipantRepository participantRepository;
     @Autowired
     private ResultRepository resultRepository;
@@ -36,7 +37,7 @@ public class ResultService {
             return;
         }
         
-        Participant p = participantRepository.findByUsername(result.getParticipant().getUsername());
+        Participant p = participantRepository.findByUsernameAndContextPath(result.getParticipant().getUsername(), servletContext.getContextPath());
         result.setParticipant(p);
         
         List<AdditionalKeyPress> presses = new ArrayList<AdditionalKeyPress>();

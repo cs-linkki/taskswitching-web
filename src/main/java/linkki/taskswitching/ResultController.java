@@ -5,6 +5,7 @@ import linkki.taskswitching.view.DataTablesOutput;
 import linkki.taskswitching.dto.TestResult;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletContext;
 import linkki.taskswitching.repository.ParticipantRepository;
 import linkki.taskswitching.service.AggregateResultService;
 import linkki.taskswitching.view.AggregateResult;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ResultController {
+    @Autowired
+    private ServletContext servletContext;
 
     @Autowired
     private ParticipantRepository participantRepository;
@@ -37,7 +40,7 @@ public class ResultController {
             }
         }
 
-        result.setParticipant(participantRepository.findByUsername(result.getParticipant().getUsername()));
+        result.setParticipant(participantRepository.findByUsernameAndContextPath(result.getParticipant().getUsername(), servletContext.getContextPath()));
 
         System.out.println("storing results");
         resultService.save(result);

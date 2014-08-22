@@ -36,7 +36,7 @@ public class LoginController {
     @ResponseBody
     public Participant getDetails() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return participantRepository.findByUsername(username);
+        return participantRepository.findByUsernameAndContextPath(username, servletContext.getContextPath());
     }
 
     @RequestMapping(value = "auth/{username}", method = RequestMethod.GET)

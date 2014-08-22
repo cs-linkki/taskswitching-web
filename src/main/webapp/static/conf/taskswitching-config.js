@@ -30,7 +30,7 @@ ts.config.elementVisibleInMs = 2500;
 ts.config.pauseBetweenTests = 5000;
 
 ENGLISH_TEXTS = {
-    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x', when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
+    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press 'x', when you see any letter-number -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press spacebar to start.",
     REACTION_TEST_END_TEXT: "Awesome! RT is your average reaction time.",
     NUMBERTASK_PRACTICE_START_TEXT: "NUMBER task practise: Please observe the top row.<br/><br/>When the number is odd, press 'x'. When the number is even, press 'm'.<br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press spacebar to start to practise.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
@@ -50,7 +50,7 @@ ENGLISH_TEXTS = {
 };
 
 ENGLISH_TEXTS_MOBILE = {
-    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press red, when you see any number-letter -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press black to start.",
+    REACTION_TEST_START_TEXT: "Reaction time task<br/><br/>Press red, when you see any letter-number -pair on the screen.<br/><br/>Do the task as QUICKLY as you can.<br/><br/>Press black to start.",
     REACTION_TEST_END_TEXT: "Awesome! RT is your average reaction time.",
     NUMBERTASK_PRACTICE_START_TEXT: "NUMBER task practise: Please observe the top row.<br/><br/>When the number is odd, press red. When the number is even, press green.<br/>Do the task as QUICKLY and CORRECTLY as possible.<br/><br/>Press black to start to practise.",
     NUMBERTASK_PRACTICE_END_TEXT: "TODO: TEXT",
